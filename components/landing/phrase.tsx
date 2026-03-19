@@ -56,7 +56,7 @@ export function Phrase() {
         scrollTrigger: {
           trigger: containerRef.current,
           start: "center center",
-          end: "+=1200",
+          end: "+=1000",
           scrub: 1.2,
           pin: true,
           anticipatePin: 1,
@@ -96,27 +96,27 @@ export function Phrase() {
   return (
     <section
       ref={containerRef}
-      // Se restauró el fondo original pero MUCHO padding superior para alejar el Navbar
-      className="relative min-h-screen z-50 bg-linear-to-b from-blue-950 from-0% to-white to-45% 
-      overflow-hidden px-4 md:px-10 pt-36 md:pt-48 pb-24 md:pb-32 flex flex-col items-center"
+      // Bloqueado a la altura de la pantalla para el pin perfecto
+      className="relative h-screen z-50 bg-linear-to-b from-blue-950 from-0% to-white to-45% 
+      overflow-hidden px-4 md:px-10 flex flex-col items-center justify-center"
     >
       <div
         ref={gridRef}
-        // En Móvil: Flex-col puro para que nada se corte. En PC: Grid 4x3 perfecto.
-        className="w-full max-w-5xl flex flex-col md:grid md:grid-cols-4 md:grid-rows-3 gap-6 md:gap-5 relative z-10"
+        // Versión final: Súper balanceada y con aire para que nada toque el navbar
+        className="w-full max-w-xl flex flex-col md:grid md:grid-cols-4 md:grid-rows-3 gap-3 md:gap-4 relative z-10 md:scale-80 lg:scale-72 origin-center"
       >
         {/* ── TARJETA 1 (HERO/LÍDER) ── */}
-        <div className="bento-item md:col-span-2 md:row-span-3 group relative overflow-hidden bg-white/20 backdrop-blur-md border border-blue-100/30 p-8 rounded-[2rem] shadow-xl flex flex-col justify-center">
+        <div className="bento-item md:col-span-2 md:row-span-3 group relative overflow-hidden bg-white/20 backdrop-blur-md border border-blue-100/30 p-5 rounded-[2rem] shadow-xl flex flex-col justify-center">
           <div className="absolute inset-0 bg-linear-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           <Image
             src="/images/bcas-logo.png"
             alt="BCAS Logo"
-            width={80}
-            height={80}
-            className="bcas-logo-main w-16 md:w-20 mb-4 drop-shadow-md"
+            width={60}
+            height={60}
+            className="bcas-logo-main w-12 md:w-14 mb-3 drop-shadow-md"
             priority
           />
-          <h2 className="text-3xl md:text-5xl font-bold font-poppins text-blue-950 leading-tight tracking-tight">
+          <h2 className="text-2xl md:text-3xl font-bold font-poppins text-blue-950 leading-tight tracking-tight">
             Nuestros <br />
             <span className="text-blue-950">
               Planes
@@ -128,7 +128,7 @@ export function Phrase() {
         </div>
 
         {/* ── TARJETA 2 (HORARIOS) ── */}
-        <div className="bento-item md:col-span-2 md:row-span-1 bg-white/20 backdrop-blur-md border border-blue-100/30 p-6 md:p-8 rounded-[2rem] shadow-lg flex flex-col justify-center">
+        <div className="bento-item md:col-span-2 md:row-span-1 bg-white/20 backdrop-blur-md border border-blue-100/30 p-4 md:p-5 rounded-[2rem] shadow-lg flex flex-col justify-center">
           <h3 className="text-xl font-bold text-blue-950 mb-4 flex items-center gap-2">
             <span className="bg-blue-100/50 text-blue-950 p-1.5 rounded-md text-sm">🕒</span> Horarios de Atención
           </h3>
@@ -153,7 +153,7 @@ export function Phrase() {
         <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-6 w-[100vw] ml-[-1rem] px-[1rem] md:w-auto md:ml-0 md:px-0 md:pb-0 md:contents hide-scrollbar">
 
           {/* ── ZONA 2 (La Nohora) ── */}
-          <div className="bento-item shrink-0 snap-center w-[85vw] md:w-auto md:col-span-1 md:row-span-1 bg-white/20 backdrop-blur-md border border-blue-100/30 p-5 md:p-6 rounded-[2rem] shadow-lg text-blue-950 flex flex-col justify-center">
+          <div className="bento-item shrink-0 snap-center w-[85vw] md:w-auto md:col-span-1 md:row-span-1 bg-white/20 backdrop-blur-md border border-blue-100/30 p-4 md:p-4 rounded-[2rem] shadow-lg text-blue-950 flex flex-col justify-center">
             <h4 className="font-bold text-sm leading-tight mb-2">La Nohora y San Luis</h4>
             <p className="text-blue-950 font-bold mb-3 text-xs">Susc.: $89.000</p>
             <ul className="space-y-1.5 text-xs text-blue-950">
@@ -170,7 +170,7 @@ export function Phrase() {
           </div>
 
           {/* ── ZONA 3 (La Zuria) ── */}
-          <div className="bento-item shrink-0 snap-center w-[85vw] md:w-auto md:col-span-1 md:row-span-1 bg-white/20 backdrop-blur-md border border-blue-100/30 p-5 md:p-6 rounded-[2rem] shadow-lg text-blue-950 flex flex-col justify-center">
+          <div className="bento-item shrink-0 snap-center w-[85vw] md:w-auto md:col-span-1 md:row-span-1 bg-white/20 backdrop-blur-md border border-blue-100/30 p-4 md:p-4 rounded-[2rem] shadow-lg text-blue-950 flex flex-col justify-center">
             <h4 className="font-bold text-sm leading-tight mb-2 text-blue-950">La Zuria</h4>
             <p className="text-blue-950 font-bold mb-3 text-xs">Susc.: $89.000</p>
             <ul className="space-y-1.5 text-xs text-blue-950">
@@ -187,7 +187,7 @@ export function Phrase() {
           </div>
 
           {/* ── ZONA 1 (Premium - Mesetas) ── */}
-          <div className="bento-item shrink-0 snap-center w-[85vw] md:w-auto md:col-span-2 md:row-span-1 bg-white/20 backdrop-blur-md border border-blue-100/30 text-blue-950 p-5 md:p-6 rounded-[2rem] shadow-xl flex flex-col justify-center">
+          <div className="bento-item shrink-0 snap-center w-[85vw] md:w-auto md:col-span-2 md:row-span-1 bg-white/20 backdrop-blur-md border border-blue-100/30 text-blue-950 p-4 md:p-4 rounded-[2rem] shadow-xl flex flex-col justify-center">
             <div className="space-y-3">
               <h4 className="font-bold text-sm md:text-base leading-tight">
                 Mesetas, El Triángulo, La Sultana, Rondinella, 12 de Octubre
