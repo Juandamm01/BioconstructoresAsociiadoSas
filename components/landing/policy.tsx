@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
+import React, { useRef } from "react";
 import { ServicesBento } from "@/components/common";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -12,7 +13,7 @@ export function Policy() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
 
-  useEffect(() => {
+  useGSAP(() => {
     // Animación del título grande
     if (titleRef.current) {
       gsap.fromTo(
@@ -65,20 +66,38 @@ export function Policy() {
       });
     }
 
-    // Texto descriptivo con efecto 3D
-    gsap.from(".services-text p", {
-      opacity: 0,
-      y: 60,
-      rotateX: 40,
-      duration: 1.5,
-      ease: "power3.out",
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: "top 80%",
-        once: true,
-      },
-    });
-  }, []);
+    // (Animaciones de texto y tarjetas removidas para una carga más limpia)
+
+    // ── ANIMACIÓN CINEMÁTICA PARA EL VIDEO ──
+    if (videoWrapperRef.current) {
+      gsap.fromTo(
+        videoWrapperRef.current,
+        {
+          scale: 0.85,
+          opacity: 0,
+          borderRadius: "100px",
+          y: 50
+        },
+        {
+          scale: 1,
+          opacity: 1,
+          borderRadius: "24px", // Vuelve a rounded-3xl nativo
+          y: 0,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: videoWrapperRef.current,
+            start: "top 95%",
+            end: "top 50%", // La animación ocurre mientras haces este trayecto de scroll
+            scrub: 1.2, // El usuario controla la "expansión" cinemática del video
+          },
+        }
+      );
+    }
+
+    return () => {
+      ScrollTrigger.getAll().forEach((st) => st.kill());
+    };
+  });
 
   return (
     <section
@@ -94,12 +113,12 @@ export function Policy() {
           Políticas ISP
         </h2>
 
-        {/* Texto descriptivo */}
-        <div className="services-text flex flex-col md:flex-row items-center gap-10 md:gap-20 mt-10">
-          <p className="tracking-normal text-lg text-start text-white/80 max-w-xl font-paragraph">
+        {/* Texto descriptivo (Centrado perfectamente vertical y horizontalmente) */}
+        <div className="services-text flex flex-col items-center justify-center min-h-[40vh] md:min-h-[50vh] text-center w-full mt-4 md:mt-8 px-4">
+          <p className="tracking-wide text-lg md:text-2xl text-white/90 max-w-4xl font-paragraph leading-relaxed drop-shadow-sm">
             BCAS ofrece a todos sus clientes servicios normativos que garantizan
             seguridad digital, responsabilidad social y cumplimiento legal en
-            Villavicencio y Colombia.
+            <span className="font-bold text-blue-300"> Villavicencio y Colombia.</span>
           </p>
         </div>
 

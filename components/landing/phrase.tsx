@@ -10,169 +10,207 @@ gsap.registerPlugin(ScrollTrigger);
 
 export function Phrase() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    gsap.from(".plans-block", {
-      opacity: 0,
-      x: -200,
-      rotateY: 60,
-      scale: 0.7,
-      duration: 1.5,
-      ease: "elastic.out(1, 0.6)",
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top 80%",
-        once: true,
-      },
-    });
+    gsap.set(containerRef.current, { perspective: 2000 });
 
-    gsap.from(".hours-block", {
-      opacity: 0,
-      x: 200,
-      rotateY: -60,
-      scale: 0.7,
-      duration: 1.5,
-      ease: "elastic.out(1, 0.6)",
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top 80%",
-        once: true,
-      },
-    });
+    const items = gsap.utils.toArray<HTMLElement>(".bento-item");
+    const isMobile = window.innerWidth < 768;
 
-    gsap.to(".plans-block", {
-      x: -180,
-      rotateY: -20,
-      scale: 1.1,
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    gsap.to(".hours-block", {
-      x: 180,
-      rotateY: 20,
-      scale: 1.1,
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    // ✅ CORREGIDO: sin any
-    gsap.utils
-      .toArray<HTMLElement>(".plans-block li, .hours-block li")
-      .forEach((el) => {
+    if (isMobile) {
+      // Móvil: Asegurar que inician visibles y rebotan arriba
+      items.forEach((item) => {
         gsap.fromTo(
-          el,
-          { opacity: 0 },
+          item,
+          { opacity: 0, y: 50, scale: 0.95 },
           {
             opacity: 1,
-            duration: 1,
-            ease: "power2.out",
+            y: 0,
+            scale: 1,
+            duration: 0.6,
+            ease: "back.out(1.2)",
             scrollTrigger: {
-              trigger: el,
+              trigger: item,
               start: "top 95%",
-              end: "top 30%",
-              scrub: true,
+              toggleActions: "play none none none",
             },
           }
         );
       });
+    } else {
+      // Desktop: Ensamblaje Magnético 3D (Animación al Scrollear Mágica)
+      items.forEach((item) => {
+        gsap.set(item, {
+          opacity: 0,
+          z: gsap.utils.random(-800, 800),
+          rotationX: gsap.utils.random(-40, 40),
+          rotationY: gsap.utils.random(-40, 40),
+          x: gsap.utils.random(-600, 600),
+          y: gsap.utils.random(-400, 400),
+          scale: gsap.utils.random(0.5, 0.8),
+        });
+      });
 
-    gsap.to(".bcas-logo", {
-      y: -30,
-      rotation: 15,
-      duration: 5,
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "center center",
+          end: "+=1200",
+          scrub: 1.2,
+          pin: true,
+          anticipatePin: 1,
+        },
+      });
+
+      tl.to(items, {
+        opacity: 1,
+        z: 0,
+        rotationX: 0,
+        rotationY: 0,
+        x: 0,
+        y: 0,
+        scale: 1,
+        ease: "power3.out",
+        stagger: {
+          amount: 0.4,
+          from: "center",
+        },
+      });
+    }
+
+    gsap.to(".bcas-logo-main", {
+      y: -10,
+      rotation: 5,
+      duration: 3,
       repeat: -1,
       yoyo: true,
-      ease: "power1.inOut",
+      ease: "sine.inOut",
     });
+
+    return () => {
+      ScrollTrigger.getAll().forEach((st) => st.kill());
+    };
   });
 
   return (
     <section
       ref={containerRef}
-      className="relative min-h-screen z-50 bg-linear-to-b from-blue-950 to-white 
-      overflow-hidden px-6 md:px-20 py-24 md:py-36 flex flex-col items-center"
+      // Se restauró el fondo original pero MUCHO padding superior para alejar el Navbar
+      className="relative min-h-screen z-50 bg-linear-to-b from-blue-950 from-0% to-white to-45% 
+      overflow-hidden px-4 md:px-10 pt-36 md:pt-48 pb-24 md:pb-32 flex flex-col items-center"
     >
-      {/* Logo */}
-      <Image
-        src="/images/bcas-logo.png"
-        alt="BCAS Logo"
-        width={224}
-        height={224}
-        className="bcas-logo w-40 md:w-56 mb-12"
-        priority
-      />
+      <div
+        ref={gridRef}
+        // En Móvil: Flex-col puro para que nada se corte. En PC: Grid 4x3 perfecto.
+        className="w-full max-w-5xl flex flex-col md:grid md:grid-cols-4 md:grid-rows-3 gap-6 md:gap-5 relative z-10"
+      >
+        {/* ── TARJETA 1 (HERO/LÍDER) ── */}
+        <div className="bento-item md:col-span-2 md:row-span-3 group relative overflow-hidden bg-white/20 backdrop-blur-md border border-blue-100/30 p-8 rounded-[2rem] shadow-xl flex flex-col justify-center">
+          <div className="absolute inset-0 bg-linear-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          <Image
+            src="/images/bcas-logo.png"
+            alt="BCAS Logo"
+            width={80}
+            height={80}
+            className="bcas-logo-main w-16 md:w-20 mb-4 drop-shadow-md"
+            priority
+          />
+          <h2 className="text-3xl md:text-5xl font-bold font-poppins text-blue-950 leading-tight tracking-tight">
+            Nuestros <br />
+            <span className="text-blue-950">
+              Planes
+            </span>
+          </h2>
+          <p className="mt-2 md:mt-4 text-blue-950 text-sm md:text-base font-light max-w-sm leading-snug">
+            Internet de fibra óptica hiper veloz para tu hogar y negocio.
+          </p>
+        </div>
 
-      {/* Contenedor */}
-      <div className="grid md:grid-cols-2 gap-8 w-full max-w-6xl">
-        {/* Planes */}
-        <aside className="plans-block bg-white rounded-2xl p-6 md:p-10 text-blue-950 shadow-2xl">
-          <h3 className="text-2xl md:text-3xl font-bold mb-6 text-center">
-            Nuestros Planes de Internet
+        {/* ── TARJETA 2 (HORARIOS) ── */}
+        <div className="bento-item md:col-span-2 md:row-span-1 bg-white/20 backdrop-blur-md border border-blue-100/30 p-6 md:p-8 rounded-[2rem] shadow-lg flex flex-col justify-center">
+          <h3 className="text-xl font-bold text-blue-950 mb-4 flex items-center gap-2">
+            <span className="bg-blue-100/50 text-blue-950 p-1.5 rounded-md text-sm">🕒</span> Horarios de Atención
           </h3>
-
-          <div className="space-y-6 text-base md:text-lg">
-            <div>
-              <p className="font-semibold">
-                Cobertura: Mesetas, El Triángulo, La Sultana, La Azotea,
-                Rondinella, 12 de Octubre
-              </p>
-              <p>Suscripción: $99.000*</p>
-              <ul className="list-disc list-inside">
-                <li>Plan 50 MB — $68.000 — 1 Punto de TV GRATIS</li>
-                <li>Plan 100 MB — $95.000 — 2 Puntos de TV GRATIS</li>
-                <li>Plan 200 MB — $105.000 — 2 Puntos de TV GRATIS</li>
-              </ul>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-sm text-blue-950">
+            <div className="flex justify-between border-b border-blue-950/10 pb-1">
+              <span className="font-semibold text-blue-950">Lun - Vie</span>
+              <span>8am - 12pm / 2pm - 5pm</span>
             </div>
-
-            <div>
-              <p className="font-semibold">
-                Cobertura: La Nohora y San Luis de Ocoa Bajo
-              </p>
-              <p>Suscripción: $89.000*</p>
-              <ul className="list-disc list-inside">
-                <li>Plan 50 MB — $68.000 — 1 Punto de TV GRATIS</li>
-                <li>Plan 100 MB — $95.000 — 2 Puntos de TV GRATIS</li>
-                <li>Plan 200 MB — $105.000 — 2 Puntos de TV GRATIS</li>
-              </ul>
+            <div className="flex justify-between border-b border-blue-950/10 pb-1">
+              <span className="font-semibold text-blue-950">Sábados</span>
+              <span>8am - 1pm</span>
             </div>
+            <div className="flex justify-between text-blue-950 font-semibold sm:col-span-2 pt-1">
+              <span>Domingos</span>
+              <span>Cerrado</span>
+            </div>
+          </div>
+        </div>
 
-            <div>
-              <p className="font-semibold">Cobertura: La Zuria</p>
-              <p>Suscripción: $89.000*</p>
-              <ul className="list-disc list-inside">
-                <li>50 Megas + 1 Punto de TV — $105.000</li>
-                <li>25 Megas + 1 Punto de TV — $85.000</li>
-                <li>25 Megas solo Internet — $75.000</li>
+        {/* ── CARRUSEL MOVILES Y ENCABEZES DESKTOP ── */}
+        {/* IMPORTANTE: En móvil es horizontal para AHORRAR espacio vertical gigante. En PC es Grid. */}
+        <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-6 w-[100vw] ml-[-1rem] px-[1rem] md:w-auto md:ml-0 md:px-0 md:pb-0 md:contents hide-scrollbar">
+
+          {/* ── ZONA 2 (La Nohora) ── */}
+          <div className="bento-item shrink-0 snap-center w-[85vw] md:w-auto md:col-span-1 md:row-span-1 bg-white/20 backdrop-blur-md border border-blue-100/30 p-5 md:p-6 rounded-[2rem] shadow-lg text-blue-950 flex flex-col justify-center">
+            <h4 className="font-bold text-sm leading-tight mb-2">La Nohora y San Luis</h4>
+            <p className="text-blue-950 font-bold mb-3 text-xs">Susc.: $89.000</p>
+            <ul className="space-y-1.5 text-xs text-blue-950">
+              <li className="flex justify-between border-b border-blue-950/5 pb-0.5">
+                <span>50MB +1TV</span> <span className="font-bold text-blue-950">$68K</span>
+              </li>
+              <li className="flex justify-between border-b border-blue-950/5 pb-0.5">
+                <span>100MB +2TV</span> <span className="font-bold text-blue-950">$95K</span>
+              </li>
+              <li className="flex justify-between text-blue-950">
+                <span>200MB +2TV</span> <span className="font-bold text-blue-950">$105K</span>
+              </li>
+            </ul>
+          </div>
+
+          {/* ── ZONA 3 (La Zuria) ── */}
+          <div className="bento-item shrink-0 snap-center w-[85vw] md:w-auto md:col-span-1 md:row-span-1 bg-white/20 backdrop-blur-md border border-blue-100/30 p-5 md:p-6 rounded-[2rem] shadow-lg text-blue-950 flex flex-col justify-center">
+            <h4 className="font-bold text-sm leading-tight mb-2 text-blue-950">La Zuria</h4>
+            <p className="text-blue-950 font-bold mb-3 text-xs">Susc.: $89.000</p>
+            <ul className="space-y-1.5 text-xs text-blue-950">
+              <li className="flex justify-between border-b border-blue-950/5 pb-0.5">
+                <span>50MB +1TV</span> <span className="font-bold text-blue-950">$105K</span>
+              </li>
+              <li className="flex justify-between border-b border-blue-950/5 pb-0.5">
+                <span>25MB +1TV</span> <span className="font-bold text-blue-950">$85K</span>
+              </li>
+              <li className="flex justify-between text-blue-950">
+                <span>25MB Solo</span> <span className="font-bold text-blue-950">$75K</span>
+              </li>
+            </ul>
+          </div>
+
+          {/* ── ZONA 1 (Premium - Mesetas) ── */}
+          <div className="bento-item shrink-0 snap-center w-[85vw] md:w-auto md:col-span-2 md:row-span-1 bg-white/20 backdrop-blur-md border border-blue-100/30 text-blue-950 p-5 md:p-6 rounded-[2rem] shadow-xl flex flex-col justify-center">
+            <div className="space-y-3">
+              <h4 className="font-bold text-sm md:text-base leading-tight">
+                Mesetas, El Triángulo, La Sultana, Rondinella, 12 de Octubre
+              </h4>
+              <p className="inline-block bg-blue-100 text-blue-950 text-[10px] md:text-xs font-bold px-2 py-0.5 rounded-full">
+                $99.000 Susc.
+              </p>
+              <ul className="space-y-1.5 text-xs">
+                <li className="flex justify-between border-b border-blue-950/5 pb-1">
+                  <span>50 MB - $68K</span> <span className="text-blue-950 font-bold">+1 TV</span>
+                </li>
+                <li className="flex justify-between border-b border-blue-950/5 pb-1">
+                  <span>100 MB - $95K</span> <span className="text-blue-950 font-bold">+2 TV</span>
+                </li>
+                <li className="flex justify-between text-blue-950">
+                  <span>200 MB - $105K</span> <span className="text-blue-950 font-bold">+2 TV</span>
+                </li>
               </ul>
             </div>
           </div>
-        </aside>
 
-        {/* Horarios */}
-        <aside className="hours-block bg-blue-950 rounded-2xl p-6 md:p-10 text-white shadow-2xl">
-          <h3 className="text-2xl md:text-3xl font-bold mb-6 text-center">
-            Horarios de Atención
-          </h3>
+        </div>
 
-          <ul className="space-y-2 text-base md:text-lg">
-            <li><strong>Lunes:</strong> 8:00 AM - 12:00 PM / 2:00 PM - 5:00 PM</li>
-            <li><strong>Martes:</strong> 8:00 AM - 12:00 PM / 2:00 PM - 5:00 PM</li>
-            <li><strong>Miércoles:</strong> 8:00 AM - 12:00 PM / 2:00 PM - 5:00 PM</li>
-            <li><strong>Jueves:</strong> 8:00 AM - 12:00 PM / 2:00 PM - 5:00 PM</li>
-            <li><strong>Viernes:</strong> 8:00 AM - 12:00 PM / 2:00 PM - 5:00 PM</li>
-            <li><strong>Sábado:</strong> 8:00 AM - 1:00 PM</li>
-            <li><strong>Domingo:</strong> Cerrado</li>
-          </ul>
-        </aside>
       </div>
     </section>
   );

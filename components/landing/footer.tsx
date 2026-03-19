@@ -4,22 +4,21 @@ import { Logo } from "@/components/common";
 
 export const Footer = () => {
   return (
-    <footer className="relative overflow-hidden bg-linear-to-b from-white to-blue-950">
+    <footer className="relative overflow-hidden bg-linear-to-b from-white to-blue-950 to-40%">
       <div className="relative z-10 container mx-auto py-28 px-10 flex flex-col items-center text-center">
         {/* Logo */}
         <Logo className="size-22.5" />
 
         {/* Nombre corporativo */}
         <h2
-          className="text-5xl md:text-7xl font-bold mb-6 tracking-tighter 
-          bg-linear-to-b from-white to-blue-200 
-          bg-clip-text text-transparent drop-shadow-lg"
+          className="text-4xl md:text-6xl font-extrabold mb-6 tracking-tighter 
+          bg-linear-to-b from-white to-blue-200 bg-clip-text text-transparent drop-shadow-lg"
         >
           Bioconstructores Asociados SAS
         </h2>
 
         {/* Descripción */}
-        <p className="text-lg md:max-w-2xl text-neutral-300 mb-10 font-paragraph">
+        <p className="text-lg md:max-w-2xl text-white/90 mb-10 font-paragraph">
           Construimos soluciones sostenibles y conectamos comunidades con
           tecnología, innovación y compromiso. <br />
           Nuestro propósito es transformar espacios y generar impacto positivo
