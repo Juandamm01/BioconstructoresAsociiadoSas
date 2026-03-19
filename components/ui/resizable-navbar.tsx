@@ -31,6 +31,7 @@
     }[];
     className?: string;
     onItemClick?: () => void;
+    visible?: boolean;
   }
 
   interface MobileNavProps {
@@ -103,19 +104,26 @@
         }}
         className={cn(
           "relative z-60 mx-auto hidden w-full max-w-7xl flex-row items-center justify-between self-start rounded-full bg-transparent px-4 py-0.5 lg:flex dark:bg-transparent",
-          visible && "bg-white/10 dark:bg-neutral-950/80",
+          visible && "bg-slate-200/60 backdrop-blur-md border border-white/20 dark:bg-neutral-950/80",
           className,
         )}
         style={{
           minWidth: "800px",
         } as React.CSSProperties}
       >
-        {children}
+        {React.Children.map(children, (child) =>
+          React.isValidElement(child)
+            ? React.cloneElement(
+                child as React.ReactElement<{ visible?: boolean }>,
+                { visible },
+              )
+            : child,
+        )}
       </motion.div>
     );
   };
 
-  export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
+  export const NavItems = ({ items, className, onItemClick, visible }: NavItemsProps) => {
     const [hovered, setHovered] = useState<number | null>(null);
 
     return (
@@ -130,7 +138,11 @@
           <a
             onMouseEnter={() => setHovered(idx)}
             onClick={onItemClick}
-            className="relative px-3 py-1.5 text-white dark:text-neutral-300 text-sm"
+            className={cn(
+              "relative px-3 py-1.5 text-sm transition-colors duration-200",
+              visible ? "text-blue-950 font-medium" : "text-white",
+              "dark:text-neutral-300"
+            )}
             key={`link-${idx}`}
             href={item.link}
           >
@@ -168,11 +180,18 @@
         }}
         className={cn(
           "relative z-50 mx-auto flex w-full max-w-[calc(100vw-2rem)] flex-col items-center justify-between bg-transparent px-2 py-0.5 lg:hidden rounded-full",
-          visible && "bg-white/10 dark:bg-neutral-950/80",
+          visible && "bg-slate-200/60 backdrop-blur-md border border-white/20 dark:bg-neutral-950/80",
           className,
         )}
       >
-        {children}
+        {React.Children.map(children, (child) =>
+          React.isValidElement(child)
+            ? React.cloneElement(
+                child as React.ReactElement<{ visible?: boolean }>,
+                { visible },
+              )
+            : child,
+        )}
       </motion.div>
     );
   };
@@ -233,18 +252,18 @@
     );
   };
 
-  export const NavbarLogo = () => {
+  export const NavbarLogo = ({ visible }: { visible?: boolean }) => {
     return (
       <Link
         href="#"
         className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black"
       >
         <Image
-          src="/images/Logo_BCAS_MODO_OSCURO.png"
+          src={visible ? "/images/bcas-logo.png" : "/images/Logo_BCAS_MODO_OSCURO.png"}
           alt="Bioconstructores Asociados SAS"
           width={40}
           height={40}
-          className="h-8 w-auto"
+          className="h-8 w-auto transition-all duration-300"
           priority={false}
         />
       </Link>

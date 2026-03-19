@@ -23,76 +23,92 @@ const barrios = [
 
 export function Map() {
   const [hoverBarrio, setHoverBarrio] = useState<null | typeof barrios[0]>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const mapBoxRef = useRef<HTMLDivElement>(null);
+  const asideRef = useRef<HTMLElement>(null);
 
   useGSAP(() => {
-    // Animación del título
-    gsap.fromTo(".map-title", 
-      { opacity: 0, y: 30 },
-      { 
-        opacity: 1, 
-        y: 0, 
-        duration: 1.2, 
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: ".map-title",
-          start: "top 90%",
-          once: true
-        }
+    const section = sectionRef.current;
+    if (!section) return;
+
+    // Timeline principal con PIN y SCRUB
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: "top top",
+        end: "+=500", // Más corto para que la transición sea más rápida
+        pin: true,
+        scrub: 0.6, // Valor más bajo para que sea más reactivo al scroll
+        anticipatePin: 1,
       }
+    });
+
+    // 1. Revelar Título (Escala y Opacidad)
+    tl.fromTo(".map-title", 
+      { opacity: 0, scale: 0.8, y: 50 },
+      { opacity: 1, scale: 1, y: 0, ease: "power2.out" }
     );
 
-    // Animación de la lista de barrios
-    gsap.fromTo(".map-list-item", 
-      { opacity: 0, x: -20 },
-      { 
-        opacity: 1, 
-        x: 0, 
-        duration: 0.8, 
-        stagger: 0.05,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: ".map-list-item",
-          start: "top 95%",
-          once: true
-        }
-      }
+    // 2. Revelar Mapa (Subida suave)
+    tl.fromTo(mapBoxRef.current,
+      { opacity: 0, y: 100, scale: 0.95 },
+      { opacity: 1, y: 0, scale: 1, ease: "power2.out" },
+      "-=0.4" // Solape ligero con el título
     );
-  }, { scope: containerRef });
+
+    // 3. Revelar Listado (Desplazamiento lateral desde la derecha)
+    tl.fromTo(asideRef.current,
+      { opacity: 0, x: 30 },
+      { opacity: 1, x: 0, ease: "power2.out" },
+      "-=0.3"
+    );
+
+    tl.from(".map-list-item",
+      { opacity: 0, x: -30, stagger: 0.05, ease: "power2.out" },
+      "-=0.2"
+    );
+
+    return () => {
+      ScrollTrigger.getAll().forEach((st) => st.kill());
+    };
+  }, { scope: sectionRef });
 
   return (
-    <div ref={containerRef}>
     <section
+      ref={sectionRef}
       className="
         relative
-        flex flex-col items-center justify-center
+        flex flex-col items-center justify-start
         min-h-screen
-        px-6 md:px-20 py-24 md:py-36 gap-12
+        px-6 md:px-12 pt-12 md:pt-14 pb-8 gap-6 md:gap-6
         bg-linear-to-b from-white to-blue-950 to-40%
       "
     >
-      <div className="relative w-full max-w-5xl">
-
+      <div className="relative w-full max-w-6xl flex flex-col gap-6">
         {/* TÍTULO CON GSAP */}
         <h2
           className="
-            map-title text-center text-3xl md:text-5xl font-poppins font-black uppercase tracking-tight mb-8
+            map-title text-center text-3xl md:text-5xl font-poppins font-black uppercase tracking-tight 
             bg-linear-to-b from-blue-950 to-blue-700 bg-clip-text text-transparent opacity-0
           "
         >
           Sectores donde estamos presentes
         </h2>
 
-        {/* MAPA EN CAJA */}
-        <div
-          className="
-            relative w-full h-100 md:h-120
-            rounded-2xl overflow-hidden
-            shadow-2xl
-            border border-blue-100
-            bg-white
-          "
-        >
+        {/* CONTENEDOR GRID: Mapa + Listado Lado a Lado */}
+        <div className="flex flex-col md:grid md:grid-cols-[1.2fr_0.8fr] gap-6 md:gap-10 items-start">
+
+          {/* MAPA EN CAJA */}
+          <div
+            ref={mapBoxRef}
+            className="
+              relative w-full h-[250px] md:h-[280px]
+              rounded-[2rem] overflow-hidden
+              shadow-2xl
+              border border-blue-100
+              bg-white
+            "
+          >
           <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}>
             <GoogleMap
               mapContainerStyle={{ width: "100%", height: "100%" }}
@@ -138,42 +154,43 @@ export function Map() {
           </LoadScript>
         </div>
 
-        {/* LISTADO TIPO GLASS IPHONE */}
-        <aside
-          className="
-            mt-12 w-full
-            bg-white/10 backdrop-blur-md
-            border border-white/20
-            rounded-[2.5rem]
-            p-6 md:p-8
-            text-white
-            shadow-2xl
-          "
-        >
-          <h3 className="text-xl md:text-2xl font-bold mb-6 text-center">
-            Listado de Barrios
-          </h3>
+          {/* LISTADO TIPO GLASS IPHONE */}
+          <aside
+            ref={asideRef}
+            className="
+              w-full h-full
+              bg-blue-950/40 backdrop-blur-2xl
+              border border-white/20
+              rounded-[2rem]
+              p-5 md:p-7
+              text-white
+              shadow-2xl
+              flex flex-col
+            "
+          >
+            <h3 className="text-xl font-bold mb-4">
+              Listado de Barrios
+            </h3>
 
-          <ul className="grid md:grid-cols-2 gap-4">
+            <ul className="flex flex-col gap-1.5 md:gap-2">
             {barrios.map((barrio, i) => (
               <li
                 key={i}
-                className="map-list-item flex items-center gap-3 cursor-pointer opacity-0"
+                className="map-list-item flex items-center gap-3 cursor-pointer"
               >
                 <span
-                  className="w-4 h-4 rounded-full border border-white"
+                  className="w-3.5 h-3.5 rounded-full border border-white/50"
                   style={{ backgroundColor: barrio.color }}
                 />
-                <span className="font-medium text-xs md:text-sm">
+                <span className="font-medium text-xs md:text-sm text-white/90">
                   {barrio.nombre}
                 </span>
               </li>
             ))}
-          </ul>
-        </aside>
-
+            </ul>
+          </aside>
+        </div>
       </div>
     </section>
-    </div>
   );
 }

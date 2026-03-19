@@ -2,9 +2,8 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { FaFacebook } from "react-icons/fa";
-import { FaInstagram } from "react-icons/fa";
-import { FaWhatsapp } from "react-icons/fa";
+import { FaFacebook, FaInstagram, FaWhatsapp } from "react-icons/fa";
+import { cn } from "@/lib/utils";
 import {
   Navbar as AnimatedNavbar,
   NavBody,
@@ -55,29 +54,7 @@ export function Navbar() {
             target: item.name === "Portal Clientes" ? "_blank" : "_self",
           }))}
         />
-        <div className="flex items-center gap-4 z-20">
-          <Link
-            href="https://www.facebook.com/people/Bioconstructores-Asociados/61576844756821/"
-            className="cursor-pointer"
-            target="_blank"
-          >
-            <FaFacebook className="size-5.75" />
-          </Link>
-          <Link
-            href="https://www.instagram.com/bcatelecomunicaciones"
-            className="cursor-pointer"
-            target="_blank"
-          >
-            <FaInstagram className="size-5.75" />
-          </Link>
-          <Link
-            href="https://api.whatsapp.com/send?phone=3202739134"
-            className="cursor-pointer"
-            target="_blank"
-          >
-            <FaWhatsapp className="size-5.75" />
-          </Link>
-        </div>
+        <NavSocials visible={false} /> {/* La prop 'visible' será inyectada por NavBody */}
       </NavBody>
 
       {/* Mobile Navigation */}
@@ -124,5 +101,42 @@ export function Navbar() {
         </MobileNavMenu>
       </MobileNav>
     </AnimatedNavbar>
+  );
+}
+
+function NavSocials({ visible }: { visible?: boolean }) {
+  return (
+    <div className="flex items-center gap-4 z-20">
+      <Link
+        href="https://www.facebook.com/people/Bioconstructores-Asociados/61576844756821/"
+        className={cn(
+          "cursor-pointer transition-colors duration-200",
+          visible ? "text-blue-950 font-bold" : "text-white"
+        )}
+        target="_blank"
+      >
+        <FaFacebook className="size-5.75" />
+      </Link>
+      <Link
+        href="https://www.instagram.com/bcatelecomunicaciones"
+        className={cn(
+          "cursor-pointer transition-colors duration-200",
+          visible ? "text-blue-950 font-bold" : "text-white"
+        )}
+        target="_blank"
+      >
+        <FaInstagram className="size-5.75" />
+      </Link>
+      <Link
+        href="https://api.whatsapp.com/send?phone=3202739134"
+        className={cn(
+          "cursor-pointer transition-colors duration-200",
+          visible ? "text-blue-950 font-bold" : "text-white"
+        )}
+        target="_blank"
+      >
+        <FaWhatsapp className="size-5.75" />
+      </Link>
+    </div>
   );
 }
