@@ -4,7 +4,7 @@ import { Logo } from "@/components/common";
 
 export const Footer = () => {
   return (
-    <footer className="relative overflow-hidden bg-linear-to-b from-white to-blue-950 to-40%">
+    <footer className="relative overflow-hidden bg-linear-to-b from-white to-blue-950 to-40% font-poppins">
       <div className="relative z-10 container mx-auto py-28 px-10 flex flex-col items-center text-center">
         {/* Logo */}
         <Logo className="size-22.5" />

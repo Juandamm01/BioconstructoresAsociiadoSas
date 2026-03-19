@@ -86,12 +86,12 @@ function Title() {
   return (
     <div className="font-poppins flex flex-col justify-center items-center h-full px-8 lg:px-20 text-center">
       {/* Título */}
-      <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-semibold uppercase leading-tight tracking-tight text-white drop-shadow-lg">
+      <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-5xl font-semibold uppercase leading-tight tracking-tight text-white drop-shadow-lg">
         Nosotros
       </h2>
 
       {/* Descripción */}
-      <div className="mt-6 text-sm sm:text-base md:text-base lg:text-base xl:text-lg font-light text-white max-w-2xl leading-normal drop-shadow-md space-y-4">
+      <div className="mt-5 text-xs sm:text-sm md:text-sm lg:text-sm xl:text-base font-light text-white max-w-2xl leading-normal drop-shadow-md space-y-4">
         <p>
           Somos un proveedor de servicios de Internet (ISP) comprometido con
           ofrecer conectividad estable, segura y de alta calidad. Nuestra misión
