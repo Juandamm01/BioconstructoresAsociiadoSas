@@ -48,20 +48,20 @@ export function UpcomingEvents() {
     <section className="upcoming-section bg-linear-to-b from-white to-blue-950 relative w-full h-[120dvh] overflow-hidden z-40">
       {/* Texto principal */}
       <div className="absolute inset-0 flex flex-col items-center justify-center z-10">
-        <h2 className="first-title uppercase font-bold text-[12vw] leading-[100%] tracking-[-.4vw] bg-linear-to-b from-blue-900 to-blue-600 bg-clip-text text-transparent">
+        <h2 className="first-title uppercase font-bold text-[16vw] md:text-[12vw] leading-[100%] tracking-[-.4vw] bg-linear-to-b from-blue-900 to-blue-600 bg-clip-text text-transparent">
           Nuestros
         </h2>
-        <h2 className="sec-title uppercase font-bold text-[12vw] leading-[100%] tracking-[-.4vw] bg-linear-to-b from-white to-blue-300 text-transparent bg-clip-text">
+        <h2 className="sec-title uppercase font-bold text-[16vw] md:text-[12vw] leading-[100%] tracking-[-.4vw] bg-linear-to-b from-white to-blue-300 text-transparent bg-clip-text">
           Servicios
         </h2>
       </div>
 
       {/* Cards de Servicios */}
-      <div className="pin-box flex items-center justify-center -space-x-10 absolute inset-0 z-30">
+      <div className="pin-box flex items-center justify-center -space-x-[4vw] md:-space-x-8 lg:-space-x-10 absolute inset-0 z-30">
         {events.map((event, index) => (
           <div
             key={index}
-            className={`service-card ${event.rotation} md:w-96 w-80 h-135 flex-none md:rounded-[2vw] rounded-3xl overflow-hidden border-[.1vw] shadow-xl relative`}
+            className={`service-card ${event.rotation} w-[25vw] h-[36vw] sm:w-40 sm:h-56 md:w-72 md:h-96 lg:w-80 lg:h-[28rem] flex-none md:rounded-[2vw] rounded-xl overflow-hidden border-[.1vw] shadow-xl relative`}
           >
             <div className="relative w-full h-full">
               <Image
@@ -72,8 +72,8 @@ export function UpcomingEvents() {
                 priority
               />
               {/* Subtítulo más notorio */}
-              <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 bg-blue-900/90 px-6 py-2 rounded-lg shadow-lg">
-                <span className="text-white text-lg md:text-2xl font-bold tracking-wide drop-shadow-md">
+              <div className="absolute bottom-2 md:bottom-5 lg:bottom-6 left-1/2 transform -translate-x-1/2 w-[90%] md:w-auto bg-blue-900/90 px-1 sm:px-4 md:px-5 lg:px-6 py-1 md:py-1.5 lg:py-2 rounded-md md:rounded-lg shadow-lg flex items-center justify-center text-center">
+                <span className="text-white text-[3vw] sm:text-xs md:text-lg lg:text-xl font-bold tracking-tight md:tracking-wide drop-shadow-md leading-tight">
                   {event.subtitle}
                 </span>
               </div>

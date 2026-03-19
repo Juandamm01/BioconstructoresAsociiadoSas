@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Poppins } from "next/font/google";
 import "./globals.css";
 import localFont from "next/font/local";
 import { ReactLenis } from "lenis/react";
@@ -123,6 +123,13 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const poppins = Poppins({
+  variable: "--font-poppins",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
+});
+
 export const metadata = {
   title: "Bioconstructores Asociados SAS ",
   description:
@@ -154,7 +161,7 @@ export default function RootLayout({
     <html lang="en">
       <ReactLenis root options={{ lerp: 0.08 }}>
         <body
-          className={`${geistSans.variable} ${geistMono.variable} ${satoshi.variable} ${mangoGrotesque.variable} ${nightDemo.variable} ${branch.variable} antialiased`}
+          className={`${geistSans.variable} ${geistMono.variable} ${satoshi.variable} ${mangoGrotesque.variable} ${nightDemo.variable} ${branch.variable} ${poppins.variable} antialiased`}
         >
           {children}
         </body>

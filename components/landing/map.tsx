@@ -1,8 +1,12 @@
 "use client";
 
 import { GoogleMap, LoadScript, Circle, InfoWindow } from "@react-google-maps/api";
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const center = { lat: 4.142868, lng: -73.650565 };
 
@@ -19,31 +23,65 @@ const barrios = [
 
 export function Map() {
   const [hoverBarrio, setHoverBarrio] = useState<null | typeof barrios[0]>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    // Animación del título
+    gsap.fromTo(".map-title", 
+      { opacity: 0, y: 30 },
+      { 
+        opacity: 1, 
+        y: 0, 
+        duration: 1.2, 
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".map-title",
+          start: "top 90%",
+          once: true
+        }
+      }
+    );
+
+    // Animación de la lista de barrios
+    gsap.fromTo(".map-list-item", 
+      { opacity: 0, x: -20 },
+      { 
+        opacity: 1, 
+        x: 0, 
+        duration: 0.8, 
+        stagger: 0.05,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: ".map-list-item",
+          start: "top 95%",
+          once: true
+        }
+      }
+    );
+  }, { scope: containerRef });
 
   return (
+    <div ref={containerRef}>
     <section
       className="
         relative
         flex flex-col items-center justify-center
         min-h-screen
         px-6 md:px-20 py-24 md:py-36 gap-12
-        bg-linear-to-b from-white to-blue-950
+        bg-linear-to-b from-white to-blue-950 to-40%
       "
     >
       <div className="relative w-full max-w-7xl">
 
-        {/* TÍTULO */}
-        <motion.h2
+        {/* TÍTULO CON GSAP */}
+        <h2
           className="
-            text-center text-4xl md:text-7xl font-nighty tracking-wide mb-12
-            bg-linear-to-b from-blue-950 to-blue-700 bg-clip-text text-transparent
+            map-title text-center text-4xl md:text-7xl font-nighty tracking-wide mb-12
+            bg-linear-to-b from-blue-950 to-blue-700 bg-clip-text text-transparent opacity-0
           "
-          initial={{ opacity: 0, y: -30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
         >
           Sectores donde estamos presentes
-        </motion.h2>
+        </h2>
 
         {/* MAPA EN CAJA */}
         <div
@@ -82,13 +120,14 @@ export function Map() {
                 <InfoWindow position={hoverBarrio.coords}>
                   <div
                     style={{
-                      backgroundColor: "#0A1A4A",
+                      backgroundColor: "#030816", // Azul ultra oscuro tipo iPhone Dark
                       color: "#FFFFFF",
                       fontWeight: "bold",
-                      fontSize: "14px",
-                      padding: "8px 12px",
-                      borderRadius: "6px",
-                      boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
+                      fontSize: "13px",
+                      padding: "10px 16px",
+                      borderRadius: "12px",
+                      boxShadow: "0 4px 15px rgba(0,0,0,0.4)",
+                      border: "1px solid rgba(255,255,255,0.1)"
                     }}
                   >
                     {hoverBarrio.nombre}
@@ -99,15 +138,16 @@ export function Map() {
           </LoadScript>
         </div>
 
-        {/* LISTADO */}
+        {/* LISTADO TIPO GLASS IPHONE */}
         <aside
           className="
             mt-12 w-full
-            bg-blue-950/90
-            rounded-2xl
-            p-6 md:p-10
+            bg-white/10 backdrop-blur-md
+            border border-white/20
+            rounded-[2.5rem]
+            p-8 md:p-12
             text-white
-            shadow-xl
+            shadow-2xl
           "
         >
           <h3 className="text-2xl md:text-3xl font-bold mb-8 text-center">
@@ -116,13 +156,9 @@ export function Map() {
 
           <ul className="grid md:grid-cols-2 gap-4">
             {barrios.map((barrio, i) => (
-              <motion.li
+              <li
                 key={i}
-                className="flex items-center gap-3 cursor-pointer"
-                initial={{ opacity: 0, x: i % 2 === 0 ? -20 : 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: i * 0.08, duration: 0.4 }}
-                whileHover={{ scale: 1.04, x: i % 2 === 0 ? 5 : -5 }}
+                className="map-list-item flex items-center gap-3 cursor-pointer opacity-0"
               >
                 <span
                   className="w-4 h-4 rounded-full border border-white"
@@ -131,12 +167,13 @@ export function Map() {
                 <span className="font-medium text-sm md:text-base">
                   {barrio.nombre}
                 </span>
-              </motion.li>
+              </li>
             ))}
           </ul>
         </aside>
 
       </div>
     </section>
+    </div>
   );
 }
