@@ -12,7 +12,6 @@ export function Phrase() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    // Entrada inicial con efecto 3D y rebote
     gsap.from(".plans-block", {
       opacity: 0,
       x: -200,
@@ -41,7 +40,6 @@ export function Phrase() {
       },
     });
 
-    // Movimiento dinámico al scrollear (parallax opuesto + rotación + scale)
     gsap.to(".plans-block", {
       x: -180,
       rotateY: -20,
@@ -50,7 +48,7 @@ export function Phrase() {
         trigger: containerRef.current,
         start: "top bottom",
         end: "bottom top",
-        scrub: 1, // suaviza el movimiento
+        scrub: 1,
       },
     });
 
@@ -62,30 +60,31 @@ export function Phrase() {
         trigger: containerRef.current,
         start: "top bottom",
         end: "bottom top",
-        scrub: 1, // suaviza el movimiento
+        scrub: 1,
       },
     });
 
     // Letras que aparecen y desaparecen con scroll (sin slide brusco)
-    (gsap.utils.toArray(".plans-block li, .hours-block li") as HTMLLIElement[]).forEach((el) => {
-      gsap.fromTo(
-        el,
-        { opacity: 0 },
-        {
-          opacity: 1,
-          duration: 1,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: el,
-            start: "top 95%",
-            end: "top 30%",
-            scrub: true,
-          },
-        }
-      );
-    });
+    gsap.utils
+      .toArray<HTMLElement>(".plans-block li, .hours-block li")
+      .forEach((el) => {
+        gsap.fromTo(
+          el,
+          { opacity: 0 },
+          {
+            opacity: 1,
+            duration: 1,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: el,
+              start: "top 95%",
+              end: "top 30%",
+              scrub: true,
+            },
+          }
+        );
+      });
 
-    // Logo flotante con rotación suave
     gsap.to(".bcas-logo", {
       y: -30,
       rotation: 15,
@@ -109,19 +108,22 @@ export function Phrase() {
         width={224}
         height={224}
         className="bcas-logo w-40 md:w-56 mb-12"
+        priority
       />
 
-      {/* Contenedor en dos columnas */}
+      {/* Contenedor */}
       <div className="grid md:grid-cols-2 gap-8 w-full max-w-6xl">
-        {/* Planes de Internet */}
+        {/* Planes */}
         <aside className="plans-block bg-white rounded-2xl p-6 md:p-10 text-blue-950 shadow-2xl">
           <h3 className="text-2xl md:text-3xl font-bold mb-6 text-center">
             Nuestros Planes de Internet
           </h3>
+
           <div className="space-y-6 text-base md:text-lg">
             <div>
               <p className="font-semibold">
-                Cobertura: Mesetas, El Triángulo, La Sultana, La Azotea, Rondinella, 12 de Octubre
+                Cobertura: Mesetas, El Triángulo, La Sultana, La Azotea,
+                Rondinella, 12 de Octubre
               </p>
               <p>Suscripción: $99.000*</p>
               <ul className="list-disc list-inside">
@@ -130,8 +132,11 @@ export function Phrase() {
                 <li>Plan 200 MB — $105.000 — 2 Puntos de TV GRATIS</li>
               </ul>
             </div>
+
             <div>
-              <p className="font-semibold">Cobertura: La Nohora y San Luis de Ocoa Bajo</p>
+              <p className="font-semibold">
+                Cobertura: La Nohora y San Luis de Ocoa Bajo
+              </p>
               <p>Suscripción: $89.000*</p>
               <ul className="list-disc list-inside">
                 <li>Plan 50 MB — $68.000 — 1 Punto de TV GRATIS</li>
@@ -139,6 +144,7 @@ export function Phrase() {
                 <li>Plan 200 MB — $105.000 — 2 Puntos de TV GRATIS</li>
               </ul>
             </div>
+
             <div>
               <p className="font-semibold">Cobertura: La Zuria</p>
               <p>Suscripción: $89.000*</p>
@@ -151,11 +157,12 @@ export function Phrase() {
           </div>
         </aside>
 
-        {/* Horarios de Atención */}
+        {/* Horarios */}
         <aside className="hours-block bg-blue-950 rounded-2xl p-6 md:p-10 text-white shadow-2xl">
           <h3 className="text-2xl md:text-3xl font-bold mb-6 text-center">
             Horarios de Atención
           </h3>
+
           <ul className="space-y-2 text-base md:text-lg">
             <li><strong>Lunes:</strong> 8:00 AM - 12:00 PM / 2:00 PM - 5:00 PM</li>
             <li><strong>Martes:</strong> 8:00 AM - 12:00 PM / 2:00 PM - 5:00 PM</li>

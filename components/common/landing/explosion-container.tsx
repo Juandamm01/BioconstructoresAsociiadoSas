@@ -22,57 +22,6 @@ interface ParticleType {
   update: () => void;
 }
 
-const CONFIG: Config = {
-  gravity: 0.25,
-  friction: 0.99,
-  imageSize: 150,
-  horizontalForce: 20,
-  verticalForce: 15,
-  rotationSpeed: 10,
-  resetDelay: 2000,
-};
-
-const IMAGE_PARTICLE_COUNT = 8;
-const IMAGE_PATHS = Array.from(
-  { length: IMAGE_PARTICLE_COUNT },
-  (_, i) => `/images/img${i + 1}.jpg`
-);
-
-class Particle implements ParticleType {
-  element: HTMLImageElement;
-  x: number;
-  y: number;
-  vx: number;
-  vy: number;
-  rotation: number;
-  rotationSpeed: number;
-
-  constructor(element: HTMLImageElement) {
-    this.element = element;
-    this.x = 0;
-    this.y = 0;
-    this.vx = (Math.random() - 0.5) * CONFIG.horizontalForce;
-    this.vy = -CONFIG.verticalForce - Math.random() * 10;
-    this.rotation = 0;
-    this.rotationSpeed = (Math.random() - 0.5) * CONFIG.rotationSpeed;
-  }
-
-  update() {
-    this.vy += CONFIG.gravity;
-    this.vx *= CONFIG.friction;
-    this.vy *= CONFIG.friction;
-    this.rotationSpeed *= CONFIG.friction;
-
-    this.x += this.vx;
-    this.y += this.vy;
-    this.rotation += this.rotationSpeed;
-
-    if (this.element) {
-      this.element.style.transform = `translate(${this.x}px, ${this.y}px) rotate(${this.rotation}deg)`;
-    }
-  }
-}
-
 const ExplosionContainer = () => {
   const explosionContainerRef = useRef<HTMLDivElement | null>(null);
   const footerRef = useRef<HTMLElement | null>(null);
@@ -80,19 +29,69 @@ const ExplosionContainer = () => {
   const particlesRef = useRef<ParticleType[]>([]);
   const hasExploded = useRef(false); // Evita múltiples disparos
 
+  const config: Config = {
+    gravity: 0.25,
+    friction: 0.99,
+    imageSize: 150,
+    horizontalForce: 20,
+    verticalForce: 15,
+    rotationSpeed: 10,
+    resetDelay: 2000,
+  };
 
-  const createParticles = useCallback(() => {
+  const imageParticleCount = 8;
+  const imagePaths = Array.from(
+    { length: imageParticleCount },
+    (_, i) => `/images/img${i + 1}.jpg`
+  );
+
+  class Particle implements ParticleType {
+    element: HTMLImageElement;
+    x: number;
+    y: number;
+    vx: number;
+    vy: number;
+    rotation: number;
+    rotationSpeed: number;
+
+    constructor(element: HTMLImageElement) {
+      this.element = element;
+      this.x = 0;
+      this.y = 0;
+      this.vx = (Math.random() - 0.5) * config.horizontalForce;
+      this.vy = -config.verticalForce - Math.random() * 10;
+      this.rotation = 0;
+      this.rotationSpeed = (Math.random() - 0.5) * config.rotationSpeed;
+    }
+
+    update() {
+      this.vy += config.gravity;
+      this.vx *= config.friction;
+      this.vy *= config.friction;
+      this.rotationSpeed *= config.friction;
+
+      this.x += this.vx;
+      this.y += this.vy;
+      this.rotation += this.rotationSpeed;
+
+      if (this.element) {
+        this.element.style.transform = `translate(${this.x}px, ${this.y}px) rotate(${this.rotation}deg)`;
+      }
+    }
+  }
+
+  const createParticles = () => {
     const container = explosionContainerRef.current;
     if (!container) return;
 
-    container.innerHTML = "";
-    particlesRef.current = [];
+      container.innerHTML = "";
+      particlesRef.current = [];
 
-    IMAGE_PATHS.forEach((path) => {
+    imagePaths.forEach((path) => {
       const particle = document.createElement("img");
       particle.src = path;
       particle.classList.add("explosion-particle-img");
-      particle.style.width = `${CONFIG.imageSize}px`;
+      particle.style.width = `${config.imageSize}px`;
       container.appendChild(particle);
     });
 
@@ -102,20 +101,19 @@ const ExplosionContainer = () => {
     particlesRef.current = Array.from(particleElements).map(
       (el) => new Particle(el)
     );
-  }, []);
+  };
 
-  const explode = useCallback(() => {
+  const explode = () => {
     if (explosionTriggered || hasExploded.current) return;
     hasExploded.current = true;
     setExplosionTriggered(true);
     createParticles();
 
-    let animationId: number;
-    let finished = false;
+      let animationId: number;
+      let finished = false;
 
-    const animate = () => {
-      if (finished) return;
-      particlesRef.current.forEach((particle) => particle.update());
+      const animate = () => {
+        particlesRef.current.forEach((p) => p.update());
 
       const container = explosionContainerRef.current;
       if (
@@ -126,18 +124,18 @@ const ExplosionContainer = () => {
       ) {
         cancelAnimationFrame(animationId);
         finished = true;
-        setTimeout(() => setExplosionTriggered(false), CONFIG.resetDelay);
+        setTimeout(() => setExplosionTriggered(false), config.resetDelay);
         return;
       }
 
-      animationId = requestAnimationFrame(animate);
-    };
+        animationId = requestAnimationFrame(animate);
+      };
 
     animate();
-  }, [explosionTriggered, createParticles]);
+  };
 
   useEffect(() => {
-    IMAGE_PATHS.forEach((path) => {
+    imagePaths.forEach((path) => {
       const img = new Image();
       img.src = path;
     });
@@ -151,7 +149,7 @@ const ExplosionContainer = () => {
           if (entry.isIntersecting) explode();
         });
       },
-      { threshold: 0.3 } // cuando el footer está 30% visible
+      { threshold: 0.3 }
     );
 
     if (footerRef.current) observer.observe(footerRef.current);
@@ -160,15 +158,16 @@ const ExplosionContainer = () => {
       hasExploded.current = false;
       setExplosionTriggered(false);
     };
+
     window.addEventListener("resize", handleResize);
 
     return () => {
       observer.disconnect();
       window.removeEventListener("resize", handleResize);
     };
-  }, [createParticles, explode]);
+  }, []);
 
-  return <div className="explosion-container" ref={explosionContainerRef}></div>;
+  return <div ref={explosionContainerRef} className="explosion-container" />;
 };
 
 export default ExplosionContainer;
