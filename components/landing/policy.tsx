@@ -102,7 +102,7 @@ export function Policy() {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen bg-linear-to-b from-blue-950 to-white z-50 px-6 md:px-20 py-24 md:py-40"
+      className="relative min-h-screen bg-linear-to-b from-blue-950 to-white z-50 px-6 md:px-20 py-24 md:py-40 font-poppins"
     >
       <div className="container mx-auto">
         {/* Título grande con scroll hacia arriba */}

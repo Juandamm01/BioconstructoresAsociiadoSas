@@ -14,9 +14,9 @@ export function Hero() {
 
       {/* Contenido */}
       <div className="relative z-10 text-white max-w-3xl px-4">
-        <h1 className="text-5xl md:text-7xl font-nighty tracking-wide mb-4">
+        <h1 className="text-5xl md:text-7xl font-poppins font-black tracking-tight mb-4">
           Bienvenido a <br />
-          <span className="italic text-white/90">Bioconstructores Asociados Sas</span>
+          <span className="text-white/90">Bioconstructores Asociados Sas</span>
         </h1>
 
         <Separator className="bg-white/40 my-4 max-w-lg mx-auto" />

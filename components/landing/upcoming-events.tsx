@@ -48,10 +48,10 @@ export function UpcomingEvents() {
     <section className="upcoming-section bg-linear-to-b from-white to-blue-950 relative w-full h-[140dvh] overflow-hidden z-40">
       {/* Texto principal */}
       <div className="absolute inset-0 flex flex-col items-center justify-center z-10">
-        <h2 className="first-title uppercase font-bold text-[12vw] md:text-[8vw] leading-[100%] tracking-[-.4vw] bg-linear-to-b from-blue-900 to-blue-600 bg-clip-text text-transparent">
+        <h2 className="first-title uppercase font-black font-poppins text-[12vw] md:text-[8vw] leading-[100%] tracking-[-.4vw] bg-linear-to-b from-blue-900 to-blue-600 bg-clip-text text-transparent">
           Nuestros
         </h2>
-        <h2 className="sec-title uppercase font-bold text-[12vw] md:text-[8vw] leading-[100%] tracking-[-.4vw] bg-linear-to-b from-white to-blue-300 text-transparent bg-clip-text">
+        <h2 className="sec-title uppercase font-black font-poppins text-[12vw] md:text-[8vw] leading-[100%] tracking-[-.4vw] bg-linear-to-b from-white to-blue-300 text-transparent bg-clip-text">
           Servicios
         </h2>
       </div>
@@ -73,7 +73,7 @@ export function UpcomingEvents() {
               />
               {/* Subtítulo más notorio */}
               <div className="absolute bottom-2 md:bottom-5 lg:bottom-6 left-1/2 transform -translate-x-1/2 w-[90%] md:w-auto bg-blue-900/90 px-1 sm:px-4 md:px-5 lg:px-6 py-1 md:py-1.5 lg:py-2 rounded-md md:rounded-lg shadow-lg flex items-center justify-center text-center">
-                <span className="text-white text-[3vw] sm:text-xs md:text-lg lg:text-xl font-bold tracking-tight md:tracking-wide drop-shadow-md leading-tight">
+                <span className="text-white text-[3vw] sm:text-xs md:text-lg lg:text-xl font-poppins font-bold tracking-tight md:tracking-wide drop-shadow-md leading-tight">
                   {event.subtitle}
                 </span>
               </div>

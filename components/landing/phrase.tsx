@@ -96,43 +96,42 @@ export function Phrase() {
   return (
     <section
       ref={containerRef}
-      // Bloqueado a la altura de la pantalla para el pin perfecto
+      // Altura de pantalla para el pin, empujado hacia abajo para no chocar con el navbar
       className="relative h-screen z-50 bg-linear-to-b from-blue-950 from-0% to-white to-45% 
-      overflow-hidden px-4 md:px-10 flex flex-col items-center justify-center"
+      overflow-hidden px-4 md:px-10 pt-20 md:pt-32 flex flex-col items-center justify-center font-poppins"
     >
       <div
         ref={gridRef}
-        // Versión final: Súper balanceada y con aire para que nada toque el navbar
-        className="w-full max-w-xl flex flex-col md:grid md:grid-cols-4 md:grid-rows-3 gap-3 md:gap-4 relative z-10 md:scale-80 lg:scale-72 origin-center"
+        // Configuración Extra Horizontal: 6 columnas para máximo ancho y mínima altura
+        className="w-full max-w-7xl flex flex-col md:grid md:grid-cols-6 md:grid-rows-2 gap-4 md:gap-6 relative z-10"
       >
         {/* ── TARJETA 1 (HERO/LÍDER) ── */}
-        <div className="bento-item md:col-span-2 md:row-span-3 group relative overflow-hidden bg-white/20 backdrop-blur-md border border-blue-100/30 p-5 rounded-[2rem] shadow-xl flex flex-col justify-center">
+        <div className="bento-item md:col-span-3 md:row-span-1 group relative overflow-hidden bg-white/20 backdrop-blur-md border border-blue-100/30 p-4 md:p-6 rounded-[2rem] shadow-xl flex flex-row items-center gap-6">
           <div className="absolute inset-0 bg-linear-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           <Image
             src="/images/bcas-logo.png"
             alt="BCAS Logo"
-            width={60}
-            height={60}
-            className="bcas-logo-main w-12 md:w-14 mb-3 drop-shadow-md"
+            width={48}
+            height={48}
+            className="bcas-logo-main w-10 md:w-12 drop-shadow-md"
             priority
           />
-          <h2 className="text-2xl md:text-3xl font-bold font-poppins text-blue-950 leading-tight tracking-tight">
-            Nuestros <br />
-            <span className="text-blue-950">
-              Planes
-            </span>
-          </h2>
-          <p className="mt-2 md:mt-4 text-blue-950 text-sm md:text-base font-light max-w-sm leading-snug">
-            Internet de fibra óptica hiper veloz para tu hogar y negocio.
-          </p>
+          <div>
+            <h2 className="text-xl md:text-2xl font-bold font-poppins text-blue-950 leading-tight tracking-tight">
+              Nuestros <span className="text-blue-950">Planes</span>
+            </h2>
+            <p className="mt-1 text-blue-950 text-xs md:text-sm font-light leading-snug">
+              Fibra óptica hiper veloz para tu hogar y negocio.
+            </p>
+          </div>
         </div>
 
         {/* ── TARJETA 2 (HORARIOS) ── */}
-        <div className="bento-item md:col-span-2 md:row-span-1 bg-white/20 backdrop-blur-md border border-blue-100/30 p-4 md:p-5 rounded-[2rem] shadow-lg flex flex-col justify-center">
-          <h3 className="text-xl font-bold text-blue-950 mb-4 flex items-center gap-2">
+        <div className="bento-item md:col-span-3 md:row-span-1 bg-white/20 backdrop-blur-md border border-blue-100/30 p-4 md:p-6 rounded-[2rem] shadow-lg flex flex-col justify-center">
+          <h3 className="text-lg font-bold text-blue-950 mb-3 flex items-center gap-2">
             <span className="bg-blue-100/50 text-blue-950 p-1.5 rounded-md text-sm">🕒</span> Horarios de Atención
           </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-sm text-blue-950">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1.5 text-xs md:text-sm text-blue-950">
             <div className="flex justify-between border-b border-blue-950/10 pb-1">
               <span className="font-semibold text-blue-950">Lun - Vie</span>
               <span>8am - 12pm / 2pm - 5pm</span>
@@ -153,7 +152,7 @@ export function Phrase() {
         <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-6 w-[100vw] ml-[-1rem] px-[1rem] md:w-auto md:ml-0 md:px-0 md:pb-0 md:contents hide-scrollbar">
 
           {/* ── ZONA 2 (La Nohora) ── */}
-          <div className="bento-item shrink-0 snap-center w-[85vw] md:w-auto md:col-span-1 md:row-span-1 bg-white/20 backdrop-blur-md border border-blue-100/30 p-4 md:p-4 rounded-[2rem] shadow-lg text-blue-950 flex flex-col justify-center">
+          <div className="bento-item shrink-0 snap-center w-[85vw] md:w-auto md:col-span-2 md:row-span-1 bg-white/20 backdrop-blur-md border border-blue-100/30 p-4 md:p-5 rounded-[2rem] shadow-lg text-blue-950 flex flex-col justify-center">
             <h4 className="font-bold text-sm leading-tight mb-2">La Nohora y San Luis</h4>
             <p className="text-blue-950 font-bold mb-3 text-xs">Susc.: $89.000</p>
             <ul className="space-y-1.5 text-xs text-blue-950">
@@ -170,7 +169,7 @@ export function Phrase() {
           </div>
 
           {/* ── ZONA 3 (La Zuria) ── */}
-          <div className="bento-item shrink-0 snap-center w-[85vw] md:w-auto md:col-span-1 md:row-span-1 bg-white/20 backdrop-blur-md border border-blue-100/30 p-4 md:p-4 rounded-[2rem] shadow-lg text-blue-950 flex flex-col justify-center">
+          <div className="bento-item shrink-0 snap-center w-[85vw] md:w-auto md:col-span-2 md:row-span-1 bg-white/20 backdrop-blur-md border border-blue-100/30 p-4 md:p-5 rounded-[2rem] shadow-lg text-blue-950 flex flex-col justify-center">
             <h4 className="font-bold text-sm leading-tight mb-2 text-blue-950">La Zuria</h4>
             <p className="text-blue-950 font-bold mb-3 text-xs">Susc.: $89.000</p>
             <ul className="space-y-1.5 text-xs text-blue-950">
@@ -187,7 +186,7 @@ export function Phrase() {
           </div>
 
           {/* ── ZONA 1 (Premium - Mesetas) ── */}
-          <div className="bento-item shrink-0 snap-center w-[85vw] md:w-auto md:col-span-2 md:row-span-1 bg-white/20 backdrop-blur-md border border-blue-100/30 text-blue-950 p-4 md:p-4 rounded-[2rem] shadow-xl flex flex-col justify-center">
+          <div className="bento-item shrink-0 snap-center w-[85vw] md:w-auto md:col-span-2 md:row-span-1 bg-white/20 backdrop-blur-md border border-blue-100/30 text-blue-950 p-4 md:p-5 rounded-[2rem] shadow-xl flex flex-col justify-center">
             <div className="space-y-3">
               <h4 className="font-bold text-sm md:text-base leading-tight">
                 Mesetas, El Triángulo, La Sultana, Rondinella, 12 de Octubre

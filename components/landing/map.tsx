@@ -71,12 +71,12 @@ export function Map() {
         bg-linear-to-b from-white to-blue-950 to-40%
       "
     >
-      <div className="relative w-full max-w-7xl">
+      <div className="relative w-full max-w-5xl">
 
         {/* TÍTULO CON GSAP */}
         <h2
           className="
-            map-title text-center text-4xl md:text-7xl font-nighty tracking-wide mb-12
+            map-title text-center text-3xl md:text-5xl font-poppins font-black uppercase tracking-tight mb-8
             bg-linear-to-b from-blue-950 to-blue-700 bg-clip-text text-transparent opacity-0
           "
         >
@@ -86,7 +86,7 @@ export function Map() {
         {/* MAPA EN CAJA */}
         <div
           className="
-            relative w-full h-125 md:h-150
+            relative w-full h-100 md:h-120
             rounded-2xl overflow-hidden
             shadow-2xl
             border border-blue-100
@@ -145,12 +145,12 @@ export function Map() {
             bg-white/10 backdrop-blur-md
             border border-white/20
             rounded-[2.5rem]
-            p-8 md:p-12
+            p-6 md:p-8
             text-white
             shadow-2xl
           "
         >
-          <h3 className="text-2xl md:text-3xl font-bold mb-8 text-center">
+          <h3 className="text-xl md:text-2xl font-bold mb-6 text-center">
             Listado de Barrios
           </h3>
 
@@ -164,7 +164,7 @@ export function Map() {
                   className="w-4 h-4 rounded-full border border-white"
                   style={{ backgroundColor: barrio.color }}
                 />
-                <span className="font-medium text-sm md:text-base">
+                <span className="font-medium text-xs md:text-sm">
                   {barrio.nombre}
                 </span>
               </li>
