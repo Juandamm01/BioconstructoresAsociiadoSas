@@ -102,7 +102,7 @@
           damping: 50,
         }}
         className={cn(
-          "relative z-60 mx-auto hidden w-full max-w-7xl flex-row items-center justify-between self-start rounded-full bg-transparent px-4 py-1 lg:flex dark:bg-transparent",
+          "relative z-60 mx-auto hidden w-full max-w-7xl flex-row items-center justify-between self-start rounded-full bg-transparent px-4 py-0.5 lg:flex dark:bg-transparent",
           visible && "bg-white/10 dark:bg-neutral-950/80",
           className,
         )}
@@ -130,7 +130,7 @@
           <a
             onMouseEnter={() => setHovered(idx)}
             onClick={onItemClick}
-            className="relative px-4 py-2 text-white dark:text-neutral-300"
+            className="relative px-3 py-1.5 text-white dark:text-neutral-300 text-sm"
             key={`link-${idx}`}
             href={item.link}
           >
@@ -167,7 +167,7 @@
           damping: 50,
         }}
         className={cn(
-          "relative z-50 mx-auto flex w-full max-w-[calc(100vw-2rem)] flex-col items-center justify-between bg-transparent px-2 py-1 lg:hidden rounded-full",
+          "relative z-50 mx-auto flex w-full max-w-[calc(100vw-2rem)] flex-col items-center justify-between bg-transparent px-2 py-0.5 lg:hidden rounded-full",
           visible && "bg-white/10 dark:bg-neutral-950/80",
           className,
         )}
@@ -242,9 +242,9 @@
         <Image
           src="/images/Logo_BCAS_MODO_OSCURO.png"
           alt="Bioconstructores Asociados SAS"
-          width={48}
-          height={48}
-          className="h-10 w-auto"
+          width={40}
+          height={40}
+          className="h-8 w-auto"
           priority={false}
         />
       </Link>
@@ -269,7 +269,7 @@
     | React.ComponentPropsWithoutRef<"button">
   )) => {
     const baseStyles =
-      "px-4 py-2 rounded-md button bg-muted text-black text-sm font-bold relative cursor-pointer hover:-translate-y-0.5 transition duration-200 inline-block text-center";
+      "px-3 py-1.5 rounded-md button bg-muted text-black text-xs font-bold relative cursor-pointer hover:-translate-y-0.5 transition duration-200 inline-block text-center";
 
     const variantStyles = {
       primary:
