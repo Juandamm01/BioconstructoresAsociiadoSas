@@ -4,6 +4,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
+import Image from "next/image";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -66,7 +67,7 @@ export function Phrase() {
     });
 
     // Letras que aparecen y desaparecen con scroll (sin slide brusco)
-    gsap.utils.toArray(".plans-block li, .hours-block li").forEach((el: any) => {
+    (gsap.utils.toArray(".plans-block li, .hours-block li") as HTMLLIElement[]).forEach((el) => {
       gsap.fromTo(
         el,
         { opacity: 0 },
@@ -102,9 +103,11 @@ export function Phrase() {
       overflow-hidden px-6 md:px-20 py-24 md:py-36 flex flex-col items-center"
     >
       {/* Logo */}
-      <img
+      <Image
         src="/images/bcas-logo.png"
         alt="BCAS Logo"
+        width={224}
+        height={224}
         className="bcas-logo w-40 md:w-56 mb-12"
       />
 

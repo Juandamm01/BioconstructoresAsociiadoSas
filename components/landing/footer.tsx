@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { FaFacebook, FaInstagram, FaWhatsapp } from "react-icons/fa";
 import { Logo } from "@/components/common";
-import ExplosionContainer from "../common/landing/explosion-container";
 
 export const Footer = () => {
   return (

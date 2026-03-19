@@ -110,7 +110,7 @@ const nightDemo = localFont({
 
 const branch = localFont({
   src: [{ path: "../fonts/Branch.otf" }],
-  variable: "--font-nighty",
+  variable: "--font-branch",
   display: "swap",
 });
 
@@ -124,7 +124,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Bioconstructores Asociados SAS ",
   description:
     "Bioconstructores Asociados SAS",
