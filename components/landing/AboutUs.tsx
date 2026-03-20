@@ -52,7 +52,7 @@ export function AboutUs() {
   return (
     <section
       ref={sectionRef}
-      className="flavor-section min-h-screen bg-linear-to-b from-blue-900/80 via-blue-700/30 to-white relative z-50 overflow-hidden"
+      className="flavor-section min-h-screen bg-linear-to-b from-blue-900/80 via-blue-900/10 to-white relative z-50 overflow-hidden"
     >
       <div
         ref={sliderRef}

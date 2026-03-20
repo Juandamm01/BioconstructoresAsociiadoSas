@@ -44,7 +44,7 @@ export function Map() {
     });
 
     // 1. Revelar Título (Escala y Opacidad)
-    tl.fromTo(".map-title", 
+    tl.fromTo(".map-title",
       { opacity: 0, scale: 0.8, y: 50 },
       { opacity: 1, scale: 1, y: 0, ease: "power2.out" }
     );
@@ -109,50 +109,50 @@ export function Map() {
               bg-white
             "
           >
-          <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}>
-            <GoogleMap
-              mapContainerStyle={{ width: "100%", height: "100%" }}
-              center={center}
-              zoom={13}
-            >
-              {barrios.map((barrio, i) => (
-                <Circle
-                  key={i}
-                  center={barrio.coords}
-                  radius={barrio.radio}
-                  options={{
-                    strokeColor: barrio.color,
-                    strokeOpacity: 0.8,
-                    strokeWeight: 2,
-                    fillColor: barrio.color,
-                    fillOpacity: 0.35,
-                  }}
-                  onMouseOver={() => setHoverBarrio(barrio)}
-                  onMouseOut={() => setHoverBarrio(null)}
-                />
-              ))}
-
-              {hoverBarrio && (
-                <InfoWindow position={hoverBarrio.coords}>
-                  <div
-                    style={{
-                      backgroundColor: "#030816", // Azul ultra oscuro tipo iPhone Dark
-                      color: "#FFFFFF",
-                      fontWeight: "bold",
-                      fontSize: "13px",
-                      padding: "10px 16px",
-                      borderRadius: "12px",
-                      boxShadow: "0 4px 15px rgba(0,0,0,0.4)",
-                      border: "1px solid rgba(255,255,255,0.1)"
+            <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}>
+              <GoogleMap
+                mapContainerStyle={{ width: "100%", height: "100%" }}
+                center={center}
+                zoom={13}
+              >
+                {barrios.map((barrio, i) => (
+                  <Circle
+                    key={i}
+                    center={barrio.coords}
+                    radius={barrio.radio}
+                    options={{
+                      strokeColor: barrio.color,
+                      strokeOpacity: 0.8,
+                      strokeWeight: 2,
+                      fillColor: barrio.color,
+                      fillOpacity: 0.35,
                     }}
-                  >
-                    {hoverBarrio.nombre}
-                  </div>
-                </InfoWindow>
-              )}
-            </GoogleMap>
-          </LoadScript>
-        </div>
+                    onMouseOver={() => setHoverBarrio(barrio)}
+                    onMouseOut={() => setHoverBarrio(null)}
+                  />
+                ))}
+
+                {hoverBarrio && (
+                  <InfoWindow position={hoverBarrio.coords}>
+                    <div
+                      style={{
+                        backgroundColor: "#030816", // Azul ultra oscuro tipo iPhone Dark
+                        color: "#FFFFFF",
+                        fontWeight: "bold",
+                        fontSize: "13px",
+                        padding: "10px 16px",
+                        borderRadius: "12px",
+                        boxShadow: "0 4px 15px rgba(0,0,0,0.4)",
+                        border: "1px solid rgba(255,255,255,0.1)"
+                      }}
+                    >
+                      {hoverBarrio.nombre}
+                    </div>
+                  </InfoWindow>
+                )}
+              </GoogleMap>
+            </LoadScript>
+          </div>
 
           {/* LISTADO TIPO GLASS IPHONE */}
           <aside
@@ -174,20 +174,20 @@ export function Map() {
             </h3>
 
             <ul className="flex flex-col gap-1.5 md:gap-2">
-            {barrios.map((barrio, i) => (
-              <li
-                key={i}
-                className="map-list-item flex items-center gap-3 cursor-pointer"
-              >
-                <span
-                  className="w-3.5 h-3.5 rounded-full border border-blue-900/10"
-                  style={{ backgroundColor: barrio.color }}
-                />
-                <span className="font-medium text-xs md:text-sm text-blue-900/90">
-                  {barrio.nombre}
-                </span>
-              </li>
-            ))}
+              {barrios.map((barrio, i) => (
+                <li
+                  key={i}
+                  className="map-list-item flex items-center gap-3 cursor-pointer"
+                >
+                  <span
+                    className="w-3.5 h-3.5 rounded-full border border-blue-900/10"
+                    style={{ backgroundColor: barrio.color }}
+                  />
+                  <span className="font-medium text-xs md:text-sm text-blue-900/90">
+                    {barrio.nombre}
+                  </span>
+                </li>
+              ))}
             </ul>
           </aside>
         </div>

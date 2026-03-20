@@ -148,10 +148,10 @@ export function Policy() {
             </div>
           </div>
 
-          {/* VIDEO (ESCENA 3) */}
+          {/* VIDEO (ESCENA 3) - Tamaño MINI y CENTRADO perfecto */}
           <div
             ref={videoWrapperRef}
-            className="absolute w-[95%] md:w-[75%] h-72 md:h-130 rounded-[2.5rem] overflow-hidden border-2 border-white/20 shadow-2xl bg-blue-950 opacity-0 pointer-events-none"
+            className="absolute w-[75%] md:w-[50%] h-48 md:h-80 rounded-[2.5rem] overflow-hidden border-2 border-white/20 shadow-2xl bg-blue-950 opacity-0 pointer-events-none mx-auto"
           >
             <video
               src="/videos/conectividad.mp4"
