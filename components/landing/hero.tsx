@@ -5,7 +5,7 @@ export function Hero() {
     <section className="relative min-h-screen pt-40 pb-20 overflow-hidden flex items-center justify-center text-center">
       {/* Fondo fijo con video */}
       <video
-        src="/videos/hero.mp4"
+        src="/videos/hero1.mp4"
         autoPlay
         loop
         muted

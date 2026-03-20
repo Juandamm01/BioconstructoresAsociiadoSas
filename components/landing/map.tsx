@@ -78,10 +78,10 @@ export function Map() {
       ref={sectionRef}
       className="
         relative
-        flex flex-col items-center justify-start
-        min-h-screen
-        px-6 md:px-12 pt-12 md:pt-14 pb-8 gap-6 md:gap-6
-        bg-linear-to-b from-white to-blue-950 to-40%
+        flex flex-col items-center justify-center
+        min-h-screen font-poppins
+        px-6 md:px-12 pt-28 md:pt-32 pb-20 gap-6 md:gap-6
+        bg-linear-to-b from-white via-white to-blue-950
       "
     >
       <div className="relative w-full max-w-6xl flex flex-col gap-6">
@@ -89,7 +89,7 @@ export function Map() {
         <h2
           className="
             map-title text-center text-3xl md:text-5xl font-poppins font-black uppercase tracking-tight 
-            bg-linear-to-b from-blue-950 to-blue-700 bg-clip-text text-transparent opacity-0
+            bg-linear-to-b from-blue-950 via-blue-900 to-white/0 bg-clip-text text-transparent opacity-0
           "
         >
           Sectores donde estamos presentes
@@ -159,13 +159,14 @@ export function Map() {
             ref={asideRef}
             className="
               w-full h-full
-              bg-blue-950/40 backdrop-blur-2xl
-              border border-white/20
-              rounded-[2rem]
-              p-5 md:p-7
-              text-white
+              bg-white/60 backdrop-blur-[20px]
+              border border-white/40
+              rounded-[2.5rem]
+              p-6 md:p-8
+              text-blue-900
               shadow-2xl
               flex flex-col
+              ring-1 ring-white/10
             "
           >
             <h3 className="text-xl font-bold mb-4">
@@ -179,10 +180,10 @@ export function Map() {
                 className="map-list-item flex items-center gap-3 cursor-pointer"
               >
                 <span
-                  className="w-3.5 h-3.5 rounded-full border border-white/50"
+                  className="w-3.5 h-3.5 rounded-full border border-blue-900/10"
                   style={{ backgroundColor: barrio.color }}
                 />
-                <span className="font-medium text-xs md:text-sm text-white/90">
+                <span className="font-medium text-xs md:text-sm text-blue-900/90">
                   {barrio.nombre}
                 </span>
               </li>

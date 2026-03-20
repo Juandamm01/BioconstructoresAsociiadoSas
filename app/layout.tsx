@@ -3,62 +3,19 @@ import "./globals.css";
 import localFont from "next/font/local";
 import { ReactLenis } from "lenis/react";
 
+// Font definitions commented out because files are missing from the /fonts directory
+/*
 const satoshi = localFont({
   src: [
-    // Regular
-    {
-      path: "../fonts/satoshi/Satoshi-Regular.woff2",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "../fonts/satoshi/Satoshi-Italic.woff2",
-      weight: "400",
-      style: "italic",
-    },
-
-    // Light
-    {
-      path: "../fonts/satoshi/Satoshi-Light.woff2",
-      weight: "300",
-      style: "normal",
-    },
-    {
-      path: "../fonts/satoshi/Satoshi-LightItalic.woff2",
-      weight: "300",
-      style: "italic",
-    },
-
-    // Medium
-    {
-      path: "../fonts/satoshi/Satoshi-Medium.woff2",
-      weight: "500",
-      style: "normal",
-    },
-    {
-      path: "../fonts/satoshi/Satoshi-MediumItalic.woff2",
-      weight: "500",
-      style: "italic",
-    },
-
-    // Bold
-    {
-      path: "../fonts/satoshi/Satoshi-Bold.woff2",
-      weight: "700",
-      style: "normal",
-    },
-    {
-      path: "../fonts/satoshi/Satoshi-BoldItalic.woff2",
-      weight: "700",
-      style: "italic",
-    },
-
-    // Black
-    {
-      path: "../fonts/satoshi/Satoshi-BlackItalic.woff2",
-      weight: "900",
-      style: "italic",
-    },
+    { path: "../fonts/satoshi/Satoshi-Regular.woff2", weight: "400", style: "normal" },
+    { path: "../fonts/satoshi/Satoshi-Italic.woff2", weight: "400", style: "italic" },
+    { path: "../fonts/satoshi/Satoshi-Light.woff2", weight: "300", style: "normal" },
+    { path: "../fonts/satoshi/Satoshi-LightItalic.woff2", weight: "300", style: "italic" },
+    { path: "../fonts/satoshi/Satoshi-Medium.woff2", weight: "500", style: "normal" },
+    { path: "../fonts/satoshi/Satoshi-MediumItalic.woff2", weight: "500", style: "italic" },
+    { path: "../fonts/satoshi/Satoshi-Bold.woff2", weight: "700", style: "normal" },
+    { path: "../fonts/satoshi/Satoshi-BoldItalic.woff2", weight: "700", style: "italic" },
+    { path: "../fonts/satoshi/Satoshi-BlackItalic.woff2", weight: "900", style: "italic" },
   ],
   variable: "--font-satoshi",
   display: "swap",
@@ -66,36 +23,12 @@ const satoshi = localFont({
 
 const mangoGrotesque = localFont({
   src: [
-    {
-      path: "../fonts/mango/MangoGrotesque-Light.woff2",
-      weight: "300",
-      style: "normal",
-    },
-    {
-      path: "../fonts/mango/MangoGrotesque-Regular.woff2",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "../fonts/mango/MangoGrotesque-Medium.woff2",
-      weight: "500",
-      style: "normal",
-    },
-    {
-      path: "../fonts/mango/MangoGrotesque-SemiBold.woff2",
-      weight: "600",
-      style: "normal",
-    },
-    {
-      path: "../fonts/mango/MangoGrotesque-Bold.woff2",
-      weight: "700",
-      style: "normal",
-    },
-    {
-      path: "../fonts/mango/MangoGrotesque-Black.woff2",
-      weight: "900",
-      style: "normal",
-    },
+    { path: "../fonts/mango/MangoGrotesque-Light.woff2", weight: "300", style: "normal" },
+    { path: "../fonts/mango/MangoGrotesque-Regular.woff2", weight: "400", style: "normal" },
+    { path: "../fonts/mango/MangoGrotesque-Medium.woff2", weight: "500", style: "normal" },
+    { path: "../fonts/mango/MangoGrotesque-SemiBold.woff2", weight: "600", style: "normal" },
+    { path: "../fonts/mango/MangoGrotesque-Bold.woff2", weight: "700", style: "normal" },
+    { path: "../fonts/mango/MangoGrotesque-Black.woff2", weight: "900", style: "normal" },
   ],
   variable: "--font-mango",
   display: "swap",
@@ -109,9 +42,10 @@ const nightDemo = localFont({
 
 const branch = localFont({
   src: [{ path: "../fonts/Branch.otf" }],
-  variable: "--font-nighty",
+  variable: "--font-branch",
   display: "swap",
 });
+*/
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -161,7 +95,7 @@ export default function RootLayout({
     <html lang="en">
       <ReactLenis root options={{ lerp: 0.08 }}>
         <body
-          className={`${geistSans.variable} ${geistMono.variable} ${satoshi.variable} ${mangoGrotesque.variable} ${nightDemo.variable} ${branch.variable} ${poppins.variable} antialiased`}
+          className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} antialiased`}
         >
           {children}
         </body>
