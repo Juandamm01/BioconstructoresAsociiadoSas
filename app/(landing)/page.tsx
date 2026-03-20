@@ -1,9 +1,9 @@
 import {
-  UpcomingEvents,
-  Environments,
+  Services,
+  AboutUs,
   Hero,
   Navbar,
-  Phrase,
+  Plans,
   Map,
   Footer,
 } from "@/components/landing";
@@ -15,9 +15,9 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
-        <Environments />
-        <UpcomingEvents />
-        <Phrase />
+        <AboutUs />
+        <Services />
+        <Plans />
         <Map />
         <Policy />
       </main>

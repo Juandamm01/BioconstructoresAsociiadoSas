@@ -1,9 +1,9 @@
 import { Hero } from "./hero";
 import { Navbar } from "./navbar";
-import { Environments } from "./environments";
-import { UpcomingEvents } from "./upcoming-events";
-import { Phrase } from "./phrase";
+import { AboutUs } from "./AboutUs";
+import { Services } from "./services";
+import { Plans } from "./plans";
 import { Map } from "./map";
 import { Footer } from "./footer";
 
-export { Hero, Navbar, Environments, UpcomingEvents, Phrase, Map, Footer };
+export { Hero, Navbar, AboutUs, Services, Plans, Map, Footer };

@@ -1,6 +1,6 @@
 import { Logo } from "./logo";
 import { EnvironmentCard } from "./landing/environment-card";
 import { InfiniteText } from "./landing/infinite-text";
-import { ServicesBento } from "./landing/services-bento";
+import { Privacy } from "./landing/privacy";
 
-export { Logo, EnvironmentCard, InfiniteText, ServicesBento };
+export { Logo, EnvironmentCard, InfiniteText, Privacy };
