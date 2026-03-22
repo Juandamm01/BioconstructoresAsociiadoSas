@@ -31,32 +31,28 @@ export function Map() {
     const section = sectionRef.current;
     if (!section) return;
 
-    // Timeline principal con PIN y SCRUB
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: section,
         start: "top top",
-        end: "+=500", // Más corto para que la transición sea más rápida
+        end: "+=500",
         pin: true,
-        scrub: 0.6, // Valor más bajo para que sea más reactivo al scroll
+        scrub: 0.6,
         anticipatePin: 1,
       }
     });
 
-    // 1. Revelar Título (Escala y Opacidad)
     tl.fromTo(".map-title",
       { opacity: 0, scale: 0.8, y: 50 },
       { opacity: 1, scale: 1, y: 0, ease: "power2.out" }
     );
 
-    // 2. Revelar Mapa (Subida suave)
     tl.fromTo(mapBoxRef.current,
       { opacity: 0, y: 100, scale: 0.95 },
       { opacity: 1, y: 0, scale: 1, ease: "power2.out" },
-      "-=0.4" // Solape ligero con el título
+      "-=0.4"
     );
 
-    // 3. Revelar Listado (Desplazamiento lateral desde la derecha)
     tl.fromTo(asideRef.current,
       { opacity: 0, x: 30 },
       { opacity: 1, x: 0, ease: "power2.out" },
@@ -80,30 +76,27 @@ export function Map() {
         relative
         flex flex-col items-center justify-center
         min-h-screen font-poppins
-        px-6 md:px-12 pt-28 md:pt-32 pb-20 gap-6 md:gap-6
+        px-4 md:px-12 pt-24 md:pt-32 pb-16 gap-5 md:gap-6
         bg-linear-to-b from-white via-white to-blue-950
       "
     >
-      <div className="relative w-full max-w-6xl flex flex-col gap-6">
-        {/* TÍTULO CON GSAP */}
+      <div className="relative w-full max-w-5xl flex flex-col gap-5">
         <h2
           className="
-            map-title text-center text-3xl md:text-5xl font-poppins font-black uppercase tracking-tight 
+            map-title text-center text-2xl md:text-5xl font-poppins font-black uppercase tracking-tight 
             bg-linear-to-b from-blue-950 via-blue-900 to-white/0 bg-clip-text text-transparent opacity-0
           "
         >
           Sectores donde estamos presentes
         </h2>
 
-        {/* CONTENEDOR GRID: Mapa + Listado Lado a Lado */}
-        <div className="flex flex-col md:grid md:grid-cols-[1.2fr_0.8fr] gap-6 md:gap-10 items-start">
+        <div className="flex flex-col md:grid md:grid-cols-[1.2fr_0.8fr] gap-4 md:gap-10 items-start">
 
-          {/* MAPA EN CAJA */}
           <div
             ref={mapBoxRef}
             className="
-              relative w-full h-[250px] md:h-[280px]
-              rounded-[2rem] overflow-hidden
+              relative w-full h-[200px] md:h-[280px]
+              rounded-[1.5rem] md:rounded-[2rem] overflow-hidden
               shadow-2xl
               border border-blue-100
               bg-white
@@ -136,12 +129,12 @@ export function Map() {
                   <InfoWindow position={hoverBarrio.coords}>
                     <div
                       style={{
-                        backgroundColor: "#030816", // Azul ultra oscuro tipo iPhone Dark
+                        backgroundColor: "#030816",
                         color: "#FFFFFF",
                         fontWeight: "bold",
-                        fontSize: "13px",
-                        padding: "10px 16px",
-                        borderRadius: "12px",
+                        fontSize: "12px",
+                        padding: "8px 12px",
+                        borderRadius: "10px",
                         boxShadow: "0 4px 15px rgba(0,0,0,0.4)",
                         border: "1px solid rgba(255,255,255,0.1)"
                       }}
@@ -154,36 +147,35 @@ export function Map() {
             </LoadScript>
           </div>
 
-          {/* LISTADO TIPO GLASS IPHONE */}
           <aside
             ref={asideRef}
             className="
               w-full h-full
               bg-white/60 backdrop-blur-[20px]
               border border-white/40
-              rounded-[2.5rem]
-              p-6 md:p-8
+              rounded-[1.8rem] md:rounded-[2.5rem]
+              p-4 md:p-8
               text-blue-900
               shadow-2xl
               flex flex-col
               ring-1 ring-white/10
             "
           >
-            <h3 className="text-xl font-bold mb-4">
+            <h3 className="text-base md:text-xl font-bold mb-3 md:mb-4">
               Listado de Barrios
             </h3>
 
-            <ul className="flex flex-col gap-1.5 md:gap-2">
+            <ul className="flex flex-col gap-1 md:gap-2">
               {barrios.map((barrio, i) => (
                 <li
                   key={i}
-                  className="map-list-item flex items-center gap-3 cursor-pointer"
+                  className="map-list-item flex items-center gap-2 md:gap-3 cursor-pointer"
                 >
                   <span
-                    className="w-3.5 h-3.5 rounded-full border border-blue-900/10"
+                    className="w-3 h-3 md:w-3.5 md:h-3.5 rounded-full border border-blue-900/10"
                     style={{ backgroundColor: barrio.color }}
                   />
-                  <span className="font-medium text-xs md:text-sm text-blue-900/90">
+                  <span className="font-medium text-[10px] md:text-sm text-blue-900/90">
                     {barrio.nombre}
                   </span>
                 </li>
