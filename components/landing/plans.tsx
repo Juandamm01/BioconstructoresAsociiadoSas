@@ -19,7 +19,6 @@ export function Plans() {
     const isMobile = window.innerWidth < 768;
 
     if (isMobile) {
-      // Móvil: Asegurar que inician visibles y rebotan arriba
       items.forEach((item) => {
         gsap.fromTo(
           item,
@@ -39,7 +38,6 @@ export function Plans() {
         );
       });
     } else {
-      // Desktop: Ensamblaje Magnético 3D (Animación al Scrollear Mágica)
       items.forEach((item) => {
         gsap.set(item, {
           opacity: 0,
@@ -96,42 +94,40 @@ export function Plans() {
   return (
     <section
       ref={containerRef}
-      // Altura de pantalla para el pin, empujado hacia abajo para no chocar con el navbar
-      className="relative h-screen z-50 bg-linear-to-b from-blue-950 from-0% to-white to-45% 
-      overflow-hidden px-4 md:px-10 pt-20 md:pt-32 flex flex-col items-center justify-center font-poppins"
+      className="relative min-h-screen z-50 bg-linear-to-b from-blue-950 from-0% to-white to-45% 
+      overflow-hidden px-3 md:px-10 pt-16 md:pt-32 flex flex-col items-center justify-center font-poppins"
     >
       <div
         ref={gridRef}
-        // Configuración Extra Horizontal: 6 columnas para máximo ancho y mínima altura
-        className="w-full max-w-7xl flex flex-col md:grid md:grid-cols-6 md:grid-rows-2 gap-4 md:gap-6 relative z-10"
+        className="w-full max-w-6xl grid grid-cols-2 md:grid-cols-6 auto-rows-[120px] md:auto-rows-[200px] gap-2 md:gap-6 relative z-10"
       >
         {/* ── TARJETA 1 (HERO/LÍDER) ── */}
-        <div className="bento-item md:col-span-3 md:row-span-1 group relative overflow-hidden bg-white/20 backdrop-blur-md border border-blue-100/30 p-4 md:p-6 rounded-[2rem] shadow-xl flex flex-row items-center gap-6">
+        <div className="bento-item col-span-2 md:col-span-3 group relative overflow-hidden bg-white/20 backdrop-blur-md border border-blue-100/30 p-2 md:p-6 rounded-[1.3rem] md:rounded-[2rem] shadow-xl flex flex-row items-center gap-3 md:gap-6">
           <div className="absolute inset-0 bg-linear-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           <Image
             src="/images/bcas-logo.png"
             alt="BCAS Logo"
             width={48}
             height={48}
-            className="bcas-logo-main w-10 md:w-12 drop-shadow-md"
+            className="bcas-logo-main w-7 md:w-12 drop-shadow-md"
             priority
           />
           <div>
-            <h2 className="text-xl md:text-2xl font-bold font-poppins text-blue-950 leading-tight tracking-tight">
+            <h2 className="text-base md:text-2xl font-bold font-poppins text-blue-950 leading-tight tracking-tight">
               Nuestros <span className="text-blue-950">Planes</span>
             </h2>
-            <p className="mt-1 text-blue-950 text-xs md:text-sm font-light leading-snug">
+            <p className="mt-1 text-blue-950 text-[10px] md:text-sm font-light leading-snug">
               Fibra óptica hiper veloz para tu hogar y negocio.
             </p>
           </div>
         </div>
 
         {/* ── TARJETA 2 (HORARIOS) ── */}
-        <div className="bento-item md:col-span-3 md:row-span-1 bg-white/20 backdrop-blur-md border border-blue-100/30 p-4 md:p-6 rounded-[2rem] shadow-lg flex flex-col justify-center">
-          <h3 className="text-lg font-bold text-blue-950 mb-3 flex items-center gap-2">
-            <span className="bg-blue-100/50 text-blue-950 p-1.5 rounded-md text-sm">🕒</span> Horarios de Atención
+        <div className="bento-item col-span-2 md:col-span-3 bg-white/20 backdrop-blur-md border border-blue-100/30 p-2 md:p-6 rounded-[1.3rem] md:rounded-[2rem] shadow-lg flex flex-col justify-center">
+          <h3 className="text-xs md:text-lg font-bold text-blue-950 mb-1 md:mb-3 flex items-center gap-2">
+            <span className="bg-blue-100/50 text-blue-950 p-1 rounded-md text-[10px] md:text-sm">🕒</span> Horarios de Atención
           </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1.5 text-xs md:text-sm text-blue-950">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-3 md:gap-x-6 gap-y-1 text-[10px] md:text-sm text-blue-950">
             <div className="flex justify-between border-b border-blue-950/10 pb-1">
               <span className="font-semibold text-blue-950">Lun - Vie</span>
               <span>8am - 12pm / 2pm - 5pm</span>
@@ -147,67 +143,61 @@ export function Plans() {
           </div>
         </div>
 
-        {/* ── CARRUSEL MOVILES Y ENCABEZES DESKTOP ── */}
-        {/* IMPORTANTE: En móvil es horizontal para AHORRAR espacio vertical gigante. En PC es Grid. */}
-        <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-6 w-[100vw] ml-[-1rem] px-[1rem] md:w-auto md:ml-0 md:px-0 md:pb-0 md:contents hide-scrollbar">
+        {/* ── ZONA 2 (La Nohora) ── */}
+        <div className="bento-item col-span-1 md:col-span-2 bg-white/20 backdrop-blur-md border border-blue-100/30 p-1.5 md:p-5 rounded-[1.3rem] md:rounded-[2rem] shadow-lg text-blue-950 flex flex-col justify-center">
+          <h4 className="font-bold text-[9px] md:text-sm leading-tight mb-1">La Nohora y San Luis</h4>
+          <p className="text-blue-950 font-bold mb-1 text-[9px] md:text-xs">Susc.: $89.000</p>
+          <ul className="space-y-0.5 text-[9px] md:text-xs text-blue-950">
+            <li className="flex justify-between">
+              <span>50MB +1TV</span> <span className="font-bold text-blue-950">$68K</span>
+            </li>
+            <li className="flex justify-between">
+              <span>100MB +2TV</span> <span className="font-bold text-blue-950">$95K</span>
+            </li>
+            <li className="flex justify-between">
+              <span>200MB +2TV</span> <span className="font-bold text-blue-950">$105K</span>
+            </li>
+          </ul>
+        </div>
 
-          {/* ── ZONA 2 (La Nohora) ── */}
-          <div className="bento-item shrink-0 snap-center w-[85vw] md:w-auto md:col-span-2 md:row-span-1 bg-white/20 backdrop-blur-md border border-blue-100/30 p-4 md:p-5 rounded-[2rem] shadow-lg text-blue-950 flex flex-col justify-center">
-            <h4 className="font-bold text-sm leading-tight mb-2">La Nohora y San Luis</h4>
-            <p className="text-blue-950 font-bold mb-3 text-xs">Susc.: $89.000</p>
-            <ul className="space-y-1.5 text-xs text-blue-950">
-              <li className="flex justify-between border-b border-blue-950/5 pb-0.5">
-                <span>50MB +1TV</span> <span className="font-bold text-blue-950">$68K</span>
+        {/* ── ZONA 3 (La Zuria) ── */}
+        <div className="bento-item col-span-1 md:col-span-2 bg-white/20 backdrop-blur-md border border-blue-100/30 p-1.5 md:p-5 rounded-[1.3rem] md:rounded-[2rem] shadow-lg text-blue-950 flex flex-col justify-center">
+          <h4 className="font-bold text-[9px] md:text-sm leading-tight mb-1 text-blue-950">La Zuria</h4>
+          <p className="text-blue-950 font-bold mb-1 text-[9px] md:text-xs">Susc.: $89.000</p>
+          <ul className="space-y-0.5 text-[9px] md:text-xs text-blue-950">
+            <li className="flex justify-between">
+              <span>50MB +1TV</span> <span className="font-bold text-blue-950">$105K</span>
+            </li>
+            <li className="flex justify-between">
+              <span>25MB +1TV</span> <span className="font-bold text-blue-950">$85K</span>
+            </li>
+            <li className="flex justify-between">
+              <span>25MB Solo</span> <span className="font-bold text-blue-950">$75K</span>
+            </li>
+          </ul>
+        </div>
+
+        {/* ── ZONA 1 (Premium - Mesetas) ── */}
+        <div className="bento-item col-span-2 md:col-span-2 bg-white/20 backdrop-blur-md border border-blue-100/30 text-blue-950 p-1.5 md:p-5 rounded-[1.3rem] md:rounded-[2rem] shadow-xl flex flex-col justify-center">
+          <div className="space-y-1.5 md:space-y-3">
+            <h4 className="font-bold text-[9px] md:text-base leading-tight">
+              Mesetas, El Triángulo, La Sultana, Rondinella, 12 de Octubre
+            </h4>
+            <p className="inline-block bg-blue-100 text-blue-950 text-[9px] md:text-xs font-bold px-2 py-0.5 rounded-full">
+              $99.000 Susc.
+            </p>
+            <ul className="space-y-0.5 text-[9px] md:text-xs">
+              <li className="flex justify-between">
+                <span>50 MB - $68K</span> <span className="text-blue-950 font-bold">+1 TV</span>
               </li>
-              <li className="flex justify-between border-b border-blue-950/5 pb-0.5">
-                <span>100MB +2TV</span> <span className="font-bold text-blue-950">$95K</span>
+              <li className="flex justify-between">
+                <span>100 MB - $95K</span> <span className="text-blue-950 font-bold">+2 TV</span>
               </li>
-              <li className="flex justify-between text-blue-950">
-                <span>200MB +2TV</span> <span className="font-bold text-blue-950">$105K</span>
+              <li className="flex justify-between">
+                <span>200 MB - $105K</span> <span className="text-blue-950 font-bold">+2 TV</span>
               </li>
             </ul>
           </div>
-
-          {/* ── ZONA 3 (La Zuria) ── */}
-          <div className="bento-item shrink-0 snap-center w-[85vw] md:w-auto md:col-span-2 md:row-span-1 bg-white/20 backdrop-blur-md border border-blue-100/30 p-4 md:p-5 rounded-[2rem] shadow-lg text-blue-950 flex flex-col justify-center">
-            <h4 className="font-bold text-sm leading-tight mb-2 text-blue-950">La Zuria</h4>
-            <p className="text-blue-950 font-bold mb-3 text-xs">Susc.: $89.000</p>
-            <ul className="space-y-1.5 text-xs text-blue-950">
-              <li className="flex justify-between border-b border-blue-950/5 pb-0.5">
-                <span>50MB +1TV</span> <span className="font-bold text-blue-950">$105K</span>
-              </li>
-              <li className="flex justify-between border-b border-blue-950/5 pb-0.5">
-                <span>25MB +1TV</span> <span className="font-bold text-blue-950">$85K</span>
-              </li>
-              <li className="flex justify-between text-blue-950">
-                <span>25MB Solo</span> <span className="font-bold text-blue-950">$75K</span>
-              </li>
-            </ul>
-          </div>
-
-          {/* ── ZONA 1 (Premium - Mesetas) ── */}
-          <div className="bento-item shrink-0 snap-center w-[85vw] md:w-auto md:col-span-2 md:row-span-1 bg-white/20 backdrop-blur-md border border-blue-100/30 text-blue-950 p-4 md:p-5 rounded-[2rem] shadow-xl flex flex-col justify-center">
-            <div className="space-y-3">
-              <h4 className="font-bold text-sm md:text-base leading-tight">
-                Mesetas, El Triángulo, La Sultana, Rondinella, 12 de Octubre
-              </h4>
-              <p className="inline-block bg-blue-100 text-blue-950 text-[10px] md:text-xs font-bold px-2 py-0.5 rounded-full">
-                $99.000 Susc.
-              </p>
-              <ul className="space-y-1.5 text-xs">
-                <li className="flex justify-between border-b border-blue-950/5 pb-1">
-                  <span>50 MB - $68K</span> <span className="text-blue-950 font-bold">+1 TV</span>
-                </li>
-                <li className="flex justify-between border-b border-blue-950/5 pb-1">
-                  <span>100 MB - $95K</span> <span className="text-blue-950 font-bold">+2 TV</span>
-                </li>
-                <li className="flex justify-between text-blue-950">
-                  <span>200 MB - $105K</span> <span className="text-blue-950 font-bold">+2 TV</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-
         </div>
 
       </div>
