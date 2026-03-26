@@ -1,0 +1,18 @@
+generator client {
+  provider   = "prisma-client-js"
+  engineType = "binary"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Barrio {
+  id     Int    @id @default(autoincrement())
+  nombre String
+  lat    Float
+  lng    Float
+  color  String
+  radio  Int
+}
