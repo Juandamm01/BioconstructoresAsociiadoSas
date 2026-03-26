@@ -160,26 +160,7 @@ export default function AdminPage() {
               Iniciar Sesión
             </motion.button>
 
-            <div className="form-elem relative flex items-center py-1">
-              <div className="flex-grow border-t border-blue-950/10"></div>
-              <span className="flex-shrink-0 mx-3 text-blue-950/50 text-[10px] font-semibold">O</span>
-              <div className="flex-grow border-t border-blue-950/10"></div>
-            </div>
-
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              type="button"
-              className="form-elem w-full py-2 text-sm border border-blue-950/20 text-blue-950 rounded-md flex justify-center items-center gap-2 hover:bg-gray-50 transition-colors font-semibold"
-            >
-              <img src="/images/bcas-logo.png" alt="Google" className="w-4 h-4 object-contain" />
-              Google
-            </motion.button>
           </form>
-
-          <p className="form-elem text-center text-xs text-blue-950/80 pt-1">
-            ¿Aún no tienes una cuenta? <Link href="#" className="text-blue-950 font-semibold hover:underline">Regístrate</Link>
-          </p>
         </div>
       </div>
       </div>
