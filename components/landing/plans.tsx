@@ -69,9 +69,10 @@ export function Plans() {
         x: 0,
         y: 0,
         scale: 1,
+        duration: 1.5,
         ease: "power3.out",
         stagger: {
-          amount: 0.4,
+          amount: 0.8,
           from: "center",
         },
       });
@@ -93,6 +94,7 @@ export function Plans() {
 
   return (
     <section
+      id="plans"
       ref={containerRef}
       className="relative min-h-screen z-50 bg-linear-to-b from-blue-950 from-0% to-white to-45% 
       overflow-hidden px-3 md:px-10 pt-16 md:pt-32 flex flex-col items-center justify-center font-poppins"

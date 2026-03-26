@@ -1,7 +1,7 @@
 "use client";
 
 import { GoogleMap, LoadScript, Circle, InfoWindow } from "@react-google-maps/api";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -10,22 +10,22 @@ gsap.registerPlugin(ScrollTrigger);
 
 const center = { lat: 4.142868, lng: -73.650565 };
 
-const barrios = [
-  { nombre: "La Azotea", coords: { lat: 4.142868, lng: -73.650565 }, color: "#DC2626", radio: 300 },
-  { nombre: "Mesetas Bajas", coords: { lat: 4.145460, lng: -73.655689 }, color: "#2563EB", radio: 350 },
-  { nombre: "Mesetas - La Sultana - El Triángulo - San Francisco - Mesetas Alto", coords: { lat: 4.151987, lng: -73.657689 }, color: "#F59E0B", radio: 400 },
-  { nombre: "Rondinella", coords: { lat: 4.156844, lng: -73.660360 }, color: "#10B981", radio: 300 },
-  { nombre: "Galán", coords: { lat: 4.155597, lng: -73.657949 }, color: "#9333EA", radio: 250 },
-  { nombre: "La Nohora", coords: { lat: 4.079677, lng: -73.696592 }, color: "#14B8A6", radio: 450 },
-  { nombre: "San Luis de Ocoa Bajo", coords: { lat: 4.078900, lng: -73.704115 }, color: "#F43F5E", radio: 400 },
-  { nombre: "Quintas de la Suria", coords: { lat: 4.082271, lng: -73.640960 }, color: "#64748B", radio: 350 },
-];
-
 export function Map() {
-  const [hoverBarrio, setHoverBarrio] = useState<null | typeof barrios[0]>(null);
+  const [barrios, setBarrios] = useState<any[]>([]);
+  const [hoverBarrio, setHoverBarrio] = useState<any>(null);
+
   const sectionRef = useRef<HTMLDivElement>(null);
   const mapBoxRef = useRef<HTMLDivElement>(null);
   const asideRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    fetch("/api/barrios")
+      .then(res => res.json())
+      .then(data => {
+        console.log("Barrios desde API:", data);
+        setBarrios(data);
+      });
+  }, []);
 
   useGSAP(() => {
     const section = sectionRef.current;
@@ -71,36 +71,22 @@ export function Map() {
 
   return (
     <section
+      id="contact"
       ref={sectionRef}
-      className="
-        relative
-        flex flex-col items-center justify-center
-        min-h-screen font-poppins
-        px-4 md:px-12 pt-24 md:pt-32 pb-16 gap-5 md:gap-6
-        bg-linear-to-b from-white via-white to-blue-950
-      "
+      className="relative flex flex-col items-center justify-center min-h-screen font-poppins px-4 md:px-12 pt-24 md:pt-32 pb-16 gap-5 md:gap-6 bg-linear-to-b from-white via-white to-blue-950"
     >
       <div className="relative w-full max-w-5xl flex flex-col gap-5">
-        <h2
-          className="
-            map-title text-center text-2xl md:text-5xl font-poppins font-black uppercase tracking-tight 
-            bg-linear-to-b from-blue-950 via-blue-900 to-white/0 bg-clip-text text-transparent opacity-0
-          "
-        >
+        
+        <h2 className="map-title text-center text-2xl md:text-5xl font-black uppercase tracking-tight bg-linear-to-b from-blue-950 via-blue-900 to-white/0 bg-clip-text text-transparent opacity-0">
           Sectores donde estamos presentes
         </h2>
 
         <div className="flex flex-col md:grid md:grid-cols-[1.2fr_0.8fr] gap-4 md:gap-10 items-start">
 
+          {/* MAPA */}
           <div
             ref={mapBoxRef}
-            className="
-              relative w-full h-[200px] md:h-[280px]
-              rounded-[1.5rem] md:rounded-[2rem] overflow-hidden
-              shadow-2xl
-              border border-blue-100
-              bg-white
-            "
+            className="relative w-full h-[200px] md:h-[280px] rounded-[1.5rem] md:rounded-[2rem] overflow-hidden shadow-2xl border border-blue-100 bg-white"
           >
             <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}>
               <GoogleMap
@@ -111,8 +97,8 @@ export function Map() {
                 {barrios.map((barrio, i) => (
                   <Circle
                     key={i}
-                    center={barrio.coords}
-                    radius={barrio.radio}
+                    center={{ lat: Number(barrio.lat), lng: Number(barrio.lng) }}
+                    radius={Number(barrio.radio)}
                     options={{
                       strokeColor: barrio.color,
                       strokeOpacity: 0.8,
@@ -126,19 +112,14 @@ export function Map() {
                 ))}
 
                 {hoverBarrio && (
-                  <InfoWindow position={hoverBarrio.coords}>
-                    <div
-                      style={{
-                        backgroundColor: "#030816",
-                        color: "#FFFFFF",
-                        fontWeight: "bold",
-                        fontSize: "12px",
-                        padding: "8px 12px",
-                        borderRadius: "10px",
-                        boxShadow: "0 4px 15px rgba(0,0,0,0.4)",
-                        border: "1px solid rgba(255,255,255,0.1)"
-                      }}
-                    >
+                  <InfoWindow position={{ lat: Number(hoverBarrio.lat), lng: Number(hoverBarrio.lng) }}>
+                    <div style={{
+                      backgroundColor: "#030816",
+                      color: "#fff",
+                      padding: "8px 12px",
+                      borderRadius: "10px",
+                      fontWeight: "bold",
+                    }}>
                       {hoverBarrio.nombre}
                     </div>
                   </InfoWindow>
@@ -147,41 +128,28 @@ export function Map() {
             </LoadScript>
           </div>
 
+          {/* LISTADO */}
           <aside
             ref={asideRef}
-            className="
-              w-full h-full
-              bg-white/60 backdrop-blur-[20px]
-              border border-white/40
-              rounded-[1.8rem] md:rounded-[2.5rem]
-              p-4 md:p-8
-              text-blue-900
-              shadow-2xl
-              flex flex-col
-              ring-1 ring-white/10
-            "
+            className="w-full bg-white/60 backdrop-blur rounded-[2rem] p-6 shadow-2xl"
           >
-            <h3 className="text-base md:text-xl font-bold mb-3 md:mb-4">
+            <h3 className="text-lg font-bold mb-4">
               Listado de Barrios
             </h3>
 
-            <ul className="flex flex-col gap-1 md:gap-2">
+            <ul className="flex flex-col gap-2">
               {barrios.map((barrio, i) => (
-                <li
-                  key={i}
-                  className="map-list-item flex items-center gap-2 md:gap-3 cursor-pointer"
-                >
+                <li key={i} className="map-list-item flex items-center gap-2">
                   <span
-                    className="w-3 h-3 md:w-3.5 md:h-3.5 rounded-full border border-blue-900/10"
+                    className="w-3 h-3 rounded-full"
                     style={{ backgroundColor: barrio.color }}
                   />
-                  <span className="font-medium text-[10px] md:text-sm text-blue-900/90">
-                    {barrio.nombre}
-                  </span>
+                  <span>{barrio.nombre}</span>
                 </li>
               ))}
             </ul>
           </aside>
+
         </div>
       </div>
     </section>

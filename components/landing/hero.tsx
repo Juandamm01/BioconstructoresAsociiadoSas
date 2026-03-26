@@ -2,7 +2,7 @@ import { Separator } from "@/components/ui/separator";
 
 export function Hero() {
   return (
-    <section className="relative min-h-screen pt-40 pb-20 overflow-hidden flex items-center justify-center text-center">
+    <section id="home" className="relative min-h-screen pt-40 pb-20 overflow-hidden flex items-center justify-center text-center">
       {/* Fondo fijo con video */}
       <video
         src="/videos/hero1.mp4"
