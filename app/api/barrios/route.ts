@@ -1,4 +1,6 @@
 import { prisma } from "@/lib/prisma";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
 export async function GET() {
   try {
@@ -14,24 +16,37 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
+    // ── Verificar sesión ──────────────────────────────────
+    const session = await auth.api.getSession({ headers: await headers() });
+    if (!session) {
+      return Response.json({ error: "No autorizado" }, { status: 401 });
+    }
+    // ─────────────────────────────────────────────────────
+
     const body = await req.json();
 
     if (!body.nombre) {
       return Response.json({ error: "Nombre requerido" }, { status: 400 });
     }
 
-    // Geocodificar barrio con Google Maps
-    const query = encodeURIComponent(`${body.nombre}, Villavicencio, Colombia`);
-    const res = await fetch(
-      `https://maps.googleapis.com/maps/api/geocode/json?address=${query}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`
-    );
-    const data = await res.json();
+    let finalLat = body.lat ? Number(body.lat) : undefined;
+    let finalLng = body.lng ? Number(body.lng) : undefined;
 
-    if (!data.results || data.results.length === 0) {
-      return Response.json({ error: "Barrio no encontrado" }, { status: 400 });
+    // Si no mandan coordenadas manuales, intentamos usar Google Maps
+    if (finalLat === undefined || finalLng === undefined || isNaN(finalLat) || isNaN(finalLng)) {
+      const query = encodeURIComponent(`${body.nombre}, Villavicencio, Colombia`);
+      const res = await fetch(
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${query}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`
+      );
+      const data = await res.json();
+
+      if (!data.results || data.results.length === 0) {
+        return Response.json({ error: "Barrio no encontrado por Google, introduce coordenadas manuales." }, { status: 400 });
+      }
+
+      finalLat = data.results[0].geometry.location.lat;
+      finalLng = data.results[0].geometry.location.lng;
     }
-
-    const location = data.results[0].geometry.location;
 
     // Verificar si ya existe
     const existe = await prisma.barrio.findFirst({
@@ -46,10 +61,10 @@ export async function POST(req: Request) {
     const nuevo = await prisma.barrio.create({
       data: {
         nombre: body.nombre,
-        lat: location.lat,
-        lng: location.lng,
-        color: body.color || "#2563EB",
-        radio: body.radio || 300,
+        lat: finalLat!,
+        lng: finalLng!,
+        color: body.color || "#2563eb", /* Blue default */
+        radio: body.radio ? Number(body.radio) : 350, /* Default radius 350 instead of 300 */
       },
     });
 
