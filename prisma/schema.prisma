@@ -66,3 +66,12 @@ model Verification {
   createdAt  DateTime?
   updatedAt  DateTime?
 }
+
+model HeroConfig {
+  id         Int      @id @default(1)
+  videoUrl   String   @default("/videos/hero1.mp4")
+  bienvenido String   @default("Bienvenido a")
+  empresa    String   @default("Bioconstructores Asociados Sas")
+  slogan     String   @default("Soluciones Innovadoras Para Un Mundo Conectado.")
+  updatedAt  DateTime @updatedAt
+}
