@@ -28,7 +28,7 @@ export function Map() {
   const asideRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    fetch("/api/barrios")
+    fetch("/api/barrios", { cache: "no-store" })
       .then(res => res.json())
       .then(data => {
         console.log("Barrios desde API:", data);
@@ -74,9 +74,12 @@ export function Map() {
     );
 
     return () => {
-      ScrollTrigger.getAll().forEach((st) => st.kill());
+      ScrollTrigger.getAll().filter(st => st.trigger === sectionRef.current).forEach(st => st.kill());
     };
   }, { scope: sectionRef });
+
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   return (
     <section
@@ -85,9 +88,9 @@ export function Map() {
       className="relative flex flex-col items-center justify-center min-h-screen font-poppins px-4 md:px-12 pt-24 md:pt-32 pb-16 gap-5 md:gap-6 bg-linear-to-b from-white via-white to-blue-950"
     >
       {/* Botón flotante Admin Sectores - solo visible si está logueado */}
-      {session && (
+      {mounted && session && (
         <Link
-          href="/admin-sectores"
+          href="/admin/admin-sectores"
           className="fixed bottom-6 right-6 z-50 flex items-center gap-2 px-4 py-2.5 bg-blue-950 text-white text-sm font-semibold rounded-full shadow-xl hover:bg-blue-800 hover:scale-105 transition-all duration-200"
         >
           <Settings2 size={16} />
