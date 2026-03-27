@@ -20,6 +20,7 @@ export default function AdminHeroPage() {
   const [formSuccess, setFormSuccess] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [fetching, setFetching] = useState(true);
+  const [uploading, setUploading] = useState(false);
 
   const fetchConfig = async () => {
     try {
@@ -77,6 +78,42 @@ export default function AdminHeroPage() {
       setFormError("Ocurrió un error inesperado al intentar actualizar.");
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("video/")) {
+      setFormError("Solo se permiten archivos de video.");
+      return;
+    }
+
+    setUploading(true);
+    setFormError("");
+    setFormSuccess("");
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        setFormError(data.error || "Error al cargar el video.");
+      } else {
+        setVideoUrl(data.url);
+        setFormSuccess("✓ Video cargado satisfactoriamente. Dale a 'Guardar Cambios' para aplicar.");
+      }
+    } catch (err) {
+      setFormError("Ocurrió un error al subir el video.");
+    } finally {
+      setUploading(false);
     }
   };
 
@@ -148,18 +185,51 @@ export default function AdminHeroPage() {
 
             {/* Video Config */}
             <div className="p-5 bg-blue-50/50 rounded-2xl space-y-4 border border-blue-100/50">
-              <h3 className="text-sm font-bold text-blue-950 flex items-center gap-2">
-                 <Video size={14} /> Fondo de Video
-              </h3>
-              <div>
-                <label className="text-xs font-semibold text-blue-950/70 mb-1.5 block">Ruta del video (URL o archivo local)</label>
-                <input
-                  value={videoUrl}
-                  onChange={e => setVideoUrl(e.target.value)}
-                  placeholder="/videos/hero1.mp4"
-                  className="w-full px-4 py-2.5 text-sm border border-blue-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-950 text-blue-950 bg-white"
-                />
-                <p className="text-[10px] text-blue-950/50 mt-1">Sugerencia: Usa videos en formato MP4 ligeros para mejor rendimiento.</p>
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-bold text-blue-950 flex items-center gap-2">
+                  <Video size={14} /> Fondo de Video
+                </h3>
+                {uploading && (
+                  <span className="text-[10px] text-blue-600 animate-pulse font-bold">Subiendo archivo...</span>
+                )}
+              </div>
+              
+              <div className="space-y-3">
+                <div className="flex flex-col md:flex-row gap-3">
+                  <div className="relative group flex-1">
+                    <input
+                      type="file"
+                      id="video-upload"
+                      accept="video/*"
+                      onChange={handleFileUpload}
+                      className="hidden"
+                    />
+                    <label
+                      htmlFor="video-upload"
+                      className="flex flex-col items-center justify-center border-2 border-dashed border-blue-200 rounded-xl p-6 bg-white cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition-all group-active:scale-[0.98]"
+                    >
+                      <Video className="text-blue-200 group-hover:text-blue-500 mb-2 transition-colors" size={24} />
+                      <span className="text-xs font-bold text-blue-900 group-hover:text-blue-600">
+                        {uploading ? "Cargando video..." : "Seleccionar video desde archivos"}
+                      </span>
+                      <p className="text-[9px] text-blue-900/40 mt-1 uppercase tracking-widest font-black">Compu o Galería</p>
+                    </label>
+                  </div>
+                  
+                  <div className="md:w-1/3 space-y-2">
+                    <label className="text-[10px] font-bold text-blue-950/70 uppercase">Ruta actual</label>
+                    <input
+                      value={videoUrl}
+                      onChange={e => setVideoUrl(e.target.value)}
+                      placeholder="/videos/hero1.mp4"
+                      className="w-full px-3 py-2.5 text-xs border border-blue-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-900 text-blue-950/60 bg-white/50"
+                    />
+                  </div>
+                </div>
+                
+                <p className="text-[10px] text-blue-950/50">
+                  <span className="font-bold">Nota:</span> Se recomienda usar videos MP4 menores a 10MB para que la web cargue rápido.
+                </p>
               </div>
             </div>
 
