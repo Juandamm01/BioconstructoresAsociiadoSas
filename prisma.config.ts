@@ -1,7 +1,7 @@
 // prisma.config.ts
 import dotenv from "dotenv";
 
-// 🔥 Forzar uso de .env.local
+// Forzar ese hp uso de .env.local
 dotenv.config({ path: ".env.local" });
 
 // Exportar la configuración como un objeto normal

@@ -1,6 +1,6 @@
 "use client";
 
-import { GoogleMap, LoadScript, Circle, InfoWindow } from "@react-google-maps/api";
+import { GoogleMap, Circle, InfoWindow, useJsApiLoader } from "@react-google-maps/api";
 import { useState, useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -14,6 +14,11 @@ gsap.registerPlugin(ScrollTrigger);
 const center = { lat: 4.142868, lng: -73.650565 };
 
 export function Map() {
+  const { isLoaded } = useJsApiLoader({
+    id: 'google-map-script',
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!
+  });
+
   const [barrios, setBarrios] = useState<any[]>([]);
   const [hoverBarrio, setHoverBarrio] = useState<any>(null);
   const { data: session } = authClient.useSession();
@@ -102,7 +107,7 @@ export function Map() {
             ref={mapBoxRef}
             className="relative w-full h-[200px] md:h-[280px] rounded-[1.5rem] md:rounded-[2rem] overflow-hidden shadow-2xl border border-blue-100 bg-white"
           >
-            <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}>
+            {isLoaded ? (
               <GoogleMap
                 mapContainerStyle={{ width: "100%", height: "100%" }}
                 center={center}
@@ -139,7 +144,11 @@ export function Map() {
                   </InfoWindow>
                 )}
               </GoogleMap>
-            </LoadScript>
+            ) : (
+              <div className="w-full h-full flex items-center justify-center bg-slate-50">
+                <div className="w-8 h-8 border-4 border-blue-950/20 border-t-blue-950 rounded-full animate-spin" />
+              </div>
+            )}
           </div>
 
           {/* LISTADO */}
