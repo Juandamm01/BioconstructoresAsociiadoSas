@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { FaFacebook, FaInstagram, FaWhatsapp, FaUserCircle } from "react-icons/fa";
+import { useRouter } from "next/navigation";
+import { FaFacebook, FaInstagram, FaWhatsapp, FaUserCircle, FaSignOutAlt } from "react-icons/fa";
 import {
   Navbar as AnimatedNavbar,
   NavBody,
@@ -13,10 +14,14 @@ import {
   MobileNavToggle,
   MobileNavMenu,
 } from "@/components/ui/resizable-navbar";
-import Image from "next/image";
+import { authClient } from "@/lib/auth-client";
 
 export function Navbar({ forceSolid = false }: { forceSolid?: boolean }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const router = useRouter();
+
+  // Hook de better-auth para saber si hay un usuario conectado
+  const { data: session } = authClient.useSession();
 
   const navItems = [
     { name: "Inicio", link: "/#home" },
@@ -26,8 +31,18 @@ export function Navbar({ forceSolid = false }: { forceSolid?: boolean }) {
     { name: "Portal Clientes", link: "https://avisos.wisphub.net/saldo/bcas-sas/" },
   ];
 
+  const handleLogout = async () => {
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          router.push("/admin");
+        },
+      },
+    });
+  };
+
   return (
-    <AnimatedNavbar className="z-9999" forceSolid={forceSolid}>
+    <AnimatedNavbar className="z-[9999]" forceSolid={forceSolid}>
       {/* Navbar Desktop */}
       <NavBody>
         <NavbarLogo />
@@ -66,13 +81,24 @@ export function Navbar({ forceSolid = false }: { forceSolid?: boolean }) {
             <FaWhatsapp className="size-5.5" />
           </Link>
 
-          {/* Admin favicon */}
-          <Link 
-            href="/admin"
-            className="transition-colors text-white hover:text-blue-950"
-          >
-            <FaUserCircle className="size-5.5" />
-          </Link>
+          {/* Admin auth render condicional */}
+          {session ? (
+            <button 
+              onClick={handleLogout}
+              title="Cerrar sesión"
+              className="transition-colors text-white hover:text-red-500 cursor-pointer"
+            >
+              <FaSignOutAlt className="size-5.5" />
+            </button>
+          ) : (
+            <Link 
+              href="/admin"
+              title="Ingreso Administrador"
+              className="transition-colors text-white hover:text-blue-950"
+            >
+              <FaUserCircle className="size-5.5" />
+            </Link>
+          )}
         </div>
       </NavBody>
 
@@ -118,17 +144,27 @@ export function Navbar({ forceSolid = false }: { forceSolid?: boolean }) {
             </a>
           ))}
 
-          {/* Botones móviles */}
+          {/* Botones móviles condicionales */}
           <div className="flex w-full flex-col gap-4 mt-4">
-            <Link href="/login" className="w-full text-center px-4 py-2 bg-blue-950 text-white rounded">
-              Login
-            </Link>
-            <Link href="/book" className="w-full text-center px-4 py-2 bg-blue-950 text-white rounded">
-              Book a call
-            </Link>
-            <Link href="/admin" className="w-full text-center px-4 py-2 bg-blue-950 text-white rounded">
-              Admin
-            </Link>
+            {session ? (
+              <button 
+                onClick={() => {
+                  handleLogout();
+                  setIsMobileMenuOpen(false);
+                }} 
+                className="w-full text-center px-4 py-2 bg-red-600 text-white rounded font-bold"
+              >
+                Cerrar sesión ({session.user.name})
+              </button>
+            ) : (
+              <Link 
+                href="/admin" 
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="w-full text-center px-4 py-2 bg-blue-950 text-white rounded"
+              >
+                Admin
+              </Link>
+            )}
           </div>
         </MobileNavMenu>
       </MobileNav>
