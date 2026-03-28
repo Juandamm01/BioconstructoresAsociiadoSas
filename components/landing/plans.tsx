@@ -125,7 +125,7 @@ export function Plans() {
       id="plans"
       ref={containerRef}
       className="relative min-h-screen z-50 bg-linear-to-b from-blue-950 from-0% to-white to-45% 
-      overflow-hidden px-3 md:px-10 pt-16 md:pt-32 flex flex-col items-center justify-center font-poppins"
+      overflow-hidden px-3 md:px-10 pt-12 md:pt-24 flex flex-col items-center justify-center font-poppins"
     >
       {/* Botón rápido Admin */}
       {mounted && session && (
@@ -140,10 +140,10 @@ export function Plans() {
 
       <div
         ref={gridRef}
-        className="w-full max-w-6xl grid grid-cols-2 md:grid-cols-6 auto-rows-[120px] md:auto-rows-[200px] gap-2 md:gap-6 relative z-10"
+        className="w-full max-w-6xl grid grid-cols-2 md:grid-cols-6 auto-rows-[100px] md:auto-rows-[160px] gap-3 md:gap-5 relative z-10"
       >
         {/* ── TARJETA 1 (HERO/LÍDER) ── */}
-        <div className="bento-item col-span-2 md:col-span-3 group relative overflow-hidden bg-white/20 backdrop-blur-md border border-blue-100/30 p-2 md:p-6 rounded-[1.3rem] md:rounded-[2rem] shadow-xl flex flex-row items-center gap-3 md:gap-6">
+        <div className="bento-item col-span-2 md:col-span-3 group relative overflow-hidden bg-white/20 backdrop-blur-md border border-blue-100/30 p-2 md:p-5 rounded-[1.3rem] md:rounded-[2rem] shadow-xl flex flex-row items-center gap-3 md:gap-6">
           <div className="absolute inset-0 bg-linear-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           <Image
             src="/images/bcas-logo.png"
@@ -164,7 +164,7 @@ export function Plans() {
         </div>
 
         {/* ── TARJETA 2 (HORARIOS) ── */}
-        <div className="bento-item col-span-2 md:col-span-3 bg-white/20 backdrop-blur-md border border-blue-100/30 p-2 md:p-6 rounded-[1.3rem] md:rounded-[2rem] shadow-lg flex flex-col justify-center">
+        <div className="bento-item col-span-2 md:col-span-3 bg-white/20 backdrop-blur-md border border-blue-100/30 p-2 md:p-5 rounded-[1.3rem] md:rounded-[2rem] shadow-lg flex flex-col justify-center">
           <h3 className="text-xs md:text-lg font-bold text-blue-950 mb-1 md:mb-3 flex items-center gap-2">
             <span className="bg-blue-100/50 text-blue-950 p-1 rounded-md text-[10px] md:text-sm">🕒</span> Horarios de Atención
           </h3>
@@ -186,7 +186,7 @@ export function Plans() {
 
         {/* ── GRUPOS DE PRECIOS DINÁMICOS ── */}
         {groups.map((group, i) => (
-          <div key={i} className={`bento-item ${group.isPremium ? 'col-span-2 md:col-span-2 shadow-xl' : 'col-span-1 md:col-span-2 shadow-lg'} bg-white/20 backdrop-blur-md border border-blue-100/30 p-1.5 md:p-5 rounded-[1.3rem] md:rounded-[2rem] text-blue-950 flex flex-col justify-center`}>
+          <div key={i} className={`bento-item ${group.isPremium ? 'col-span-2 md:col-span-2 shadow-xl' : 'col-span-1 md:col-span-2 shadow-lg'} bg-white/20 backdrop-blur-md border border-blue-100/30 p-1.5 md:p-4 rounded-[1.3rem] md:rounded-[2rem] text-blue-950 flex flex-col justify-center`}>
             {group.isPremium ? (
               <div className="space-y-1.5 md:space-y-3">
                 <h4 className="font-bold text-[9px] md:text-base leading-tight">{group.title}</h4>
