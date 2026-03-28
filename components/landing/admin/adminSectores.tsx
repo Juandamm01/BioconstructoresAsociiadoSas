@@ -145,19 +145,19 @@ export default function AdminSectoresPage() {
         </div>
       </header>
 
-      <div className="max-w-5xl mx-auto px-3 md:px-4 py-4 md:py-8 grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] gap-4 md:gap-6">
+      <div className="w-[95%] max-w-[320px] lg:max-w-4xl mx-auto px-2 md:px-4 py-4 md:py-8 grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] gap-4 md:gap-5">
         {/* Formulario añadir */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="bg-white rounded-xl md:rounded-2xl shadow-md border border-blue-100 p-4 md:p-6"
+          className="bg-white rounded-xl md:rounded-[1.5rem] shadow-md border border-blue-50 p-3 md:p-5"
         >
-          <div className="flex items-center gap-2 mb-5">
-            <div className="w-8 h-8 bg-blue-950 rounded-lg flex items-center justify-center">
-              <Plus size={16} className="text-white" />
+          <div className="flex items-center gap-2 mb-4">
+            <div className="w-7 h-7 bg-blue-950 rounded-lg flex items-center justify-center">
+              <Plus size={14} className="text-white" />
             </div>
-            <h2 className="font-bold text-blue-950 text-sm md:text-lg">Añadir Sector</h2>
+            <h2 className="font-bold text-blue-950 text-sm md:text-base">Añadir Sector</h2>
           </div>
 
           <form onSubmit={handleAdd} className="space-y-3">
@@ -173,12 +173,12 @@ export default function AdminSectoresPage() {
             )}
 
             <div>
-              <label className="text-xs font-semibold text-blue-950/70 mb-1 block">Nombre del sector *</label>
+              <label className="text-[11px] md:text-xs font-semibold text-blue-950/70 mb-1 block">Nombre del sector *</label>
               <input
                 value={nombre}
                 onChange={e => setNombre(e.target.value)}
                 placeholder="Ej: Mesetas Bajas"
-                className="w-full px-3 py-2 text-sm border border-blue-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-950 text-blue-950 placeholder-blue-950/30"
+                className="w-full px-3 py-1.5 md:py-2 text-[11px] md:text-sm border border-blue-50 bg-slate-50 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-950 text-blue-950 placeholder-blue-950/30"
               />
             </div>
 
@@ -246,7 +246,7 @@ export default function AdminSectoresPage() {
               whileTap={{ scale: 0.98 }}
               type="submit"
               disabled={submitting}
-              className="w-full py-2.5 bg-blue-950 text-white rounded-lg text-sm font-semibold flex items-center justify-center gap-2 disabled:opacity-60 hover:bg-blue-900 transition-colors"
+              className="w-full py-2 bg-blue-950 text-white rounded-lg text-xs md:text-sm font-semibold flex items-center justify-center gap-2 disabled:opacity-60 hover:bg-blue-900 transition-colors"
             >
               <Plus size={15} />
               {submitting ? "Añadiendo..." : "Añadir Sector al Mapa"}
@@ -259,16 +259,16 @@ export default function AdminSectoresPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="bg-white rounded-xl md:rounded-2xl shadow-md border border-blue-100 p-4 md:p-6"
+          className="bg-white rounded-xl md:rounded-[1.5rem] shadow-md border border-blue-50 p-3 md:p-5"
         >
-          <div className="flex items-center justify-between mb-5">
+          <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-blue-950 rounded-lg flex items-center justify-center">
-                <MapPin size={16} className="text-white" />
+              <div className="w-7 h-7 bg-blue-950 rounded-lg flex items-center justify-center">
+                <MapPin size={14} className="text-white" />
               </div>
-              <h2 className="font-bold text-blue-950 text-sm md:text-lg">Sectores Activos</h2>
+              <h2 className="font-bold text-blue-950 text-sm md:text-base">Sectores Activos</h2>
             </div>
-            <span className="bg-blue-100 text-blue-950 text-xs font-bold px-2.5 py-1 rounded-full">
+            <span className="bg-blue-100 text-blue-950 text-[10px] md:text-xs font-bold px-2.5 py-1 rounded-full">
               {barrios.length} registros
             </span>
           </div>
@@ -282,7 +282,7 @@ export default function AdminSectoresPage() {
           ) : barrios.length === 0 ? (
             <p className="text-center text-blue-950/40 text-sm py-10">No hay sectores registrados aún.</p>
           ) : (
-            <ul className="space-y-2 max-h-[460px] overflow-y-auto pr-1">
+            <ul className="space-y-1.5 md:space-y-2 max-h-[250px] md:max-h-[320px] overflow-y-auto pr-1">
               <AnimatePresence>
                 {barrios.map(b => (
                   <motion.li

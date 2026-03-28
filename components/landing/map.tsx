@@ -97,9 +97,9 @@ export function Map() {
           Gestionar Sectores
         </Link>
       )}
-      <div className="relative w-full max-w-5xl flex flex-col gap-3 md:gap-5">
+      <div className="relative w-[95%] max-w-[300px] md:max-w-4xl flex flex-col gap-3 md:gap-4">
         
-        <h2 className="map-title text-center text-lg md:text-5xl font-black uppercase tracking-tight bg-linear-to-b from-blue-950 via-blue-900 to-white/0 bg-clip-text text-transparent opacity-0">
+        <h2 className="map-title text-center text-base md:text-4xl font-black uppercase tracking-tight bg-gradient-to-b from-blue-950 via-blue-900 to-white/0 bg-clip-text text-transparent opacity-0">
           Sectores donde estamos presentes
         </h2>
 
@@ -108,7 +108,7 @@ export function Map() {
           {/* MAPA */}
           <div
             ref={mapBoxRef}
-            className="relative w-full h-[150px] md:h-[280px] rounded-xl md:rounded-[2rem] overflow-hidden shadow-2xl border border-blue-100 bg-white"
+            className="relative w-full h-[160px] md:h-[260px] rounded-xl md:rounded-[1.5rem] overflow-hidden shadow-2xl border border-blue-100 bg-white"
           >
             {isLoaded ? (
               <GoogleMap
@@ -157,18 +157,18 @@ export function Map() {
           {/* LISTADO */}
           <aside
             ref={asideRef}
-            className="w-full bg-white/60 backdrop-blur rounded-lg md:rounded-[2rem] p-2.5 md:p-6 shadow-2xl"
+            className="w-full bg-white/60 backdrop-blur rounded-lg md:rounded-[1.5rem] p-3 md:p-5 shadow-xl border border-blue-50"
           >
-            <h3 className="text-xs md:text-lg font-bold mb-1.5 md:mb-4 text-blue-950 font-[family-name:var(--font-poppins)]">Listado de Barrios</h3>
+            <h3 className="text-[11px] md:text-base font-bold mb-2 md:mb-3 text-blue-950 font-[family-name:var(--font-poppins)]">Listado de Barrios</h3>
 
-            <ul className="flex flex-col gap-1 md:gap-2">
+            <ul className="flex flex-col gap-1 md:gap-1.5 max-h-[120px] md:max-h-[200px] overflow-y-auto pr-2">
               {barrios.map((barrio, i) => (
                 <li key={i} className="map-list-item flex items-center gap-1.5 md:gap-2">
                   <span
-                    className="w-2 h-2 md:w-3 md:h-3 rounded-full flex-shrink-0"
+                    className="w-1.5 h-1.5 md:w-2.5 md:h-2.5 rounded-full flex-shrink-0"
                     style={{ backgroundColor: barrio.color }}
                   />
-                  <span className="text-gray-900 text-[11px] md:text-base font-medium font-[family-name:var(--font-poppins)] leading-tight">{barrio.nombre}</span>
+                  <span className="text-gray-900 text-[10px] md:text-sm font-medium font-[family-name:var(--font-poppins)] leading-tight">{barrio.nombre}</span>
                 </li>
               ))}
             </ul>
