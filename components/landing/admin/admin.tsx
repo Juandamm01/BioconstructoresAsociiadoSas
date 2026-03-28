@@ -160,7 +160,7 @@ export default function AdminPage() {
             </div>
           </div>
           
-          <div className="absolute inset-0 bg-blue-950/20 mix-blend-overlay pointer-events-none border-r border-white/5 shadow-[inset_-20px_0_50px_rgba(0,0,0,0.5)]"></div>
+          <div className="absolute inset-0 bg-white-950/20 mix-blend-overlay pointer-events-none border-r border-white/5 shadow-[inset_-20px_0_50px_rgba(0,0,0,0.5)]"></div>
         </div>
 
         {/* Panel Derecho */}

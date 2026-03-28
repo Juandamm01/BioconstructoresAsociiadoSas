@@ -107,35 +107,35 @@ export default function AdminPlansPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 font-[family-name:var(--font-poppins)] pb-12">
-      <header className="bg-blue-950 text-white px-4 py-3 flex items-center justify-between shadow-lg sticky top-0 z-50">
+      <header className="bg-blue-950 text-white px-3 md:px-4 py-2.5 md:py-3 flex flex-wrap items-center justify-between gap-2 shadow-lg sticky top-0 z-50">
         <div className="flex items-center gap-3">
           <img src="/images/bcas-logo.png" alt="BCAS" className="h-8 w-auto" />
           <div>
-            <h1 className="font-bold text-lg leading-none">Gestión de Planes</h1>
+            <h1 className="font-bold text-sm md:text-lg leading-none">Gestión de Planes</h1>
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <button onClick={goToPlans} className="flex items-center gap-1.5 text-xs px-3 py-1.5 bg-blue-800 hover:bg-blue-700 rounded-md transition-colors">
+          <button onClick={goToPlans} className="flex items-center gap-1 text-[10px] md:text-xs px-2 md:px-3 py-1.5 bg-blue-800 hover:bg-blue-700 rounded-md transition-colors">
             <ArrowLeft size={12} /> Ver Planes
           </button>
-          <button onClick={handleSave} disabled={saving} className="flex items-center gap-1.5 text-xs px-4 py-1.5 bg-green-600 hover:bg-green-500 font-bold rounded-md transition-colors disabled:opacity-70">
+          <button onClick={handleSave} disabled={saving} className="flex items-center gap-1 text-[10px] md:text-xs px-2 md:px-4 py-1.5 bg-green-600 hover:bg-green-500 font-bold rounded-md transition-colors disabled:opacity-70">
             {saving ? <div className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <Save size={14} />}
             Guardar Cambios
           </button>
         </div>
       </header>
 
-      <div className="max-w-5xl mx-auto px-4 py-5 space-y-5">
+      <div className="max-w-4xl mx-auto px-4 md:px-8 py-6 md:py-10 space-y-6 md:space-y-8">
         {(error || success) && (
-          <div className={`p-4 rounded-xl flex items-center gap-3 ${error ? 'bg-red-50 text-red-700 border border-red-200' : 'bg-green-50 text-green-700 border border-green-200'}`}>
+          <div className={`p-3 rounded-xl flex items-center gap-2 text-xs ${error ? 'bg-red-50 text-red-700 border border-red-200' : 'bg-green-50 text-green-700 border border-green-200'}`}>
             <AlertCircle size={18} /> <span className="text-sm font-semibold">{error || success}</span>
           </div>
         )}
 
         {/* ── SECCIÓN HORARIOS ── */}
-        <section className="bg-white rounded-xl shadow-sm border border-blue-100 p-4">
-          <h2 className="text-sm font-bold text-blue-950 mb-3 flex items-center gap-2">🕒 Horarios de Atención</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <section className="max-w-3xl mx-auto bg-white rounded-xl shadow-sm border border-blue-100 p-4 md:p-6">
+          <h2 className="text-sm md:text-base font-bold text-blue-950 mb-4 flex items-center gap-2">🕒 Horarios de Atención</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="space-y-2 p-3 bg-blue-50/50 rounded-lg border border-blue-100/50">
               <input value={schedule.dia1} onChange={e=>updateSchedule('dia1', e.target.value)} className="w-full text-xs font-bold text-blue-950 bg-transparent border-b border-blue-200 focus:outline-none focus:border-blue-500 pb-1" placeholder="Ej: Lun - Vie" />
               <input value={schedule.hora1} onChange={e=>updateSchedule('hora1', e.target.value)} className="w-full text-xs text-blue-900 bg-transparent focus:outline-none" placeholder="8am - 12pm..." />
@@ -152,20 +152,20 @@ export default function AdminPlansPage() {
         </section>
 
         {/* ── SECCIÓN CARDS (Grupos de Planes) ── */}
-        <section>
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="text-sm font-bold text-blue-950">Secciones de Precios</h2>
-            <button onClick={addGroup} className="text-xs bg-blue-100 text-blue-900 hover:bg-blue-200 px-3 py-1.5 rounded-lg flex items-center justify-center gap-1 font-semibold transition-colors">
+        <section className="max-w-3xl mx-auto">
+          <div className="flex items-center justify-between mb-5">
+            <h2 className="text-sm md:text-base font-bold text-blue-950">Secciones de Precios</h2>
+            <button onClick={addGroup} className="text-xs bg-blue-100 text-blue-900 hover:bg-blue-200 px-3 py-2 rounded-lg flex items-center justify-center gap-1 font-semibold transition-colors">
               <Plus size={14} /> Añadir Sección
             </button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="flex flex-col items-center gap-6">
             <AnimatePresence>
               {groups.map((group, gi) => (
-                <motion.div layout initial={{ opacity: 0, scale: 0.98, y: 10 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: -10 }} transition={{ type: "spring", bounce: 0.15, duration: 0.4 }} key={gi} className={`bg-white hover:shadow-md transition-shadow duration-300 rounded-xl shadow-sm border p-3 ${group.isPremium ? 'border-amber-400/50 bg-amber-50/30' : 'border-blue-100'}`}>
-                  <div className="flex justify-between items-start gap-3 mb-3">
-                    <div className="flex-1 grid grid-cols-1 gap-2">
+                <motion.div layout initial={{ opacity: 0, scale: 0.98, y: 10 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: -10 }} transition={{ type: "spring", bounce: 0.15, duration: 0.4 }} key={gi} className={`w-full max-w-lg bg-white hover:shadow-md transition-shadow duration-300 rounded-xl shadow-sm border p-4 md:p-5 ${group.isPremium ? 'border-amber-400/50 bg-amber-50/30' : 'border-blue-100'}`}>
+                  <div className="flex justify-between items-start gap-4 mb-4">
+                    <div className="flex-1 grid grid-cols-1 gap-3">
                       <div>
                         <label className="text-[10px] uppercase font-bold text-blue-950 ml-1">Zona / Barrio(s)</label>
                         <input value={group.title} onChange={e=>updateGroup(gi, 'title', e.target.value)} className="w-full font-bold text-sm text-blue-950 p-2 border border-blue-100 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 transition-shadow" />
@@ -188,7 +188,7 @@ export default function AdminPlansPage() {
                     </button>
                   </div>
 
-                  <div className="bg-slate-50 border border-slate-100 p-3 rounded-lg mt-2">
+                  <div className="bg-slate-50 border border-slate-100 p-4 rounded-lg mt-3">
                     <h4 className="text-[11px] font-bold text-blue-950 mb-2 flex items-center justify-between">
                       Planes en esta Zona
                       <button onClick={() => addItemToGroup(gi)} className="text-blue-600 hover:text-blue-800 flex items-center gap-1 font-semibold text-[10px] uppercase bg-blue-100 hover:bg-blue-200 transition-colors px-2 py-1 rounded-md">
@@ -198,7 +198,7 @@ export default function AdminPlansPage() {
                     
                     {group.items.length === 0 && <p className="text-xs text-slate-400 italic">No hay planes. Añade uno.</p>}
                     
-                    <div className="space-y-1.5">
+                    <div className="space-y-2">
                       {group.items.map((item, ii) => (
                         <div key={ii} className="flex items-center gap-2 bg-white border border-slate-200 p-2 rounded-lg group hover:border-blue-200 transition-colors">
                           <GripVertical size={14} className="text-slate-300" />

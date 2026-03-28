@@ -85,30 +85,30 @@ export function Map() {
     <section
       id="contact"
       ref={sectionRef}
-      className="relative flex flex-col items-center justify-center min-h-screen font-poppins px-4 md:px-12 pt-24 md:pt-32 pb-16 gap-5 md:gap-6 bg-linear-to-b from-white via-white to-blue-950"
+      className="relative flex flex-col items-center justify-center min-h-screen font-poppins px-3 md:px-12 pt-16 md:pt-32 pb-20 md:pb-16 gap-3 md:gap-6 bg-linear-to-b from-white via-white to-blue-950"
     >
       {/* Botón flotante Admin Sectores - solo visible si está logueado */}
       {mounted && session && (
         <Link
           href="/admin/admin-sectores"
-          className="fixed bottom-6 right-6 z-50 flex items-center gap-2 px-4 py-2.5 bg-blue-950 text-white text-sm font-semibold rounded-full shadow-xl hover:bg-blue-800 hover:scale-105 transition-all duration-200"
+          className="absolute bottom-4 right-3 md:bottom-6 md:right-6 z-50 flex items-center gap-1.5 px-3 py-2 md:px-4 md:py-2.5 bg-blue-950 text-white text-[10px] md:text-sm font-semibold rounded-full shadow-xl hover:bg-blue-800 hover:scale-105 transition-all duration-200"
         >
-          <Settings2 size={16} />
+          <Settings2 size={14} />
           Gestionar Sectores
         </Link>
       )}
-      <div className="relative w-full max-w-5xl flex flex-col gap-5">
+      <div className="relative w-full max-w-5xl flex flex-col gap-3 md:gap-5">
         
-        <h2 className="map-title text-center text-2xl md:text-5xl font-black uppercase tracking-tight bg-linear-to-b from-blue-950 via-blue-900 to-white/0 bg-clip-text text-transparent opacity-0">
+        <h2 className="map-title text-center text-lg md:text-5xl font-black uppercase tracking-tight bg-linear-to-b from-blue-950 via-blue-900 to-white/0 bg-clip-text text-transparent opacity-0">
           Sectores donde estamos presentes
         </h2>
 
-        <div className="flex flex-col md:grid md:grid-cols-[1.2fr_0.8fr] gap-4 md:gap-10 items-start">
+        <div className="flex flex-col md:grid md:grid-cols-[1.2fr_0.8fr] gap-2 md:gap-10 items-start">
 
           {/* MAPA */}
           <div
             ref={mapBoxRef}
-            className="relative w-full h-[200px] md:h-[280px] rounded-[1.5rem] md:rounded-[2rem] overflow-hidden shadow-2xl border border-blue-100 bg-white"
+            className="relative w-full h-[150px] md:h-[280px] rounded-xl md:rounded-[2rem] overflow-hidden shadow-2xl border border-blue-100 bg-white"
           >
             {isLoaded ? (
               <GoogleMap
@@ -157,18 +157,18 @@ export function Map() {
           {/* LISTADO */}
           <aside
             ref={asideRef}
-            className="w-full bg-white/60 backdrop-blur rounded-[2rem] p-6 shadow-2xl"
+            className="w-full bg-white/60 backdrop-blur rounded-lg md:rounded-[2rem] p-2.5 md:p-6 shadow-2xl"
           >
-            <h3 className="text-lg font-bold mb-4 text-blue-950 font-[family-name:var(--font-poppins)]">Listado de Barrios</h3>
+            <h3 className="text-xs md:text-lg font-bold mb-1.5 md:mb-4 text-blue-950 font-[family-name:var(--font-poppins)]">Listado de Barrios</h3>
 
-            <ul className="flex flex-col gap-2">
+            <ul className="flex flex-col gap-1 md:gap-2">
               {barrios.map((barrio, i) => (
-                <li key={i} className="map-list-item flex items-center gap-2">
+                <li key={i} className="map-list-item flex items-center gap-1.5 md:gap-2">
                   <span
-                    className="w-3 h-3 rounded-full"
+                    className="w-2 h-2 md:w-3 md:h-3 rounded-full flex-shrink-0"
                     style={{ backgroundColor: barrio.color }}
                   />
-                  <span className="text-gray-900 font-medium font-[family-name:var(--font-poppins)]">{barrio.nombre}</span>
+                  <span className="text-gray-900 text-[11px] md:text-base font-medium font-[family-name:var(--font-poppins)] leading-tight">{barrio.nombre}</span>
                 </li>
               ))}
             </ul>

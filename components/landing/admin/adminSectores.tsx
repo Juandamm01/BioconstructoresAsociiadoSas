@@ -118,46 +118,46 @@ export default function AdminSectoresPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 font-[family-name:var(--font-poppins)]">
       {/* Header */}
-      <header className="bg-blue-950 text-white px-6 py-4 flex items-center justify-between shadow-lg">
+      <header className="bg-blue-950 text-white px-3 md:px-6 py-3 md:py-4 flex flex-wrap items-center justify-between gap-2 shadow-lg">
         <div className="flex items-center gap-3">
           <img src="/images/bcas-logo.png" alt="BCAS" className="h-8 w-auto" />
           <div>
-            <h1 className="font-bold text-lg leading-none">Gestión de Sectores</h1>
-            <p className="text-blue-200 text-xs mt-0.5">Bioconstructores Asociados SAS</p>
+            <h1 className="font-bold text-sm md:text-lg leading-none">Gestión de Sectores</h1>
+            <p className="text-blue-200 text-[10px] md:text-xs mt-0.5 hidden sm:block">Bioconstructores Asociados SAS</p>
           </div>
         </div>
-        <div className="flex items-center gap-3">
-          <span className="text-sm text-blue-200 hidden md:block">
+        <div className="flex items-center gap-2">
+          <span className="text-xs text-blue-200 hidden lg:block">
             Hola, <span className="text-white font-semibold">{session.user.name}</span>
           </span>
           <button
             onClick={goToMap}
-            className="flex items-center gap-1.5 text-xs px-3 py-1.5 bg-blue-800 hover:bg-blue-700 rounded-md transition-colors"
+            className="flex items-center gap-1 text-[10px] md:text-xs px-2 md:px-3 py-1.5 bg-blue-800 hover:bg-blue-700 rounded-md transition-colors"
           >
             <ArrowLeft size={12} /> Ver Mapa
           </button>
           <button
             onClick={goToMap}
-            className="flex items-center gap-1.5 text-xs px-3 py-1.5 bg-slate-600 hover:bg-slate-700 rounded-md transition-colors"
+            className="flex items-center gap-1 text-[10px] md:text-xs px-2 md:px-3 py-1.5 bg-slate-600 hover:bg-slate-700 rounded-md transition-colors"
           >
             <ArrowLeft size={12} /> Volver
           </button>
         </div>
       </header>
 
-      <div className="max-w-5xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] gap-6">
+      <div className="max-w-5xl mx-auto px-3 md:px-4 py-4 md:py-8 grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] gap-4 md:gap-6">
         {/* Formulario añadir */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="bg-white rounded-2xl shadow-md border border-blue-100 p-6"
+          className="bg-white rounded-xl md:rounded-2xl shadow-md border border-blue-100 p-4 md:p-6"
         >
           <div className="flex items-center gap-2 mb-5">
             <div className="w-8 h-8 bg-blue-950 rounded-lg flex items-center justify-center">
               <Plus size={16} className="text-white" />
             </div>
-            <h2 className="font-bold text-blue-950 text-lg">Añadir Sector</h2>
+            <h2 className="font-bold text-blue-950 text-sm md:text-lg">Añadir Sector</h2>
           </div>
 
           <form onSubmit={handleAdd} className="space-y-3">
@@ -259,14 +259,14 @@ export default function AdminSectoresPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="bg-white rounded-2xl shadow-md border border-blue-100 p-6"
+          className="bg-white rounded-xl md:rounded-2xl shadow-md border border-blue-100 p-4 md:p-6"
         >
           <div className="flex items-center justify-between mb-5">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 bg-blue-950 rounded-lg flex items-center justify-center">
                 <MapPin size={16} className="text-white" />
               </div>
-              <h2 className="font-bold text-blue-950 text-lg">Sectores Activos</h2>
+              <h2 className="font-bold text-blue-950 text-sm md:text-lg">Sectores Activos</h2>
             </div>
             <span className="bg-blue-100 text-blue-950 text-xs font-bold px-2.5 py-1 rounded-full">
               {barrios.length} registros
@@ -290,7 +290,7 @@ export default function AdminSectoresPage() {
                     initial={{ opacity: 0, x: 10 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -10 }}
-                    className="flex items-center justify-between gap-3 p-3 rounded-xl border border-blue-50 hover:bg-blue-50/60 transition-colors group"
+                    className="flex items-center justify-between gap-2 p-2 md:p-3 rounded-xl border border-blue-50 hover:bg-blue-50/60 transition-colors group"
                   >
                     <div className="flex items-center gap-3 min-w-0">
                       <div
@@ -298,8 +298,8 @@ export default function AdminSectoresPage() {
                         style={{ backgroundColor: b.color }}
                       />
                       <div className="min-w-0">
-                        <p className="font-semibold text-gray-900 text-sm truncate">{b.nombre}</p>
-                        <p className="text-[10px] text-gray-500 font-mono">
+                        <p className="font-semibold text-gray-900 text-xs md:text-sm truncate">{b.nombre}</p>
+                        <p className="text-[9px] md:text-[10px] text-gray-500 font-mono">
                           {b.lat.toFixed(5)}, {b.lng.toFixed(5)} · r: {b.radio}m
                         </p>
                       </div>
@@ -308,7 +308,7 @@ export default function AdminSectoresPage() {
                       onClick={() => handleDelete(b.id, b.nombre)}
                       disabled={deleting === b.id}
                       title="Eliminar sector"
-                      className="flex-shrink-0 w-8 h-8 flex items-center justify-center text-red-400 hover:text-white hover:bg-red-500 rounded-lg transition-all opacity-0 group-hover:opacity-100 disabled:opacity-50"
+                      className="flex-shrink-0 w-7 h-7 md:w-8 md:h-8 flex items-center justify-center text-red-400 hover:text-white hover:bg-red-500 rounded-lg transition-all md:opacity-0 md:group-hover:opacity-100 disabled:opacity-50"
                     >
                       {deleting === b.id ? (
                         <span className="text-[10px]">...</span>
