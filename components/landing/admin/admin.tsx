@@ -81,7 +81,11 @@ export default function AdminPage() {
     setErrorMsg("");
     setLoading(true);
 
-    const { error } = await authClient.signIn.email({ email, password });
+    const { error } = await authClient.signIn.email({
+      email,
+      password,
+      rememberMe: false, // Expira la sesión al cerrar el navegador
+    });
 
     if (error) {
       setErrorMsg("Correo o contraseña incorrectos.");
@@ -209,7 +213,7 @@ export default function AdminPage() {
               <div className="form-elem relative group">
                 <input
                   type={showPassword ? "text" : "password"}
-                  placeholder="Contraseña secreta"
+                  placeholder="Contraseña"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   autoComplete="current-password"
