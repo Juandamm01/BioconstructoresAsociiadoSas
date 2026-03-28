@@ -53,13 +53,13 @@ export function Policy() {
     tl.set(bentoRef.current, { pointerEvents: "auto" });
     tl.fromTo(bentoRef.current,
       { opacity: 0, scale: 0.8, y: 300, filter: "blur(20px)" },
-      { 
-        opacity: 1, 
-        scale: 1, 
-        y: 0, 
-        filter: "blur(0px)", 
-        duration: 2, 
-        ease: "power3.out" 
+      {
+        opacity: 1,
+        scale: 1,
+        y: 0,
+        filter: "blur(0px)",
+        duration: 2,
+        ease: "power3.out"
       },
       "-=0.5"
     );
@@ -80,12 +80,12 @@ export function Policy() {
     // 3. ESCENA 3: EL VIDEO (FINAL)
     tl.fromTo(videoWrapperRef.current,
       { opacity: 0, scale: 0.6, y: 300, borderRadius: "200px" },
-      { 
-        opacity: 1, 
-        scale: 1, 
-        y: 0, 
-        borderRadius: "40px", 
-        duration: 2, 
+      {
+        opacity: 1,
+        scale: 1,
+        y: 0,
+        borderRadius: "40px",
+        duration: 2,
         ease: "power4.out",
         pointerEvents: "auto"
       },
@@ -115,12 +115,12 @@ export function Policy() {
       className="relative min-h-screen w-full flex flex-col items-center justify-center bg-linear-to-b from-blue-950 via-blue-900 to-white z-40 font-poppins overflow-hidden"
     >
       <div className="relative w-full max-w-7xl h-screen flex items-center justify-center">
-        
+
         {/* CONTENEDOR DE ESCENAS (Todo centrado aquí) */}
         <div className="relative w-full flex flex-col items-center justify-center">
-          
+
           {/* TÍTULO Y TEXTO (ESCENA 1) */}
-          <div 
+          <div
             ref={textRef} // Usamos textRef para el conjunto título + texto
             className="flex flex-col items-center justify-center gap-6 md:gap-10 px-6 opacity-0"
           >
@@ -139,8 +139,8 @@ export function Policy() {
           </div>
 
           {/* BENTO (ESCENA 2) - Estará oculto inicialmente */}
-          <div 
-            ref={bentoRef} 
+          <div
+            ref={bentoRef}
             className="absolute inset-0 flex items-center justify-center px-4 md:px-10 opacity-0 pointer-events-none"
           >
             <div className="w-full max-w-6xl">

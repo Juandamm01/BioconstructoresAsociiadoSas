@@ -55,19 +55,19 @@ export function Services() {
   }, { scope: sectionRef });
 
   return (
-    <section 
+    <section
       ref={sectionRef}
       className="upcoming-section bg-linear-to-b from-white to-blue-950 relative w-full h-[140dvh] overflow-hidden z-40 -mt-[60vh]"
     >
       {/* Texto principal */}
       <div className="absolute inset-0 flex flex-col items-center justify-center z-10">
-        <h2 
+        <h2
           ref={title1Ref}
           className="first-title uppercase font-black font-poppins text-[12vw] md:text-[8vw] leading-[100%] tracking-[-.4vw] bg-linear-to-b from-blue-900 to-blue-600 bg-clip-text text-transparent"
         >
           Nuestros
         </h2>
-        <h2 
+        <h2
           ref={title2Ref}
           className="sec-title uppercase font-black font-poppins text-[12vw] md:text-[8vw] leading-[100%] tracking-[-.4vw] bg-linear-to-b from-white to-blue-300 text-transparent bg-clip-text"
         >

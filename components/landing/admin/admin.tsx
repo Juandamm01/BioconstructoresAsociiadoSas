@@ -36,29 +36,40 @@ export default function AdminPage() {
   useGSAP(() => {
     const tl = gsap.timeline();
     tl.fromTo(".panel-izq",
-      { opacity: 0, x: -50 },
-      { opacity: 1, x: 0, duration: 0.8, ease: "power3.out" }
-    )
-    .fromTo(".anim-text",
-      { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: "power3.out" },
-      "-=0.4"
+      { opacity: 0, x: -100, filter: "blur(10px)" },
+      { opacity: 1, x: 0, filter: "blur(0px)", duration: 1, ease: "power4.out" }
     )
     .fromTo(".panel-der",
-      { opacity: 0, paddingLeft: 50 },
-      { opacity: 1, paddingLeft: 0, duration: 0.8, ease: "power3.out" },
+      { opacity: 0, x: 100 },
+      { opacity: 1, x: 0, duration: 1, ease: "power4.out" },
       "-=0.8"
     )
+    .fromTo(".anim-text",
+      { y: 50, opacity: 0, scale: 0.9 },
+      { y: 0, opacity: 1, scale: 1, duration: 0.8, stagger: 0.15, ease: "back.out(1.5)" },
+      "-=0.6"
+    )
     .fromTo(".logo-anim",
-      { scale: 0, rotation: -180, opacity: 0 },
-      { scale: 1, rotation: 0, opacity: 1, duration: 0.8, ease: "back.out(1.5)" },
+      { scale: 0, rotation: -360, opacity: 0 },
+      { scale: 1, rotation: 0, opacity: 1, duration: 1, ease: "elastic.out(1, 0.5)" },
       "-=0.6"
     )
     .fromTo(".form-elem",
-      { y: 20, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: "back.out(1.2)" },
+      { x: 30, opacity: 0 },
+      { x: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: "power3.out" },
       "-=0.4"
     );
+
+    // Animación continua y sutil de respiración para el contenedor del GIF
+    gsap.to(".gif-container", {
+      y: -15,
+      rotation: 2,
+      scale: 1.02,
+      duration: 3,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut"
+    });
   }, { scope: pageRef });
 
   const handleLogin = async (e: FormEvent) => {
@@ -78,112 +89,159 @@ export default function AdminPage() {
       return;
     }
 
-    // Login exitoso → ir al inicio
     router.push("/");
   };
 
   return (
-    <div className="relative font-[family-name:var(--font-poppins)]" ref={pageRef}>
-      {/* Botón flotante para regresar al inicio */}
-      <div className="absolute top-6 left-6 z-[9999]">
-        <Link href="/" className="block hover:scale-105 transition-transform duration-300 drop-shadow-lg">
+    <div className="relative font-poppins w-full h-[100dvh] overflow-hidden bg-white" ref={pageRef}>
+      {/* Botón flotante */}
+      <motion.div 
+        className="absolute top-4 left-4 lg:top-6 lg:left-6 z-[9999]"
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 0.5, duration: 0.8 }}
+      >
+        <Link href="/" className="block hover:scale-110 transition-transform duration-300 drop-shadow-[0_0_10px_rgba(255,255,255,0.3)] bg-white/10 backdrop-blur-md p-1.5 rounded-2xl border border-white/20">
           <img
             src="/images/Logo_BCAS_MODO_OSCURO.png"
             alt="Volver al inicio"
-            className="h-10 md:h-14 w-auto object-contain"
+            className="h-8 md:h-12 w-auto object-contain"
           />
         </Link>
-      </div>
+      </motion.div>
 
-      <div className="flex flex-col lg:flex-row min-h-screen pt-16 lg:pt-0">
-        {/* Panel izquierdo */}
-        <div className="panel-izq w-full lg:w-1/2 bg-blue-950 text-white flex flex-col justify-center items-center py-16 px-8 relative overflow-hidden">
+      <div className="flex flex-col lg:flex-row w-full h-full">
+        
+        {/* Panel Izquierdo Animado */}
+        <div className="panel-izq w-full lg:w-1/2 h-[45%] lg:h-full relative flex flex-col justify-center items-center p-4 lg:p-8 overflow-hidden bg-[#0a1024]">
+          {/* Fondo dinámico y esferas de luz */}
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-[#0a1024] to-black opacity-80" />
+          <motion.div 
+            animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }} 
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600 rounded-full mix-blend-screen filter blur-[100px] opacity-30" 
+          />
+          <motion.div 
+            animate={{ scale: [1, 1.5, 1], opacity: [0.2, 0.5, 0.2] }} 
+            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+            className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-cyan-500 rounded-full mix-blend-screen filter blur-[120px] opacity-20" 
+          />
+
           <div className="z-10 flex flex-col items-center justify-center gap-6 w-full mt-4">
-            <div className="anim-text relative w-56 h-56 md:w-80 md:h-80 flex items-center justify-center overflow-hidden rounded-2xl bg-white/5 border border-white/10 shadow-lg">
-              <AnimatePresence>
+            <div className="gif-container anim-text relative w-56 h-56 md:w-80 md:h-80 flex items-center justify-center overflow-hidden rounded-3xl bg-white/5 border border-white/10 shadow-[0_0_50px_rgba(37,99,235,0.15)] backdrop-blur-sm">
+              <AnimatePresence mode="popLayout">
                 <motion.img
                   key={currentGif}
                   src={gifs[currentGif]}
                   alt="animacion interactiva"
-                  initial={{ x: 100, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  exit={{ x: -100, opacity: 0 }}
-                  transition={{ duration: 0.6, ease: "easeInOut" }}
-                  className="absolute inset-0 w-full h-full object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.2)] p-4"
+                  initial={{ scale: 0.5, rotate: -15, opacity: 0, filter: "blur(10px)" }}
+                  animate={{ scale: 1, rotate: 0, opacity: 1, filter: "blur(0px)" }}
+                  exit={{ scale: 1.5, rotate: 15, opacity: 0, filter: "blur(10px)" }}
+                  transition={{ duration: 0.8, type: "spring", bounce: 0.4 }}
+                  className="absolute inset-0 w-full h-full object-contain drop-shadow-[0_0_25px_rgba(255,255,255,0.3)] p-4"
                 />
               </AnimatePresence>
             </div>
-            <div className="text-center space-y-2 mt-4">
-              <h2 className="anim-text text-2xl md:text-3xl lg:text-4xl font-bold tracking-wide text-white drop-shadow-md">
-                Bioconstructores Asociados Sas
+            
+            <div className="text-center space-y-3 mt-6">
+              <h2 className="anim-text text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-100 to-white drop-shadow-lg">
+                Bioconstructores <br className="hidden md:block"/> Asociados Sas
               </h2>
-              <p className="anim-text text-xs md:text-sm text-white uppercase tracking-widest font-light opacity-90">
-                Soluciones Innovadoras para un mundo conectado
-              </p>
+              <motion.p 
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5, duration: 1 }}
+                className="anim-text text-xs md:text-sm text-cyan-200 uppercase tracking-[0.3em] font-medium"
+              >
+                Soluciones Innovadoras
+              </motion.p>
             </div>
           </div>
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-900/40 to-black/20 mix-blend-overlay"></div>
+          
+          <div className="absolute inset-0 bg-blue-950/20 mix-blend-overlay pointer-events-none border-r border-white/5 shadow-[inset_-20px_0_50px_rgba(0,0,0,0.5)]"></div>
         </div>
 
-        {/* Panel derecho */}
-        <div className="panel-der w-full lg:w-1/2 flex flex-col justify-center items-center py-8 px-4 lg:px-8 bg-white overflow-hidden shadow-inner">
-          <div className="w-full max-w-[320px] space-y-3">
-            <div className="text-center">
-              <img
+        {/* Panel Derecho */}
+        <div className="panel-der w-full lg:w-1/2 h-[55%] lg:h-full flex flex-col justify-center items-center p-6 lg:p-12 overflow-hidden shadow-2xl relative">
+          
+          {/* Adorno sutil fondo derecho */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-blue-50 rounded-full blur-[80px] -z-10 opacity-70"></div>
+          
+          <div className="w-full max-w-[340px] space-y-6 relative z-10">
+            <div className="text-center mb-8">
+              <motion.img
+                whileHover={{ rotate: 180, scale: 1.1 }}
+                transition={{ type: "spring", bounce: 0.5 }}
                 src="/images/bcas-logo.png"
                 alt="BCAS Logo"
-                className="logo-anim w-12 h-12 mx-auto object-contain mb-2 drop-shadow-md"
+                className="logo-anim w-16 h-16 mx-auto object-contain mb-4 drop-shadow-xl cursor-pointer"
               />
-              <h1 className="form-elem text-xl md:text-2xl font-bold text-blue-950">¡Hola de Nuevo!</h1>
-              <p className="form-elem text-xs md:text-sm text-blue-950/80 mt-1">
-                ¡Bienvenido! Por favor, inicia sesión.
+              <h1 className="form-elem text-2xl md:text-3xl font-black text-blue-950 tracking-tight">¡Hola de Nuevo!</h1>
+              <p className="form-elem text-sm text-slate-500 mt-2 font-medium">
+                Accede a tu panel de administración.
               </p>
             </div>
 
-            <form className="space-y-3 mt-3" onSubmit={handleLogin}>
-              {errorMsg && (
-                <div className="form-elem flex items-center gap-2 p-2 bg-red-50 border border-red-200 text-red-600 rounded-md text-xs font-medium">
-                  <AlertCircle size={14} />
-                  <span>{errorMsg}</span>
-                </div>
-              )}
-              <div className="form-elem">
+            <form className="space-y-4" onSubmit={handleLogin}>
+              <AnimatePresence>
+                {errorMsg && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    className="form-elem flex items-center gap-2 p-3 bg-red-50 border border-red-200 text-red-600 rounded-lg text-xs font-bold shadow-sm"
+                  >
+                    <AlertCircle size={16} />
+                    <span>{errorMsg}</span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+              
+              <div className="form-elem relative group">
                 <input
                   type="email"
                   placeholder="Correo electrónico"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   autoComplete="email"
-                  className="w-full px-3 py-2 text-sm text-blue-950 border border-blue-950/20 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-950 bg-white placeholder-blue-950/50"
+                  className="w-full px-4 py-3 text-sm text-blue-950 border-2 border-slate-100 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-slate-50/50 hover:bg-slate-50 transition-all font-medium placeholder-slate-400"
                 />
               </div>
-              <div className="form-elem relative">
+              
+              <div className="form-elem relative group">
                 <input
                   type={showPassword ? "text" : "password"}
-                  placeholder="Contraseña"
+                  placeholder="Contraseña secreta"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   autoComplete="current-password"
-                  className="w-full px-3 py-2 text-sm text-blue-950 border border-blue-950/20 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-950 bg-white placeholder-blue-950/50 pr-10 transition-all"
+                  className="w-full px-4 py-3 text-sm text-blue-950 border-2 border-slate-100 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-slate-50/50 hover:bg-slate-50 transition-all pr-12 font-medium placeholder-slate-400"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-blue-950/60 hover:text-blue-950 transition-colors"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-blue-600 transition-colors p-1"
                   tabIndex={-1}
                 >
-                  {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
 
               <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                whileHover={{ scale: 1.02, boxShadow: "0 10px 25px -5px rgba(37, 99, 235, 0.4)" }}
+                whileTap={{ scale: 0.97 }}
                 disabled={loading}
                 type="submit"
-                className="form-elem w-full py-2 text-sm bg-blue-950 text-white rounded-md hover:bg-blue-900 transition-colors font-semibold shadow-md shadow-blue-950/20 disabled:opacity-70 disabled:cursor-not-allowed"
+                className="form-elem group w-full py-3.5 mt-4 text-sm bg-linear-to-r from-blue-950 to-blue-800 text-white rounded-xl transition-all font-bold shadow-lg shadow-blue-950/20 disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center overflow-hidden relative"
               >
-                {loading ? "Iniciando..." : "Iniciar Sesión"}
+                <span className="relative z-10 flex items-center gap-2">
+                  {loading ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      Iniciando...
+                    </>
+                  ) : "Entrar al Sistema"}
+                </span>
+                {/* Brillo dinámico en hover */}
+                <div className="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-linear-to-r from-transparent via-white/20 to-transparent z-0" />
               </motion.button>
             </form>
           </div>
