@@ -15,7 +15,7 @@ export default function AdminHeroPage() {
   const [bienvenido, setBienvenido] = useState("Bienvenido a");
   const [empresa, setEmpresa] = useState("Bioconstructores Asociados Sas");
   const [slogan, setSlogan] = useState("Soluciones Innovadoras Para Un Mundo Conectado.");
-  
+
   const [formError, setFormError] = useState("");
   const [formSuccess, setFormSuccess] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -193,7 +193,7 @@ export default function AdminHeroPage() {
                   <span className="text-[10px] text-blue-600 animate-pulse font-bold">Subiendo archivo...</span>
                 )}
               </div>
-              
+
               <div className="space-y-3">
                 <div className="flex flex-col md:flex-row gap-3">
                   <div className="relative group flex-1">
@@ -215,7 +215,7 @@ export default function AdminHeroPage() {
                       <p className="text-[9px] text-blue-900/40 mt-1 uppercase tracking-widest font-black">Compu o Galería</p>
                     </label>
                   </div>
-                  
+
                   <div className="md:w-1/3 space-y-2">
                     <label className="text-[10px] font-bold text-blue-950/70 uppercase">Ruta actual</label>
                     <input
@@ -226,7 +226,7 @@ export default function AdminHeroPage() {
                     />
                   </div>
                 </div>
-                
+
                 <p className="text-[10px] text-blue-950/50">
                   <span className="font-bold">Nota:</span> Se recomienda usar videos MP4 menores a 10MB para que la web cargue rápido.
                 </p>
@@ -235,10 +235,10 @@ export default function AdminHeroPage() {
 
             {/* Text Config */}
             <div className="p-5 bg-slate-50 rounded-2xl space-y-4 border border-slate-100">
-               <h3 className="text-sm font-bold text-blue-950 flex items-center gap-2">
-                 <Type size={14} /> Textos de Portada
+              <h3 className="text-sm font-bold text-blue-950 flex items-center gap-2">
+                <Type size={14} /> Textos de Portada
               </h3>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="text-xs font-semibold text-blue-950/70 mb-1.5 block">Frase inicial</label>

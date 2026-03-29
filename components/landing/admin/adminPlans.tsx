@@ -18,7 +18,7 @@ export default function AdminPlansPage() {
     dia2: "Sábados", hora2: "8am - 1pm",
     dia3: "Domingos", hora3: "Cerrado"
   });
-  
+
   const [groups, setGroups] = useState<PlanGroup[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -39,12 +39,12 @@ export default function AdminPlansPage() {
         setGroups(data.groups);
       } else {
         setGroups([
-          { title: "La Nohora y San Luis", subtitle: "Susc.: $89.000", badge: "", isPremium: false, items: [{name: "50MB +1TV", price: "$68K"}, {name: "100MB +2TV", price: "$95K"}, {name: "200MB +2TV", price: "$105K"}] },
-          { title: "La Zuria", subtitle: "Susc.: $89.000", badge: "", isPremium: false, items: [{name: "50MB +1TV", price: "$105K"}, {name: "25MB +1TV", price: "$85K"}, {name: "25MB Solo", price: "$75K"}] },
-          { title: "Mesetas, El Triángulo, La Sultana...", subtitle: "", badge: "$99.000 Susc.", isPremium: true, items: [{name: "50 MB - $68K", price: "+1 TV"}, {name: "100 MB - $95K", price: "+2 TV"}, {name: "200 MB - $105K", price: "+2 TV"}] }
+          { title: "La Nohora y San Luis", subtitle: "Susc.: $89.000", badge: "", isPremium: false, items: [{ name: "50MB +1TV", price: "$68K" }, { name: "100MB +2TV", price: "$95K" }, { name: "200MB +2TV", price: "$105K" }] },
+          { title: "La Zuria", subtitle: "Susc.: $89.000", badge: "", isPremium: false, items: [{ name: "50MB +1TV", price: "$105K" }, { name: "25MB +1TV", price: "$85K" }, { name: "25MB Solo", price: "$75K" }] },
+          { title: "Mesetas, El Triángulo, La Sultana...", subtitle: "", badge: "$99.000 Susc.", isPremium: true, items: [{ name: "50 MB - $68K", price: "+1 TV" }, { name: "100 MB - $95K", price: "+2 TV" }, { name: "200 MB - $105K", price: "+2 TV" }] }
         ]);
       }
-    } catch(err) {
+    } catch (err) {
       console.error(err);
     }
     setLoading(false);
@@ -62,7 +62,7 @@ export default function AdminPlansPage() {
       });
       if (res.ok) setSuccess("Los planes y horarios se actualizaron correctamente.");
       else setError("Hubo un error al guardar los cambios.");
-    } catch(err) {
+    } catch (err) {
       setError("Fallo de conexión.");
     }
     setSaving(false);
@@ -70,7 +70,7 @@ export default function AdminPlansPage() {
 
   const updateSchedule = (key: keyof typeof schedule, value: string) => setSchedule(prev => ({ ...prev, [key]: value }));
 
-  const addGroup = () => setGroups([...groups, { title: "Nuevo Plan", subtitle: "", badge: "", isPremium: false, items: [{name: "", price: ""}] }]);
+  const addGroup = () => setGroups([...groups, { title: "Nuevo Plan", subtitle: "", badge: "", isPremium: false, items: [{ name: "", price: "" }] }]);
   const removeGroup = (i: number) => setGroups(groups.filter((_, idx) => idx !== i));
   const updateGroup = (i: number, key: keyof PlanGroup, value: any) => {
     const newGroups = [...groups];
@@ -137,16 +137,16 @@ export default function AdminPlansPage() {
           <h2 className="text-sm md:text-base font-bold text-blue-950 mb-4 flex items-center gap-2">🕒 Horarios de Atención</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="space-y-2 p-3 bg-blue-50/50 rounded-lg border border-blue-100/50">
-              <input value={schedule.dia1} onChange={e=>updateSchedule('dia1', e.target.value)} className="w-full text-xs font-bold text-blue-950 bg-transparent border-b border-blue-200 focus:outline-none focus:border-blue-500 pb-1" placeholder="Ej: Lun - Vie" />
-              <input value={schedule.hora1} onChange={e=>updateSchedule('hora1', e.target.value)} className="w-full text-xs text-blue-900 bg-transparent focus:outline-none" placeholder="8am - 12pm..." />
+              <input value={schedule.dia1} onChange={e => updateSchedule('dia1', e.target.value)} className="w-full text-xs font-bold text-blue-950 bg-transparent border-b border-blue-200 focus:outline-none focus:border-blue-500 pb-1" placeholder="Ej: Lun - Vie" />
+              <input value={schedule.hora1} onChange={e => updateSchedule('hora1', e.target.value)} className="w-full text-xs text-blue-900 bg-transparent focus:outline-none" placeholder="8am - 12pm..." />
             </div>
             <div className="space-y-2 p-3 bg-blue-50/50 rounded-lg border border-blue-100/50">
-              <input value={schedule.dia2} onChange={e=>updateSchedule('dia2', e.target.value)} className="w-full text-xs font-bold text-blue-950 bg-transparent border-b border-blue-200 focus:outline-none focus:border-blue-500 pb-1" placeholder="Ej: Sábados" />
-              <input value={schedule.hora2} onChange={e=>updateSchedule('hora2', e.target.value)} className="w-full text-xs text-blue-900 bg-transparent focus:outline-none" placeholder="8am - 1pm" />
+              <input value={schedule.dia2} onChange={e => updateSchedule('dia2', e.target.value)} className="w-full text-xs font-bold text-blue-950 bg-transparent border-b border-blue-200 focus:outline-none focus:border-blue-500 pb-1" placeholder="Ej: Sábados" />
+              <input value={schedule.hora2} onChange={e => updateSchedule('hora2', e.target.value)} className="w-full text-xs text-blue-900 bg-transparent focus:outline-none" placeholder="8am - 1pm" />
             </div>
             <div className="space-y-2 p-3 bg-blue-50/50 rounded-lg border border-blue-100/50">
-              <input value={schedule.dia3} onChange={e=>updateSchedule('dia3', e.target.value)} className="w-full text-xs font-bold text-blue-950 bg-transparent border-b border-blue-200 focus:outline-none focus:border-blue-500 pb-1" placeholder="Ej: Domingos" />
-              <input value={schedule.hora3} onChange={e=>updateSchedule('hora3', e.target.value)} className="w-full text-xs text-blue-900 bg-transparent focus:outline-none" placeholder="Cerrado" />
+              <input value={schedule.dia3} onChange={e => updateSchedule('dia3', e.target.value)} className="w-full text-xs font-bold text-blue-950 bg-transparent border-b border-blue-200 focus:outline-none focus:border-blue-500 pb-1" placeholder="Ej: Domingos" />
+              <input value={schedule.hora3} onChange={e => updateSchedule('hora3', e.target.value)} className="w-full text-xs text-blue-900 bg-transparent focus:outline-none" placeholder="Cerrado" />
             </div>
           </div>
         </section>
@@ -168,18 +168,18 @@ export default function AdminPlansPage() {
                     <div className="flex-1 grid grid-cols-1 gap-3">
                       <div>
                         <label className="text-[10px] uppercase font-bold text-blue-950 ml-1">Zona / Barrio(s)</label>
-                        <input value={group.title} onChange={e=>updateGroup(gi, 'title', e.target.value)} className="w-full font-bold text-sm text-blue-950 p-2 border border-blue-100 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 transition-shadow" />
+                        <input value={group.title} onChange={e => updateGroup(gi, 'title', e.target.value)} className="w-full font-bold text-sm text-blue-950 p-2 border border-blue-100 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 transition-shadow" />
                       </div>
                       <div>
                         <label className="text-[10px] uppercase font-bold text-blue-950 ml-1">Subtítulo (Opcional)</label>
-                        <input value={group.subtitle || ""} onChange={e=>updateGroup(gi, 'subtitle', e.target.value)} className="w-full text-xs text-blue-900 p-2 border border-blue-100 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" />
+                        <input value={group.subtitle || ""} onChange={e => updateGroup(gi, 'subtitle', e.target.value)} className="w-full text-xs text-blue-900 p-2 border border-blue-100 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" />
                       </div>
                       <div>
                         <label className="text-[10px] uppercase font-bold text-blue-950 ml-1">Badge Resaltado (Opcional)</label>
-                        <input value={group.badge || ""} onChange={e=>updateGroup(gi, 'badge', e.target.value)} className="w-full text-xs text-amber-900 p-2 border border-amber-200/50 bg-amber-50/50 rounded-md focus:outline-none focus:ring-1 focus:ring-amber-500" />
+                        <input value={group.badge || ""} onChange={e => updateGroup(gi, 'badge', e.target.value)} className="w-full text-xs text-amber-900 p-2 border border-amber-200/50 bg-amber-50/50 rounded-md focus:outline-none focus:ring-1 focus:ring-amber-500" />
                       </div>
                       <div className="flex items-center gap-2 bg-slate-50 p-1.5 rounded-lg border border-slate-100">
-                        <input type="checkbox" id={`premium-${gi}`} checked={group.isPremium} onChange={e=>updateGroup(gi, 'isPremium', e.target.checked)} className="rounded text-blue-600 w-4 h-4 cursor-pointer" />
+                        <input type="checkbox" id={`premium-${gi}`} checked={group.isPremium} onChange={e => updateGroup(gi, 'isPremium', e.target.checked)} className="rounded text-blue-600 w-4 h-4 cursor-pointer" />
                         <label htmlFor={`premium-${gi}`} className="text-xs cursor-pointer text-blue-950 font-medium select-none">Sección ancha (Premium)</label>
                       </div>
                     </div>
@@ -195,15 +195,15 @@ export default function AdminPlansPage() {
                         <Plus size={12} /> Añadir Plan
                       </button>
                     </h4>
-                    
+
                     {group.items.length === 0 && <p className="text-xs text-slate-400 italic">No hay planes. Añade uno.</p>}
-                    
+
                     <div className="space-y-2">
                       {group.items.map((item, ii) => (
                         <div key={ii} className="flex items-center gap-2 bg-white border border-slate-200 p-2 rounded-lg group hover:border-blue-200 transition-colors">
                           <GripVertical size={14} className="text-slate-300" />
-                          <input value={item.name} onChange={e=>updateItem(gi, ii, 'name', e.target.value)} placeholder="Ej: 50MB +1TV" className="flex-1 text-xs text-blue-950 px-2 py-1 border border-transparent hover:border-slate-100 focus:border-blue-300 focus:bg-white bg-slate-50 rounded focus:outline-none transition-all" />
-                          <input value={item.price} onChange={e=>updateItem(gi, ii, 'price', e.target.value)} placeholder="Ej: $68K" className="w-[100px] text-xs font-bold text-blue-950 px-2 py-1 border border-transparent hover:border-slate-100 focus:border-blue-300 focus:bg-white bg-slate-50 rounded focus:outline-none text-right transition-all" />
+                          <input value={item.name} onChange={e => updateItem(gi, ii, 'name', e.target.value)} placeholder="Ej: 50MB +1TV" className="flex-1 text-xs text-blue-950 px-2 py-1 border border-transparent hover:border-slate-100 focus:border-blue-300 focus:bg-white bg-slate-50 rounded focus:outline-none transition-all" />
+                          <input value={item.price} onChange={e => updateItem(gi, ii, 'price', e.target.value)} placeholder="Ej: $68K" className="w-[100px] text-xs font-bold text-blue-950 px-2 py-1 border border-transparent hover:border-slate-100 focus:border-blue-300 focus:bg-white bg-slate-50 rounded focus:outline-none text-right transition-all" />
                           <button onClick={() => removeItemFromGroup(gi, ii)} className="text-slate-400 hover:text-red-500 p-1 opacity-50 group-hover:opacity-100 transition-opacity"><Trash2 size={13} /></button>
                         </div>
                       ))}

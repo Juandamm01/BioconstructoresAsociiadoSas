@@ -8,7 +8,7 @@ import { Edit2 } from "lucide-react";
 export async function Hero() {
   const session = await auth.api.getSession({ headers: await headers() });
   const config = await prisma.heroConfig.findUnique({ where: { id: 1 } });
-  
+
   const videoUrl = config?.videoUrl || "/videos/hero1.mp4";
   const bienvenido = config?.bienvenido || "Bienvenido a";
   const empresa = config?.empresa || "Bioconstructores Asociados Sas";
