@@ -66,7 +66,7 @@ export function Plans() {
         );
       });
     } else {
-      // Animación 3D original para PC restaurada, pero SIN "pin" para evitar cortes
+      // Animación 3D original para PC restaurada con su "Freno de pantalla" original.
       items.forEach((item) => {
         gsap.set(item, {
           opacity: 0,
@@ -82,7 +82,7 @@ export function Plans() {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
-          start: "top top",
+          start: "center center",
           end: "+=1000",
           scrub: 1.2,
           pin: true,
@@ -98,7 +98,7 @@ export function Plans() {
         x: 0,
         y: 0,
         scale: 1,
-        duration: 1.2,
+        duration: 1.5,
         ease: "power3.out",
         stagger: {
           amount: 0.8,
@@ -130,35 +130,35 @@ export function Plans() {
     >
       <div
         ref={gridRef}
-        className="w-[95%] max-w-[240px] md:max-w-5xl grid grid-cols-1 md:grid-cols-6 auto-rows-auto gap-3 md:gap-4 relative z-10"
+        className="w-[98%] max-w-[320px] lg:max-w-4xl flex flex-wrap justify-center items-stretch gap-2 lg:gap-4 relative z-10 mx-auto"
       >
         {/* ── TARJETA 1 (HERO/LÍDER) ── */}
-        <div className="bento-item col-span-1 md:col-span-3 group relative overflow-hidden bg-white/20 backdrop-blur-md border border-blue-100/30 p-2.5 md:p-5 rounded-2xl md:rounded-[2rem] shadow-xl flex flex-row items-center gap-2 md:gap-6">
-          <div className="absolute inset-0 bg-linear-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        <div className="bento-item w-full lg:w-[55%] flex-1 group relative overflow-hidden bg-white/20 backdrop-blur-md border border-blue-100/30 p-2.5 lg:p-5 rounded-[1.2rem] lg:rounded-[1.5rem] shadow-xl flex flex-row items-center gap-2.5 lg:gap-5 text-left">
+          <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           <Image
             src="/images/bcas-logo.png"
             alt="BCAS Logo"
-            width={48}
-            height={48}
-            className="bcas-logo-main w-6 md:w-12 drop-shadow-md"
+            width={64}
+            height={64}
+            className="bcas-logo-main w-8 lg:w-14 drop-shadow-md shrink-0"
             priority
           />
-          <div>
-            <h2 className="text-sm md:text-2xl font-bold font-poppins text-blue-950 leading-tight tracking-tight">
+          <div className="min-w-0">
+            <h2 className="text-[13px] lg:text-2xl font-bold font-poppins text-blue-950 leading-tight tracking-tight">
               Nuestros <span className="text-blue-950">Planes</span>
             </h2>
-            <p className="mt-0.5 md:mt-1 text-blue-950 text-[9px] md:text-sm font-light leading-snug">
-              Fibra óptica hiper veloz...
+            <p className="mt-0.5 lg:mt-1.5 text-blue-950 text-[9px] lg:text-sm font-light leading-snug">
+              Fibra óptica hiper veloz para tu hogar.
             </p>
           </div>
         </div>
 
         {/* ── TARJETA 2 (HORARIOS) ── */}
-        <div className="bento-item col-span-1 md:col-span-3 bg-white/20 backdrop-blur-md border border-blue-100/30 p-2.5 md:p-5 rounded-2xl md:rounded-[2rem] shadow-lg flex flex-col justify-center">
-          <h3 className="text-[11px] md:text-lg font-bold text-blue-950 mb-1.5 md:mb-3 flex items-center gap-1.5 md:gap-2">
-            <span className="bg-blue-100/50 text-blue-950 p-1 rounded-md text-[10px] md:text-sm">🕒</span> Horarios de Atención
+        <div className="bento-item w-full lg:w-[40%] flex-none bg-white/20 backdrop-blur-md border border-blue-100/30 p-2.5 lg:p-5 rounded-[1.2rem] lg:rounded-[1.5rem] shadow-lg flex flex-col justify-center">
+          <h3 className="text-[11px] lg:text-lg font-bold text-blue-950 mb-1.5 lg:mb-3 flex items-center justify-center lg:justify-start gap-1 lg:gap-1.5">
+            <span className="bg-blue-100/50 text-blue-950 p-1 lg:p-1.5 rounded-[0.4rem] text-[9px] lg:text-[13px]">🕒</span> Horarios de Atención
           </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-3 md:gap-x-6 gap-y-1 text-[10px] md:text-sm text-blue-950">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-2 lg:gap-x-3 gap-y-0.5 lg:gap-y-1 text-[9px] lg:text-[11px] text-blue-950">
             <div className="flex justify-between border-b border-blue-950/10 pb-1">
               <span className="font-semibold text-blue-950">{schedule.dia1}</span>
               <span>{schedule.hora1}</span>
@@ -167,7 +167,7 @@ export function Plans() {
               <span className="font-semibold text-blue-950">{schedule.dia2}</span>
               <span>{schedule.hora2}</span>
             </div>
-            <div className="flex justify-between text-blue-950 font-semibold sm:col-span-2 pt-1">
+            <div className="flex justify-between text-blue-950 font-semibold sm:col-span-2 pt-0.5 border-t border-blue-100/10 hidden sm:flex">
               <span>{schedule.dia3}</span>
               <span>{schedule.hora3}</span>
             </div>
@@ -176,31 +176,31 @@ export function Plans() {
 
         {/* ── GRUPOS DE PRECIOS DINÁMICOS ── */}
         {groups.map((group, i) => (
-          <div key={i} className={`bento-item ${group.isPremium ? 'col-span-1 md:col-span-2 shadow-xl' : 'col-span-1 md:col-span-2 shadow-lg'} bg-white/20 backdrop-blur-md border border-blue-100/30 p-2.5 md:p-4 rounded-2xl md:rounded-[2rem] text-blue-950 flex flex-col justify-center`}>
+          <div key={i} className={`bento-item flex-1 min-w-[130px] lg:min-w-[200px] max-w-[48%] lg:max-w-[32%] ${group.isPremium ? 'shadow-lg lg:shadow-xl shadow-blue-900/10' : 'shadow-md lg:shadow-lg'} bg-white/20 backdrop-blur-md border border-blue-100/30 p-2.5 lg:p-4 rounded-[1rem] lg:rounded-[1.3rem] text-blue-950 flex flex-col justify-center`}>
             {group.isPremium ? (
-              <div className="space-y-1.5 md:space-y-3">
-                <h4 className="font-bold text-[9px] md:text-base leading-tight">{group.title}</h4>
+              <div className="space-y-1 lg:space-y-1.5">
+                <h4 className="font-bold text-[9px] lg:text-[14px] leading-tight">{group.title}</h4>
                 {group.badge && (
-                  <p className="inline-block bg-blue-100 text-blue-950 text-[9px] md:text-xs font-bold px-2 py-0.5 rounded-full">
+                  <p className="inline-block bg-blue-950 text-white px-1.5 lg:px-2.5 py-0.5 lg:py-1 rounded-full text-[8px] lg:text-[10px] font-bold shadow-md">
                     {group.badge}
                   </p>
                 )}
-                <ul className="space-y-0.5 text-[8.5px] md:text-xs">
+                <ul className="space-y-0.5 lg:space-y-1 text-[8.5px] lg:text-[11px] text-blue-950 mt-1 lg:mt-1.5">
                   {group.items.map((item: any, j: number) => (
-                    <li key={j} className="flex justify-between">
-                      <span>{item.name}</span> <span className="text-blue-950 font-bold">{item.price}</span>
+                    <li key={j} className="flex justify-between border-b border-blue-950/5 pb-0.5 lg:pb-1 mb-0.5 lg:mb-1 last:border-0 gap-1">
+                      <span className="text-left font-medium min-w-0 break-words">{item.name}</span> <span className="text-blue-950 font-bold text-right whitespace-nowrap">{item.price}</span>
                     </li>
                   ))}
                 </ul>
               </div>
             ) : (
               <>
-                <h4 className="font-bold text-[8.5px] md:text-sm leading-tight mb-0.5 md:mb-1 text-blue-950">{group.title}</h4>
-                {group.subtitle && <p className="text-blue-950 font-bold mb-1 text-[8px] md:text-xs">{group.subtitle}</p>}
-                <ul className="space-y-0.5 text-[8.5px] md:text-xs text-blue-950">
+                <h4 className="font-bold text-[9px] lg:text-[13px] leading-tight mb-0.5 lg:mb-1 text-blue-950">{group.title}</h4>
+                {group.subtitle && <p className="text-blue-950 font-bold mb-1 lg:mb-1.5 text-[8.5px] lg:text-[10px]">{group.subtitle}</p>}
+                <ul className="space-y-0.5 lg:space-y-1 text-[8.5px] lg:text-[11px] text-blue-950 mt-1 lg:mt-1.5">
                   {group.items.map((item: any, j: number) => (
-                    <li key={j} className="flex justify-between">
-                      <span>{item.name}</span> <span className="font-bold text-blue-950">{item.price}</span>
+                    <li key={j} className="flex justify-between border-b border-blue-950/5 pb-0.5 lg:pb-1 mb-0.5 lg:mb-1 last:border-0 gap-1">
+                      <span className="text-left font-medium min-w-0 break-words">{item.name}</span> <span className="font-bold text-blue-950 text-right whitespace-nowrap">{item.price}</span>
                     </li>
                   ))}
                 </ul>
@@ -211,15 +211,15 @@ export function Plans() {
 
       </div>
 
-      {/* Botón rápido Admin al final del flujo normal */}
+      {/* Botón rápido Admin al final del flujo normal (Esquina Derecha Abajo FLOTANTE) */}
       {mounted && session && (
-        <div className="w-[95%] max-w-[240px] md:max-w-5xl flex justify-center md:justify-end mt-8 md:mt-10 relative z-50">
+        <div className="absolute bottom-6 right-4 lg:bottom-8 lg:right-10 z-[60]">
           <Link
             href="/admin/admin-plans"
-            className="flex items-center gap-2 px-4 md:px-5 py-2.5 md:py-3 bg-blue-950 text-white text-xs md:text-sm font-semibold rounded-full shadow-xl hover:bg-blue-800 hover:scale-105 transition-all duration-200"
+            className="flex items-center gap-1.5 px-3 py-1.5 md:px-4 md:py-2 bg-blue-950 text-white text-[10px] md:text-[12px] font-semibold rounded-full shadow-2xl hover:bg-blue-800 hover:scale-105 transition-all duration-200 border border-white/20"
           >
-            <Settings2 size={16} />
-            Editar Planes
+            <Settings2 size={12} className="w-[12px] h-[12px] md:w-[14px] md:h-[14px]" />
+            Editar
           </Link>
         </div>
       )}

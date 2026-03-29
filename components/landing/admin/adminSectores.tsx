@@ -145,25 +145,25 @@ export default function AdminSectoresPage() {
         </div>
       </header>
 
-      <div className="w-[95%] max-w-[320px] lg:max-w-4xl mx-auto px-2 md:px-4 py-4 md:py-8 grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] gap-4 md:gap-5">
+      <div className="w-[95%] max-w-[300px] lg:max-w-2xl mx-auto px-2 md:px-3 py-3 md:py-6 grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-3 md:gap-4">
         {/* Formulario añadir */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="bg-white rounded-xl md:rounded-[1.5rem] shadow-md border border-blue-50 p-3 md:p-5"
+          className="bg-white rounded-[1rem] md:rounded-[1.2rem] shadow-md border border-blue-50 p-2.5 md:p-4"
         >
-          <div className="flex items-center gap-2 mb-4">
-            <div className="w-7 h-7 bg-blue-950 rounded-lg flex items-center justify-center">
-              <Plus size={14} className="text-white" />
+          <div className="flex items-center gap-1.5 mb-3">
+            <div className="w-6 h-6 bg-blue-950 rounded-md flex items-center justify-center">
+              <Plus size={12} className="text-white" />
             </div>
-            <h2 className="font-bold text-blue-950 text-sm md:text-base">Añadir Sector</h2>
+            <h2 className="font-bold text-blue-950 text-[11px] md:text-[13px]">Añadir Sector</h2>
           </div>
 
-          <form onSubmit={handleAdd} className="space-y-3">
+          <form onSubmit={handleAdd} className="space-y-2.5">
             {formError && (
-              <div className="flex items-center gap-2 p-2.5 bg-red-50 border border-red-200 text-red-600 rounded-md text-xs">
-                <AlertCircle size={13} /> {formError}
+              <div className="flex items-center gap-1.5 p-2 bg-red-50 border border-red-200 text-red-600 rounded-md text-[10px] md:text-xs">
+                <AlertCircle size={12} /> {formError}
               </div>
             )}
             {formSuccess && (
@@ -259,16 +259,16 @@ export default function AdminSectoresPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="bg-white rounded-xl md:rounded-[1.5rem] shadow-md border border-blue-50 p-3 md:p-5"
+          className="bg-white rounded-[1rem] md:rounded-[1.2rem] shadow-md border border-blue-50 p-2.5 md:p-4"
         >
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <div className="w-7 h-7 bg-blue-950 rounded-lg flex items-center justify-center">
-                <MapPin size={14} className="text-white" />
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-1.5">
+              <div className="w-6 h-6 bg-blue-950 rounded-md flex items-center justify-center">
+                <MapPin size={12} className="text-white" />
               </div>
-              <h2 className="font-bold text-blue-950 text-sm md:text-base">Sectores Activos</h2>
+              <h2 className="font-bold text-blue-950 text-[11px] md:text-[13px]">Sectores Activos</h2>
             </div>
-            <span className="bg-blue-100 text-blue-950 text-[10px] md:text-xs font-bold px-2.5 py-1 rounded-full">
+            <span className="bg-blue-100 text-blue-950 text-[9px] md:text-[10px] font-bold px-2 py-0.5 rounded-full">
               {barrios.length} registros
             </span>
           </div>
@@ -282,7 +282,7 @@ export default function AdminSectoresPage() {
           ) : barrios.length === 0 ? (
             <p className="text-center text-blue-950/40 text-sm py-10">No hay sectores registrados aún.</p>
           ) : (
-            <ul className="space-y-1.5 md:space-y-2 max-h-[250px] md:max-h-[320px] overflow-y-auto pr-1">
+            <ul className="space-y-1.5 max-h-[220px] md:max-h-[280px] overflow-y-auto pr-1">
               <AnimatePresence>
                 {barrios.map(b => (
                   <motion.li
@@ -290,17 +290,17 @@ export default function AdminSectoresPage() {
                     initial={{ opacity: 0, x: 10 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -10 }}
-                    className="flex items-center justify-between gap-2 p-2 md:p-3 rounded-xl border border-blue-50 hover:bg-blue-50/60 transition-colors group"
+                    className="flex items-center justify-between gap-1.5 p-1.5 md:p-2 rounded-lg border border-blue-50 hover:bg-blue-50/60 transition-colors group"
                   >
-                    <div className="flex items-center gap-3 min-w-0">
+                    <div className="flex items-center gap-2 min-w-0">
                       <div
-                        className="w-4 h-4 rounded-full flex-shrink-0 ring-2 ring-white shadow"
+                        className="w-3 h-3 rounded-full flex-shrink-0 ring-2 ring-white shadow"
                         style={{ backgroundColor: b.color }}
                       />
                       <div className="min-w-0">
-                        <p className="font-semibold text-gray-900 text-xs md:text-sm truncate">{b.nombre}</p>
-                        <p className="text-[9px] md:text-[10px] text-gray-500 font-mono">
-                          {b.lat.toFixed(5)}, {b.lng.toFixed(5)} · r: {b.radio}m
+                        <p className="font-semibold text-gray-900 text-[10px] md:text-xs truncate">{b.nombre}</p>
+                        <p className="text-[8px] md:text-[9px] text-gray-500 font-mono">
+                          {b.lat.toFixed(4)}, {b.lng.toFixed(4)} · r:{b.radio}
                         </p>
                       </div>
                     </div>
@@ -308,7 +308,7 @@ export default function AdminSectoresPage() {
                       onClick={() => handleDelete(b.id, b.nombre)}
                       disabled={deleting === b.id}
                       title="Eliminar sector"
-                      className="flex-shrink-0 w-7 h-7 md:w-8 md:h-8 flex items-center justify-center text-red-400 hover:text-white hover:bg-red-500 rounded-lg transition-all md:opacity-0 md:group-hover:opacity-100 disabled:opacity-50"
+                      className="flex-shrink-0 w-6 h-6 md:w-7 md:h-7 flex items-center justify-center text-red-400 hover:text-white hover:bg-red-500 rounded-md transition-all md:opacity-0 md:group-hover:opacity-100 disabled:opacity-50"
                     >
                       {deleting === b.id ? (
                         <span className="text-[10px]">...</span>
