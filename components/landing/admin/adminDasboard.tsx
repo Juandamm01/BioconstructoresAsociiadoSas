@@ -77,7 +77,7 @@ export default function AdminDashboard({ session, admins, stats }: { session: an
             <img src="/images/bcas-logo.png" alt="Bioconstructores Asociados SAS Logo" className="w-full h-full object-contain" />
           </div>
           <div>
-            <h1 className="text-[13px] font-black leading-tight text-blue-950">Bioconstructores<br/><span className="text-blue-600 font-medium text-[10px] uppercase tracking-wider">Asociados SAS</span></h1>
+            <h1 className="text-[13px] font-black leading-tight text-blue-950">Bioconstructores<br/><span className="text-blue-950 font-medium text-[10px] uppercase tracking-wider">Asociados SAS</span></h1>
           </div>
         </div>
 
@@ -105,13 +105,6 @@ export default function AdminDashboard({ session, admins, stats }: { session: an
         <header className="header-anim sticky top-0 bg-slate-50/80 backdrop-blur-md z-10 px-6 py-4 flex items-center justify-end border-b border-slate-200/50 shadow-xs">
 
           <div className="flex items-center gap-4 ml-auto">
-            <button className="relative p-2 text-slate-400 hover:text-blue-600 transition-colors bg-white rounded-full border border-slate-200 shadow-sm">
-              <Bell size={20} />
-              <span className="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span>
-            </button>
-            
-            <div className="h-8 w-px bg-slate-200"></div>
-
             <button 
               onClick={() => setIsEditingProfile(true)}
               className="flex items-center gap-3 hover:bg-white p-1 pr-3 rounded-full transition-colors border border-transparent hover:border-slate-200 cursor-pointer"
@@ -119,13 +112,12 @@ export default function AdminDashboard({ session, admins, stats }: { session: an
               {session.user.image ? (
                 <img src={session.user.image} alt={session.user.name} className="w-9 h-9 rounded-full object-cover border border-slate-200" />
               ) : (
-                <div className="w-9 h-9 rounded-full bg-linear-to-tr from-blue-600 to-cyan-400 flex items-center justify-center text-white font-bold shadow-sm">
+                <div className="w-9 h-9 rounded-full bg-linear-to-tr from-blue-950 to-blue-800 flex items-center justify-center text-white font-bold shadow-sm">
                   {session.user.name.charAt(0).toUpperCase()}
                 </div>
               )}
               <div className="hidden md:block text-left">
                 <p className="text-sm font-bold text-blue-950 leading-none">{session.user.name}</p>
-                <p className="text-xs text-slate-500 leading-none mt-1">Admin Manager</p>
               </div>
             </button>
           </div>
@@ -136,7 +128,7 @@ export default function AdminDashboard({ session, admins, stats }: { session: an
           <div className="flex justify-between items-end mb-6 card-anim">
             <div>
               <h2 className="text-2xl md:text-3xl font-black text-blue-950">Panel de Control</h2>
-              <p className="text-sm text-slate-500 mt-1">Monitorea y edita el contenido principal de tu web.</p>
+              <p className="text-sm text-slate-500 mt-1">Soluciones Innovadoras Para Un Mundo Conectado.</p>
             </div>
           </div>
 
