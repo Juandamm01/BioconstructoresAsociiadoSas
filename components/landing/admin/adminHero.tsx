@@ -118,7 +118,7 @@ export default function AdminHeroPage() {
   };
 
   const goToDashboard = () => {
-    router.push("/#home");
+    router.push("/admin/dashboard");
   };
 
   if (isPending || fetching) {
@@ -150,7 +150,7 @@ export default function AdminHeroPage() {
             onClick={goToDashboard}
             className="flex items-center gap-1.5 text-xs px-3 py-1.5 bg-blue-800 hover:bg-blue-700 rounded-md transition-colors text-white"
           >
-            <ArrowLeft size={12} /> Ver Cambios
+            <ArrowLeft size={12} /> Volver al Dashboard
           </button>
         </div>
       </header>

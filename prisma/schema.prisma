@@ -75,3 +75,32 @@ model HeroConfig {
   slogan     String   @default("Soluciones Innovadoras Para Un Mundo Conectado.")
   updatedAt  DateTime @updatedAt
 }
+
+model PlanSchedule {
+  id    Int    @id @default(1)
+  dia1  String
+  hora1 String
+  dia2  String
+  hora2 String
+  dia3  String
+  hora3 String
+}
+
+model PlanGroup {
+  id        Int        @id @default(autoincrement())
+  title     String
+  subtitle  String?
+  badge     String?
+  isPremium Boolean    @default(false)
+  order     Int        @default(0)
+  items     PlanItem[]
+}
+
+model PlanItem {
+  id          Int       @id @default(autoincrement())
+  name        String
+  price       String
+  order       Int       @default(0)
+  planGroupId Int
+  planGroup   PlanGroup @relation(fields: [planGroupId], references: [id], onDelete: Cascade)
+}

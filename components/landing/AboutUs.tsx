@@ -54,8 +54,6 @@ export function AboutUs() {
       ref={sectionRef}
       className="flavor-section min-h-screen bg-linear-to-b from-blue-900/80 via-blue-900/10 to-white relative z-50 overflow-hidden"
     >
-      {/* Franja sólida que tapa la línea donde se filtra el video del Hero */}
-      <div className="absolute top-0 left-0 right-0 h-[3px] bg-blue-900 z-10" />
       <div
         ref={sliderRef}
         className="flex flex-row items-center relative h-[100dvh]"

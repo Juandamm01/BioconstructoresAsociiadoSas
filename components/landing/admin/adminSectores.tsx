@@ -90,16 +90,7 @@ export default function AdminSectoresPage() {
   };
 
   const goToMap = () => {
-    // Navigate to home first, then scroll past the GSAP pin zone (500px offset)
-    router.push("/");
-    // Small delay to let the page load before scrolling
-    setTimeout(() => {
-      const el = document.getElementById("contact");
-      if (el) {
-        const top = el.getBoundingClientRect().top + window.scrollY + 500;
-        window.scrollTo({ top, behavior: "smooth" });
-      }
-    }, 600);
+    router.push("/admin/dashboard");
   };
 
   if (isPending) {
@@ -132,20 +123,14 @@ export default function AdminSectoresPage() {
           </span>
           <button
             onClick={goToMap}
-            className="flex items-center gap-1 text-[10px] md:text-xs px-2 md:px-3 py-1.5 bg-blue-800 hover:bg-blue-700 rounded-md transition-colors"
-          >
-            <ArrowLeft size={12} /> Ver Mapa
-          </button>
-          <button
-            onClick={goToMap}
             className="flex items-center gap-1 text-[10px] md:text-xs px-2 md:px-3 py-1.5 bg-slate-600 hover:bg-slate-700 rounded-md transition-colors"
           >
-            <ArrowLeft size={12} /> Volver
+            <ArrowLeft size={12} /> Volver al Dashboard
           </button>
         </div>
       </header>
 
-      <div className="w-[95%] max-w-[300px] lg:max-w-2xl mx-auto px-2 md:px-3 py-3 md:py-6 grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-3 md:gap-4">
+      <div className="w-[95%] max-w-6xl mx-auto px-2 md:px-3 py-3 md:py-6 grid grid-cols-1 md:grid-cols-[1fr_1.5fr] lg:grid-cols-[400px_1fr] gap-4 md:gap-6">
         {/* Formulario añadir */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

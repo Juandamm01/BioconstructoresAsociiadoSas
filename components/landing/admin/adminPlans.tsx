@@ -95,11 +95,7 @@ export default function AdminPlansPage() {
   };
 
   const goToPlans = () => {
-    router.push("/");
-    setTimeout(() => {
-      const el = document.getElementById("plans");
-      if (el) window.scrollTo({ top: el.offsetTop, behavior: "smooth" });
-    }, 600);
+    router.push("/admin/dashboard");
   };
 
   if (isPending || loading) return <div className="min-h-screen bg-blue-950 flex items-center justify-center text-white font-[family-name:var(--font-poppins)]">Cargando...</div>;
@@ -115,8 +111,8 @@ export default function AdminPlansPage() {
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <button onClick={goToPlans} className="flex items-center gap-1 text-[10px] md:text-xs px-2 md:px-3 py-1.5 bg-blue-800 hover:bg-blue-700 rounded-md transition-colors">
-            <ArrowLeft size={12} /> Ver Planes
+          <button onClick={goToPlans} className="flex items-center gap-1 text-[10px] md:text-xs px-2 md:px-3 py-1.5 bg-slate-600 hover:bg-slate-700 rounded-md transition-colors">
+            <ArrowLeft size={12} /> Volver al Dashboard
           </button>
           <button onClick={handleSave} disabled={saving} className="flex items-center gap-1 text-[10px] md:text-xs px-2 md:px-4 py-1.5 bg-green-600 hover:bg-green-500 font-bold rounded-md transition-colors disabled:opacity-70">
             {saving ? <div className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <Save size={14} />}

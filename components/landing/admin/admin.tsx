@@ -93,7 +93,7 @@ export default function AdminPage() {
       return;
     }
 
-    router.push("/");
+    router.push("/admin/dashboard");
   };
 
   return (
