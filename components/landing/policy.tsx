@@ -130,7 +130,7 @@ export function Policy({ config }: { config?: any }) {
             >
               {config?.titulo || "Políticas ISP"}
             </h2>
-            
+
             <p className="tracking-tight text-xl md:text-3xl text-white font-medium text-center max-w-5xl leading-[1.4] drop-shadow-2xl">
               {config?.texto || "BCAS ofrece a todos sus clientes servicios normativos que garantizan seguridad digital, responsabilidad social y cumplimiento legal en"}
               <span className="font-bold text-blue-800 ml-2">{config?.resaltado || "Villavicencio."}</span>

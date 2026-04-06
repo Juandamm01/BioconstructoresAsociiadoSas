@@ -129,7 +129,7 @@ export default function AdminPolicyDashboard({ initialConfig }: { initialConfig:
                   type="text" 
                   value={config.titulo} 
                   onChange={e => setConfig({...config, titulo: e.target.value})} 
-                  className="w-full border-2 border-slate-100 rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none text-sm transition-colors" 
+                  className="w-full border-2 border-slate-100 rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none text-sm text-slate-900 bg-white transition-colors" 
                 />
               </div>
 
@@ -139,7 +139,7 @@ export default function AdminPolicyDashboard({ initialConfig }: { initialConfig:
                   rows={4}
                   value={config.texto} 
                   onChange={e => setConfig({...config, texto: e.target.value})} 
-                  className="w-full border-2 border-slate-100 rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none text-sm transition-colors resize-none" 
+                  className="w-full border-2 border-slate-100 rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none text-sm text-slate-900 bg-white transition-colors resize-none" 
                 />
               </div>
 
@@ -149,7 +149,7 @@ export default function AdminPolicyDashboard({ initialConfig }: { initialConfig:
                   type="text" 
                   value={config.resaltado} 
                   onChange={e => setConfig({...config, resaltado: e.target.value})} 
-                  className="w-full border-2 border-slate-100 rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none text-sm transition-colors" 
+                  className="w-full border-2 border-slate-100 rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none text-sm text-slate-900 bg-white transition-colors" 
                 />
               </div>
             </div>
