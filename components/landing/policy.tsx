@@ -8,7 +8,7 @@ import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export function Policy() {
+export function Policy({ config }: { config?: any }) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
@@ -128,13 +128,12 @@ export function Policy() {
               ref={titleRef}
               className="text-center md:text-8xl text-5xl uppercase font-black bg-linear-to-b from-white to-blue-400 bg-clip-text text-transparent tracking-tighter"
             >
-              Políticas ISP
+              {config?.titulo || "Políticas ISP"}
             </h2>
-
+            
             <p className="tracking-tight text-xl md:text-3xl text-white font-medium text-center max-w-5xl leading-[1.4] drop-shadow-2xl">
-              BCAS ofrece a todos sus clientes servicios normativos que garantizan
-              seguridad digital, responsabilidad social y cumplimiento legal en
-              <span className="font-bold text-blue-800 ml-2">Villavicencio.</span>
+              {config?.texto || "BCAS ofrece a todos sus clientes servicios normativos que garantizan seguridad digital, responsabilidad social y cumplimiento legal en"}
+              <span className="font-bold text-blue-800 ml-2">{config?.resaltado || "Villavicencio."}</span>
             </p>
           </div>
 
@@ -144,7 +143,7 @@ export function Policy() {
             className="absolute inset-0 flex items-center justify-center px-4 md:px-10 opacity-0 pointer-events-none"
           >
             <div className="w-full max-w-6xl">
-              <Privacy />
+              <Privacy config={config} />
             </div>
           </div>
 
@@ -154,7 +153,7 @@ export function Policy() {
             className="absolute w-[75%] md:w-[50%] h-48 md:h-80 rounded-[2.5rem] overflow-hidden border-2 border-white/20 shadow-2xl bg-blue-950 opacity-0 pointer-events-none mx-auto"
           >
             <video
-              src="/videos/conectividad.mp4"
+              src={config?.videoUrl || "/videos/conectividad.mp4"}
               autoPlay
               loop
               muted

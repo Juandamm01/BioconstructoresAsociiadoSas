@@ -103,20 +103,20 @@ export default function AdminPlansPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 font-[family-name:var(--font-poppins)] pb-12">
-      <header className="bg-blue-950 text-white px-3 md:px-4 py-2.5 md:py-3 flex flex-wrap items-center justify-between gap-2 shadow-lg sticky top-0 z-50">
+      <header className="bg-blue-950 text-white px-6 py-4 flex items-center justify-between shadow-lg sticky top-0 z-50">
         <div className="flex items-center gap-3">
           <img src="/images/bcas-logo.png" alt="BCAS" className="h-8 w-auto" />
           <div>
-            <h1 className="font-bold text-sm md:text-lg leading-none">Gestión de Planes</h1>
+            <h1 className="font-bold text-lg leading-none text-white">Administrador de la Página</h1>
+            <p className="text-blue-200 text-xs mt-0.5">Editor de Planes y Horarios</p>
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <button onClick={goToPlans} className="flex items-center gap-1 text-[10px] md:text-xs px-2 md:px-3 py-1.5 bg-slate-600 hover:bg-slate-700 rounded-md transition-colors">
+          <button
+            onClick={() => router.push("/admin/dashboard")}
+            className="flex items-center gap-1.5 text-xs px-3 py-1.5 bg-blue-800 hover:bg-blue-700 rounded-md transition-colors text-white"
+          >
             <ArrowLeft size={12} /> Volver al Dashboard
-          </button>
-          <button onClick={handleSave} disabled={saving} className="flex items-center gap-1 text-[10px] md:text-xs px-2 md:px-4 py-1.5 bg-green-600 hover:bg-green-500 font-bold rounded-md transition-colors disabled:opacity-70">
-            {saving ? <div className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <Save size={14} />}
-            Guardar Cambios
           </button>
         </div>
       </header>
@@ -210,6 +210,19 @@ export default function AdminPlansPage() {
             </AnimatePresence>
           </div>
         </section>
+
+        <div className="flex justify-end pt-4 max-w-3xl mx-auto">
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={handleSave}
+            disabled={saving}
+            className="px-8 py-3 bg-blue-950 text-white rounded-xl text-sm font-bold flex items-center justify-center gap-2 disabled:opacity-60 hover:bg-blue-900 transition-colors shadow-lg shadow-blue-900/20"
+          >
+            {saving ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <Save size={18} />}
+            {saving ? "Guardando..." : "Guardar Cambios"}
+          </motion.button>
+        </div>
 
       </div>
     </div>

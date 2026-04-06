@@ -26,9 +26,15 @@ export default function AdminPage() {
   const pageRef = useRef<HTMLDivElement>(null);
   const [currentGif, setCurrentGif] = useState(0);
 
+  const { data: session, isPending } = authClient.useSession();
+
   useEffect(() => {
-    // Si llegan a esta página usando back o directamente, cerrar sesión por seguridad
-    authClient.signOut();
+    if (!isPending && session) {
+      router.push("/admin/dashboard");
+    }
+  }, [session, isPending, router]);
+
+  useEffect(() => {
     const interval = setInterval(() => {
       setCurrentGif((prev) => (prev + 1) % gifs.length);
     }, 4000);

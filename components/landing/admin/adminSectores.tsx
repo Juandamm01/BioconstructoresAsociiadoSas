@@ -109,21 +109,18 @@ export default function AdminSectoresPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 font-[family-name:var(--font-poppins)]">
       {/* Header */}
-      <header className="bg-blue-950 text-white px-3 md:px-6 py-3 md:py-4 flex flex-wrap items-center justify-between gap-2 shadow-lg">
+      <header className="bg-blue-950 text-white px-6 py-4 flex items-center justify-between shadow-lg sticky top-0 z-50">
         <div className="flex items-center gap-3">
           <img src="/images/bcas-logo.png" alt="BCAS" className="h-8 w-auto" />
           <div>
-            <h1 className="font-bold text-sm md:text-lg leading-none">Gestión de Sectores</h1>
-            <p className="text-blue-200 text-[10px] md:text-xs mt-0.5 hidden sm:block">Bioconstructores Asociados SAS</p>
+            <h1 className="font-bold text-lg leading-none text-white">Administrador de la Página</h1>
+            <p className="text-blue-200 text-xs mt-0.5">Gestión de Sectores</p>
           </div>
         </div>
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-blue-200 hidden lg:block">
-            Hola, <span className="text-white font-semibold">{session.user.name}</span>
-          </span>
+        <div className="flex items-center gap-3">
           <button
-            onClick={goToMap}
-            className="flex items-center gap-1 text-[10px] md:text-xs px-2 md:px-3 py-1.5 bg-slate-600 hover:bg-slate-700 rounded-md transition-colors"
+            onClick={() => router.push("/admin/dashboard")}
+            className="flex items-center gap-1.5 text-xs px-3 py-1.5 bg-blue-800 hover:bg-blue-700 rounded-md transition-colors text-white"
           >
             <ArrowLeft size={12} /> Volver al Dashboard
           </button>

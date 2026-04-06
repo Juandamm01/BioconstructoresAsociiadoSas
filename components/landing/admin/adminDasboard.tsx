@@ -140,10 +140,10 @@ export default function AdminDashboard({ session, admins, stats }: { session: an
 
         <nav className="flex-1 space-y-1">
           <NavItem active icon={<LayoutDashboard size={20} />} label="Dashboard" href="/admin/dashboard" />
-          <NavItem icon={<Map size={20} />} label="Sectores Geográficos" href="/admin/admin-sectores" />
-          <NavItem icon={<CreditCard size={20} />} label="Planes y Horarios" href="/admin/admin-plans" />
+          <NavItem icon={<Map size={20} />} label="Sectores" href="/admin/admin-sectores" />
+          <NavItem icon={<CreditCard size={20} />} label="Planes" href="/admin/admin-plans" />
           <NavItem icon={<Video size={20} />} label="Hero Principal" href="/admin/admin-hero" />
-          <NavItem icon={<Settings size={20} />} label="Configuración" href="#" />
+          <NavItem icon={<Settings size={20} />} label="Políticas" href="/admin/admin-policy" />
         </nav>
 
         <div className="mt-auto pt-6 border-t border-slate-100">
@@ -231,6 +231,14 @@ export default function AdminDashboard({ session, admins, stats }: { session: an
                   icon={<CreditCard size={24} className="text-indigo-600" />}
                   color="bg-indigo-50"
                   delay="delay-300"
+                />
+                <ShortcutCard 
+                  title="Políticas ISP" 
+                  desc="Ajusta los textos normativos y videos explicativos del inicio."
+                  link="/admin/admin-policy"
+                  icon={<CheckCircle size={24} className="text-purple-600" />}
+                  color="bg-purple-50"
+                  delay="delay-400"
                 />
               </div>
             </div>
@@ -385,7 +393,7 @@ export default function AdminDashboard({ session, admins, stats }: { session: an
         <MobileNavItem icon={<LayoutDashboard size={20} />} label="Dash" href="/admin/dashboard" active />
         <MobileNavItem icon={<Map size={20} />} label="Sectores" href="/admin/admin-sectores" />
         <MobileNavItem icon={<CreditCard size={20} />} label="Planes" href="/admin/admin-plans" />
-        <MobileNavItem icon={<Video size={20} />} label="Hero" href="/admin/admin-hero" />
+        <MobileNavItem icon={<CheckCircle size={20} />} label="Políticas" href="/admin/admin-policy" />
         <button onClick={handleLogout} className="flex flex-col items-center gap-1 p-2 text-red-500 hover:text-red-700 transition-colors">
           <LogOut size={20} />
           <span className="text-[10px] font-bold">Salir</span>

@@ -104,3 +104,20 @@ model PlanItem {
   planGroupId Int
   planGroup   PlanGroup @relation(fields: [planGroupId], references: [id], onDelete: Cascade)
 }
+
+model PolicyConfig {
+  id        Int      @id @default(1)
+  titulo    String   @default("Políticas ISP")
+  texto     String   @default("BCAS ofrece a todos sus clientes servicios normativos que garantizan seguridad digital, responsabilidad social y cumplimiento legal en")
+  resaltado String   @default("Villavicencio.")
+  videoUrl  String   @default("/videos/conectividad.mp4")
+  b1Titulo  String   @default("Internet Sano")
+  b1Texto   String   @default("Nos unimos a la campaña del Ministerio TIC para promover el uso seguro de Internet, generando conciencia sobre la prevención de la explotación infantil en entornos digitales.")
+  b2Titulo  String   @default("Ley 679 de 2001")
+  b2Texto   String   @default("Adoptamos medidas técnicas y administrativas para prevenir la difusión de contenido ilegal relacionado con menores de edad, implementando controles y filtros.")
+  b3Titulo  String   @default("Ley 1336 de 2009")
+  b3Texto   String   @default("Fortalecemos la protección de menores mediante códigos de conducta y políticas de prevención en servicios digitales para evitar la explotación sexual infantil.")
+  b4Titulo  String   @default("Protección de Datos")
+  b4Texto   String   @default("Garantizamos la confidencialidad de la información personal, aplicamos medidas de protección para prevenir fraude y accesos no autorizados.")
+  updatedAt DateTime @updatedAt
+}
