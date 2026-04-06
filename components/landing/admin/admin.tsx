@@ -27,6 +27,8 @@ export default function AdminPage() {
   const [currentGif, setCurrentGif] = useState(0);
 
   useEffect(() => {
+    // Si llegan a esta página usando back o directamente, cerrar sesión por seguridad
+    authClient.signOut();
     const interval = setInterval(() => {
       setCurrentGif((prev) => (prev + 1) % gifs.length);
     }, 4000);

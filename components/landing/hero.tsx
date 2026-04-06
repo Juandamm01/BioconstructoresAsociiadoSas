@@ -16,16 +16,7 @@ export async function Hero() {
 
   return (
     <section id="home" className="relative min-h-screen pt-40 pb-20 overflow-hidden flex items-center justify-center text-center">
-      {/* Botón rápido para acceder al editor si es admin */}
-      {session && (
-        <Link
-          href="/admin/admin-hero"
-          className="absolute bottom-6 right-6 z-50 flex items-center gap-2 px-4 py-2 bg-blue-950/80 text-white text-xs font-bold rounded-full backdrop-blur hover:bg-blue-900 shadow-xl transition-all border border-white/20"
-        >
-          <Edit2 size={12} />
-          Editar Hero
-        </Link>
-      )}
+
 
       {/* Fondo fijo con video */}
       <video

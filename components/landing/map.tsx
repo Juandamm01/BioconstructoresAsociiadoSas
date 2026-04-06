@@ -28,6 +28,9 @@ export function Map() {
   const asideRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
+    // Si llegan a la página pública interactuando etc, cerramos sesión por seguridad
+    authClient.signOut();
+    
     fetch("/api/barrios", { cache: "no-store" })
       .then(res => res.json())
       .then(data => {
@@ -87,16 +90,7 @@ export function Map() {
       ref={sectionRef}
       className="relative flex flex-col items-center justify-center min-h-screen font-poppins px-3 md:px-12 pt-16 md:pt-32 pb-20 md:pb-16 gap-3 md:gap-6 bg-linear-to-b from-white via-white to-blue-950"
     >
-      {/* Botón flotante Admin Sectores - solo visible si está logueado */}
-      {mounted && session && (
-        <Link
-          href="/admin/admin-sectores"
-          className="absolute bottom-4 right-3 md:bottom-6 md:right-6 z-50 flex items-center gap-1.5 px-3 py-2 md:px-4 md:py-2.5 bg-blue-950 text-white text-[10px] md:text-sm font-semibold rounded-full shadow-xl hover:bg-blue-800 hover:scale-105 transition-all duration-200"
-        >
-          <Settings2 size={14} />
-          Gestionar Sectores
-        </Link>
-      )}
+
       <div className="relative w-[95%] max-w-[300px] md:max-w-4xl flex flex-col gap-3 md:gap-4">
         
         <h2 className="map-title text-center text-base md:text-4xl font-black uppercase tracking-tight bg-gradient-to-b from-blue-950 via-blue-900 to-white/0 bg-clip-text text-transparent opacity-0">

@@ -34,10 +34,33 @@ interface AdminData {
 
 export default function AdminDashboard({ session, admins, stats }: { session: any, admins: AdminData[], stats: any }) {
   const router = useRouter();
+  const { data: activeSession } = authClient.useSession();
+  const currentUser = activeSession?.user || session.user;
+
   const [isEditingProfile, setIsEditingProfile] = useState(false);
-  const [profileName, setProfileName] = useState(session.user.name || "");
-  const [profileImage, setProfileImage] = useState(session.user.image || "");
+  const [profileName, setProfileName] = useState(currentUser.name || "");
+  const [profileImage, setProfileImage] = useState(currentUser.image || "");
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [savingProfile, setSavingProfile] = useState(false);
+  
+  // Usar estado local para optimismo visual Inmediato
+  const [displayImage, setDisplayImage] = useState(currentUser.image);
+  const [displayName, setDisplayName] = useState(currentUser.name);
+  const [localAdmins, setLocalAdmins] = useState(admins);
+
+  useEffect(() => {
+    setDisplayImage(currentUser.image);
+    setDisplayName(currentUser.name);
+    setLocalAdmins(admins);
+  }, [currentUser.image, currentUser.name, admins]);
+
+  useEffect(() => {
+    if (isEditingProfile) {
+      setProfileName(displayName || "");
+      setProfileImage(displayImage || "");
+      setSelectedFile(null);
+    }
+  }, [isEditingProfile, displayName, displayImage]);
   const dashboardRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
@@ -59,13 +82,47 @@ export default function AdminDashboard({ session, admins, stats }: { session: an
 
   const saveProfile = async () => {
     setSavingProfile(true);
+    let finalImageUrl = profileImage;
+
+    // Si seleccionó un archivo nuevo, lo subimos ahora
+    if (selectedFile) {
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+      try {
+        const res = await fetch("/api/upload", {
+          method: "POST",
+          body: formData,
+        });
+        const data = await res.json();
+        if (res.ok) {
+          finalImageUrl = data.url;
+        }
+      } catch (err) {
+        console.error("Error al subir imagen:", err);
+      }
+    }
+
     await authClient.updateUser({
       name: profileName,
-      image: profileImage,
+      image: finalImageUrl,
     });
+    
+    setDisplayImage(finalImageUrl);
+    setDisplayName(profileName);
+    
+    // Actualizar también en la lista de administradores localmente
+    setLocalAdmins(prev => prev.map(a => 
+      a.id === currentUser.id ? { ...a, name: profileName, image: finalImageUrl } : a
+    ));
+
     setSavingProfile(false);
     setIsEditingProfile(false);
-    router.refresh(); // refresca el server prop
+    
+    router.refresh(); 
+    // Forzamos un pequeño timeout para asegurar que el navegador cargue la nueva imagen de ser necesario
+    setTimeout(() => {
+      window.location.reload();
+    }, 400); 
   };
 
   return (
@@ -109,15 +166,15 @@ export default function AdminDashboard({ session, admins, stats }: { session: an
               onClick={() => setIsEditingProfile(true)}
               className="flex items-center gap-3 hover:bg-white p-1 pr-3 rounded-full transition-colors border border-transparent hover:border-slate-200 cursor-pointer"
             >
-              {session.user.image ? (
-                <img src={session.user.image} alt={session.user.name} className="w-9 h-9 rounded-full object-cover border border-slate-200" />
+              {displayImage ? (
+                <img src={displayImage} alt={displayName} className="w-9 h-9 rounded-full object-cover border border-slate-200" />
               ) : (
                 <div className="w-9 h-9 rounded-full bg-linear-to-tr from-blue-950 to-blue-800 flex items-center justify-center text-white font-bold shadow-sm">
-                  {session.user.name.charAt(0).toUpperCase()}
+                  {displayName.charAt(0).toUpperCase()}
                 </div>
               )}
               <div className="hidden md:block text-left">
-                <p className="text-sm font-bold text-blue-950 leading-none">{session.user.name}</p>
+                <p className="text-sm font-bold text-blue-950 leading-none">{displayName}</p>
               </div>
             </button>
           </div>
@@ -135,7 +192,7 @@ export default function AdminDashboard({ session, admins, stats }: { session: an
           {/* MENSAJE DE MOTIVACIÓN EN VEZ DE STATS VACÍOS */}
           <div className="bg-linear-to-r from-blue-950 to-blue-900 rounded-3xl p-6 md:p-8 mb-8 text-white shadow-xl relative overflow-hidden card-anim">
             <div className="relative z-10 max-w-2xl">
-              <h2 className="text-xl md:text-2xl font-black mb-2 text-white/90">¡Hola, {session.user.name.split(' ')[0]}!</h2>
+              <h2 className="text-xl md:text-2xl font-black mb-2 text-white/90">¡Hola, {displayName.split(' ')[0]}!</h2>
               <p className="text-blue-100 text-sm md:text-base leading-relaxed">
                 Sigamos construyendo soluciones innovadoras y expandiendo nuestra cobertura para un mundo conectado. Tu gestión administrativa es clave para proyectar y posicionar a <strong className="text-white">Bioconstructores Asociados SAS</strong> como líder en la región.
               </p>
@@ -185,7 +242,7 @@ export default function AdminDashboard({ session, admins, stats }: { session: an
               </h3>
               
               <div className="space-y-4 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
-                {admins.map((admin, idx) => {
+                {localAdmins.map((admin, idx) => {
                   const lastActive = admin.sessions.length > 0 
                       ? new Date(admin.sessions[0].updatedAt).toLocaleDateString()
                       : "Nunca";
@@ -253,31 +310,44 @@ export default function AdminDashboard({ session, admins, stats }: { session: an
                 <div className="space-y-2">
                   <label className="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Foto de Perfil</label>
                   
+                  <div className="flex items-center gap-4 mb-4 bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                    <div className="w-16 h-16 shrink-0 rounded-full flex items-center justify-center overflow-hidden border-2 border-white shadow-md">
+                      {profileImage ? (
+                        <img src={profileImage} alt="Preview" className="w-full h-full object-cover" />
+                      ) : (
+                        <div className="w-full h-full bg-linear-to-tr from-blue-950 to-blue-800 flex items-center justify-center text-white font-black text-2xl">
+                          {(profileName || "H").charAt(0).toUpperCase()}
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-sm font-bold text-blue-950">Vista Previa</p>
+                      <p className="text-[10px] text-slate-500 mb-2">Así te verás en el panel.</p>
+                      <button 
+                        type="button"
+                        onClick={() => {
+                          setProfileImage("");
+                          setSelectedFile(null);
+                        }}
+                        disabled={!profileImage}
+                        className="text-[10px] font-bold text-red-600 bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        Quitar Imagen
+                      </button>
+                    </div>
+                  </div>
+
                   <div className="flex flex-col gap-3">
                     <div className="relative group">
                       <input 
                         type="file" 
                         id="profile-upload"
                         accept="image/*"
-                        onChange={async (e) => {
+                        onChange={(e) => {
                           const file = e.target.files?.[0];
-                          if (!file) return;
-                          
-                          setSavingProfile(true);
-                          const formData = new FormData();
-                          formData.append("file", file);
-                          
-                          try {
-                            const res = await fetch("/api/upload", {
-                              method: "POST",
-                              body: formData,
-                            });
-                            const data = await res.json();
-                            if (res.ok) setProfileImage(data.url);
-                          } catch (err) {
-                            console.error("Error al subir imagen:", err);
-                          } finally {
-                            setSavingProfile(false);
+                          if (file) {
+                            setSelectedFile(file);
+                            setProfileImage(URL.createObjectURL(file)); // Muestra la vista previa instantánea localmente sin subir al servidor aún
                           }
                         }}
                         className="hidden" 
@@ -294,23 +364,6 @@ export default function AdminDashboard({ session, admins, stats }: { session: an
                           <span className="text-[10px] text-slate-500 leading-tight">Formatos: JPG, PNG, WEBP</span>
                         </div>
                       </label>
-                    </div>
-
-                    <div className="flex items-center gap-3 relative">
-                      <div className="flex-1 h-px bg-slate-100"></div>
-                      <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">O usa URL</span>
-                      <div className="flex-1 h-px bg-slate-100"></div>
-                    </div>
-                    
-                    <div className="relative">
-                      <input 
-                        type="text" 
-                        value={profileImage}
-                        onChange={e => setProfileImage(e.target.value)}
-                        placeholder="https://tudominio.com/foto.jpg"
-                        className="w-full border-2 border-slate-100 rounded-xl pl-9 pr-4 py-2 focus:border-blue-500 focus:outline-none text-xs bg-slate-50" 
-                      />
-                      <Camera size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                     </div>
                   </div>
                 </div>

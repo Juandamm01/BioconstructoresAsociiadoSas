@@ -20,16 +20,19 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "No se encontró ningún archivo" }, { status: 400 });
     }
 
-    // Solo permitir videos
-    if (!file.type.startsWith("video/")) {
-      return NextResponse.json({ error: "Solo se permiten archivos de video" }, { status: 400 });
+    const isVideo = file.type.startsWith("video/");
+    const isImage = file.type.startsWith("image/");
+
+    if (!isVideo && !isImage) {
+      return NextResponse.json({ error: "Solo se permiten archivos de imagen o video" }, { status: 400 });
     }
 
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
     // Crear carpeta si no existe
-    const uploadDir = path.join(process.cwd(), "public", "videos");
+    const targetFolder = isVideo ? "videos" : "images";
+    const uploadDir = path.join(process.cwd(), "public", targetFolder);
     try {
       await mkdir(uploadDir, { recursive: true });
     } catch (err) {
@@ -46,7 +49,7 @@ export async function POST(request: Request) {
     // Retornar la URL pública
     return NextResponse.json({ 
       success: true, 
-      url: `/videos/${filename}` 
+      url: `/${targetFolder}/${filename}` 
     });
 
   } catch (error) {

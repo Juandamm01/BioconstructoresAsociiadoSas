@@ -211,18 +211,6 @@ export function Plans() {
 
       </div>
 
-      {/* Botón rápido Admin al final del flujo normal (Esquina Derecha Abajo FLOTANTE) */}
-      {mounted && session && (
-        <div className="absolute bottom-6 right-4 lg:bottom-8 lg:right-10 z-[60]">
-          <Link
-            href="/admin/admin-plans"
-            className="flex items-center gap-1.5 px-3 py-1.5 md:px-4 md:py-2 bg-blue-950 text-white text-[10px] md:text-[12px] font-semibold rounded-full shadow-2xl hover:bg-blue-800 hover:scale-105 transition-all duration-200 border border-white/20"
-          >
-            <Settings2 size={12} className="w-[12px] h-[12px] md:w-[14px] md:h-[14px]" />
-            Editar
-          </Link>
-        </div>
-      )}
     </section>
   );
 }
