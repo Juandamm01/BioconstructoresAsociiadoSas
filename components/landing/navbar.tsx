@@ -28,7 +28,6 @@ export function Navbar({ forceSolid = false }: { forceSolid?: boolean }) {
     { name: "Nosotros", link: "/#about" },
     { name: "Planes", link: "/#plans" },
     { name: "Sectores", link: "/#contact" },
-    { name: "Portal Clientes", link: "https://avisos.wisphub.net/saldo/bcas-sas/" },
   ];
 
   const handleLogout = async () => {
@@ -47,13 +46,7 @@ export function Navbar({ forceSolid = false }: { forceSolid?: boolean }) {
       <NavBody>
         <NavbarLogo />
 
-        <NavItems
-          items={navItems.map((item) => ({
-            ...item,
-            target: item.name === "Portal Clientes" ? "_blank" : undefined,
-            rel: item.name === "Portal Clientes" ? "noopener noreferrer" : undefined,
-          }))}
-        />
+        <NavItems items={navItems} />
 
         {/* Redes sociales + Admin logo */}
         <div className="flex items-center gap-4 z-20">
@@ -117,8 +110,6 @@ export function Navbar({ forceSolid = false }: { forceSolid?: boolean }) {
             <a
               key={`mobile-link-${idx}`}
               href={item.link}
-              target={item.name === "Portal Clientes" ? "_blank" : "_self"}
-              rel={item.name === "Portal Clientes" ? "noopener noreferrer" : undefined}
               onClick={(e) => {
                 if (item.link.startsWith("/#") || item.link.startsWith("#")) {
                   const hash = item.link.split("#")[1];

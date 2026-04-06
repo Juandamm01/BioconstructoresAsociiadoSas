@@ -16,7 +16,8 @@ import {
   CreditCard,
   Edit2,
   Camera,
-  Activity
+  Activity,
+  ExternalLink
 } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import gsap from "gsap";
@@ -76,7 +77,7 @@ export default function AdminDashboard({ session, admins, stats }: { session: an
 
   const handleLogout = async () => {
     await authClient.signOut({
-      fetchOptions: { onSuccess: () => router.push("/admin") }
+      fetchOptions: { onSuccess: () => { window.location.href = "/admin"; } }
     });
   };
 
@@ -144,6 +145,7 @@ export default function AdminDashboard({ session, admins, stats }: { session: an
           <NavItem icon={<CreditCard size={20} />} label="Planes" href="/admin/admin-plans" />
           <NavItem icon={<Video size={20} />} label="Hero Principal" href="/admin/admin-hero" />
           <NavItem icon={<Settings size={20} />} label="Políticas" href="/admin/admin-policy" />
+          <NavItem icon={<ExternalLink size={20} />} label="Portal Clientes" href="https://avisos.wisphub.net/saldo/bcas-sas/" target="_blank" />
         </nav>
 
         <div className="mt-auto pt-6 border-t border-slate-100">
@@ -194,7 +196,7 @@ export default function AdminDashboard({ session, admins, stats }: { session: an
             <div className="relative z-10 max-w-2xl">
               <h2 className="text-xl md:text-2xl font-black mb-2 text-white/90">¡Hola, {displayName.split(' ')[0]}!</h2>
               <p className="text-blue-100 text-sm md:text-base leading-relaxed">
-                Sigamos construyendo soluciones innovadoras y expandiendo nuestra cobertura para un mundo conectado. Tu gestión administrativa es clave para proyectar y posicionar a <strong className="text-white">Bioconstructores Asociados SAS</strong> como líder en la región.
+                Avancemos en el desarrollo de proyectos sostenibles y ampliemos nuestra cobertura para un mundo conectado. Tu gestión administrativa es clave para proyectar y posicionar a <strong className="text-white">Bioconstructores Asociados SAS</strong> en Villavicencio.
               </p>
             </div>
             <div className="absolute -right-10 -bottom-10 opacity-10">
@@ -239,6 +241,15 @@ export default function AdminDashboard({ session, admins, stats }: { session: an
                   icon={<CheckCircle size={24} className="text-purple-600" />}
                   color="bg-purple-50"
                   delay="delay-400"
+                />
+                <ShortcutCard 
+                  title="Portal Clientes" 
+                  desc="Accede al panel de gestión de clientes de WispHub."
+                  link="https://avisos.wisphub.net/saldo/bcas-sas/"
+                  icon={<ExternalLink size={24} className="text-emerald-600" />}
+                  color="bg-emerald-50"
+                  delay="delay-500"
+                  target="_blank"
                 />
               </div>
             </div>
@@ -394,6 +405,7 @@ export default function AdminDashboard({ session, admins, stats }: { session: an
         <MobileNavItem icon={<Map size={20} />} label="Sectores" href="/admin/admin-sectores" />
         <MobileNavItem icon={<CreditCard size={20} />} label="Planes" href="/admin/admin-plans" />
         <MobileNavItem icon={<CheckCircle size={20} />} label="Políticas" href="/admin/admin-policy" />
+        <MobileNavItem icon={<ExternalLink size={20} />} label="Portal" href="https://avisos.wisphub.net/saldo/bcas-sas/" target="_blank" />
         <button onClick={handleLogout} className="flex flex-col items-center gap-1 p-2 text-red-500 hover:text-red-700 transition-colors">
           <LogOut size={20} />
           <span className="text-[10px] font-bold">Salir</span>
@@ -405,9 +417,9 @@ export default function AdminDashboard({ session, admins, stats }: { session: an
 
 // ── COMPONENTES INTERNOS DE APOYO ──
 
-function MobileNavItem({ icon, label, href, active }: { icon: any, label: string, href: string, active?: boolean }) {
+function MobileNavItem({ icon, label, href, active, target }: { icon: any, label: string, href: string, active?: boolean, target?: string }) {
   return (
-    <Link href={href} className={`flex flex-col items-center gap-1 p-2 rounded-xl transition-all ${active ? 'text-blue-950' : 'text-slate-400'}`}>
+    <Link href={href} target={target} className={`flex flex-col items-center gap-1 p-2 rounded-xl transition-all ${active ? 'text-blue-950' : 'text-slate-400'}`}>
       <div className={`${active ? 'bg-blue-100 text-blue-900' : 'bg-transparent'} p-1.5 rounded-lg`}>
         {icon}
       </div>
@@ -416,9 +428,9 @@ function MobileNavItem({ icon, label, href, active }: { icon: any, label: string
   );
 }
 
-function NavItem({ icon, label, href, active }: { icon: any, label: string, href: string, active?: boolean }) {
+function NavItem({ icon, label, href, active, target }: { icon: any, label: string, href: string, active?: boolean, target?: string }) {
   return (
-    <Link href={href} className={`flex items-center gap-3 w-full px-4 py-3 rounded-xl transition-all font-medium text-sm group
+    <Link href={href} target={target} className={`flex items-center gap-3 w-full px-4 py-3 rounded-xl transition-all font-medium text-sm group
       ${active ? 'bg-blue-950 text-white shadow-md shadow-blue-950/20' : 'text-slate-600 hover:bg-slate-100 hover:text-blue-950'}
     `}>
       <span className={active ? '' : 'group-hover:text-blue-950 transition-colors'}>{icon}</span>
@@ -447,9 +459,9 @@ function StatCard({ title, value, subtitle, trend, trendUp, cardClass }: any) {
   )
 }
 
-function ShortcutCard({ title, desc, link, icon, color, delay }: any) {
+function ShortcutCard({ title, desc, link, icon, color, delay, target }: any) {
   return (
-    <Link href={link} className={`block bg-white border border-slate-200 rounded-3xl p-5 hover:border-blue-300 hover:shadow-lg hover:shadow-blue-500/5 transition-all group card-anim ${delay}`}>
+    <Link href={link} target={target} className={`block bg-white border border-slate-200 rounded-3xl p-5 hover:border-blue-300 hover:shadow-lg hover:shadow-blue-500/5 transition-all group card-anim ${delay}`}>
       <div className={`w-12 h-12 rounded-2xl ${color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
         {icon}
       </div>
