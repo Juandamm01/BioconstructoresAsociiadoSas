@@ -13,7 +13,7 @@ import {
   MobileNavHeader,
   MobileNavToggle,
   MobileNavMenu,
-} from "@/components/ui/resizable-navbar";
+} from "@/components/ui/resizable-navbar"
 import { authClient } from "@/lib/auth-client";
 
 export function Navbar({ forceSolid = false }: { forceSolid?: boolean }) {

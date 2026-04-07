@@ -116,10 +116,15 @@ export function Plans() {
       ease: "sine.inOut",
     });
 
+    // Reordenar las animaciones en el orden del DOM y refrescar
+    // para que elementos inferiores (como Map) no calculen su posición de pin mal.
+    ScrollTrigger.sort();
+    ScrollTrigger.refresh();
+
     return () => {
       ScrollTrigger.getAll().filter(st => st.trigger === containerRef.current).forEach(st => st.kill());
     };
-  }, { scope: containerRef });
+  }, { scope: containerRef, dependencies: [groups, schedule], revertOnUpdate: true });
 
   return (
     <section

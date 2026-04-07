@@ -56,36 +56,45 @@ export async function PUT(req: Request) {
       }
 
       if (groups) {
+        // Delete existing data first
         await tx.planItem.deleteMany();
         await tx.planGroup.deleteMany();
 
+        // Create all groups in a single batch and get their IDs back
+        // Note: createManyAndReturn returns rows in insertion order, matching gi index
+        const createdGroups = await tx.planGroup.createManyAndReturn({
+          data: groups.map((g: any, gi: number) => ({
+            title: g.title,
+            subtitle: g.subtitle || "",
+            badge: g.badge || "",
+            isPremium: g.isPremium || false,
+            order: gi
+          }))
+        });
+
+        // Build all plan items referencing the newly created group IDs
+        const allItems: any[] = [];
         for (let gi = 0; gi < groups.length; gi++) {
           const g = groups[gi];
-          const newGroup = await tx.planGroup.create({
-            data: {
-              title: g.title,
-              subtitle: g.subtitle || "",
-              badge: g.badge || "",
-              isPremium: g.isPremium || false,
-              order: gi
-            }
-          });
-
+          const groupId = createdGroups[gi].id;
           if (g.items && g.items.length > 0) {
             for (let ii = 0; ii < g.items.length; ii++) {
-              await tx.planItem.create({
-                data: {
-                  name: g.items[ii].name,
-                  price: g.items[ii].price,
-                  order: ii,
-                  planGroupId: newGroup.id
-                }
+              allItems.push({
+                name: g.items[ii].name,
+                price: g.items[ii].price,
+                order: ii,
+                planGroupId: groupId
               });
             }
           }
         }
+
+        // Insert all items in a single batch
+        if (allItems.length > 0) {
+          await tx.planItem.createMany({ data: allItems });
+        }
       }
-    });
+    }, { timeout: 15000 });
 
     return NextResponse.json({ success: true });
   } catch (error) {
