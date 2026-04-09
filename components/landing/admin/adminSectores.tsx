@@ -8,14 +8,17 @@ import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 import { AdminSidebar } from "./AdminSidebar";
 import { AdminHeader } from "./AdminHeader";
+
+let cachedSectoresData: Barrio[] | null = null;
+
 type Barrio = { id: number; nombre: string; lat: number; lng: number; color: string; radio: number };
 
 export default function AdminSectoresPage() {
   const router = useRouter();
   const { data: session, isPending } = authClient.useSession();
 
-  const [barrios, setBarrios] = useState<Barrio[]>([]);
-  const [loadingBarrios, setLoadingBarrios] = useState(true);
+  const [barrios, setBarrios] = useState<Barrio[]>(cachedSectoresData || []);
+  const [loadingBarrios, setLoadingBarrios] = useState(!cachedSectoresData);
   const [deleting, setDeleting] = useState<number | null>(null);
 
   // Form state
@@ -29,10 +32,16 @@ export default function AdminSectoresPage() {
   const [submitting, setSubmitting] = useState(false);
 
   const fetchBarrios = async () => {
+    if (cachedSectoresData) {
+      setBarrios(cachedSectoresData);
+      setLoadingBarrios(false);
+      return;
+    }
     setLoadingBarrios(true);
     const res = await fetch("/api/barrios");
     const data = await res.json();
     setBarrios(data);
+    cachedSectoresData = data;
     setLoadingBarrios(false);
   };
 
@@ -71,6 +80,7 @@ export default function AdminSectoresPage() {
     } else {
       setFormSuccess(`✓ Sector "${data.nombre}" añadido correctamente.`);
       setNombre(""); setLat(""); setLng(""); setColor("#2563eb"); setRadio("350");
+      cachedSectoresData = null;
       fetchBarrios();
     }
     setSubmitting(false);
@@ -80,6 +90,7 @@ export default function AdminSectoresPage() {
     if (!confirm(`¿Eliminar el sector "${nombreBarrio}"? Esta acción no se puede deshacer.`)) return;
     setDeleting(id);
     await fetch(`/api/barrios/${id}`, { method: "DELETE" });
+    cachedSectoresData = null;
     await fetchBarrios();
     setDeleting(null);
   };

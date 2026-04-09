@@ -11,7 +11,13 @@ export function AdminSidebar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [showHamburger, setShowHamburger] = useState(true);
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("bcas_sidebar_collapsed") === "true";
+    }
+    return false;
+  });
+  const [mounted, setMounted] = useState(false);
   const { scrollY } = useScroll();
 
   useMotionValueEvent(scrollY, "change", (latest) => {
@@ -25,6 +31,18 @@ export function AdminSidebar() {
   useEffect(() => {
     setIsOpen(false);
   }, [pathname]);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const handleToggleCollapse = () => {
+    setIsCollapsed((prev) => {
+      const newState = !prev;
+      localStorage.setItem("bcas_sidebar_collapsed", String(newState));
+      return newState;
+    });
+  };
 
   const handleLogout = async () => {
     await authClient.signOut({
@@ -81,7 +99,7 @@ export function AdminSidebar() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
             onClick={() => setIsOpen(true)} 
-            className="md:hidden fixed top-[18px] left-4 z-[60] p-1 bg-blue-950 rounded-lg shadow-sm border border-blue-900 text-white flex items-center justify-center hover:bg-blue-900 transition-all active:scale-95"
+            className="md:hidden fixed top-[24px] left-4 z-[60] p-1 bg-blue-950 rounded-lg shadow-sm border border-blue-900 text-white flex items-center justify-center hover:bg-blue-900 transition-all active:scale-95"
           >
             <Menu size={18} />
           </motion.button>
@@ -90,7 +108,7 @@ export function AdminSidebar() {
 
       <aside className={`sidebar-anim hidden md:flex flex-col bg-white border-r border-slate-200 h-screen sticky top-0 z-20 shadow-[4px_0_24px_rgba(0,0,0,0.02)] shrink-0 transition-all duration-300 relative ${isCollapsed ? 'w-[80px] p-4 px-3' : 'w-64 p-5'}`}>
         <button 
-          onClick={() => setIsCollapsed(!isCollapsed)}
+          onClick={handleToggleCollapse}
           className="absolute -right-3.5 top-6 bg-white border border-slate-200 shadow-sm rounded-full w-7 h-7 flex items-center justify-center text-slate-400 hover:text-blue-950 hover:border-blue-300 transition-all z-50 hover:scale-105"
         >
           <PanelLeft size={14} className={`transition-transform duration-300 ${isCollapsed ? 'rotate-180' : ''}`} />

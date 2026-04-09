@@ -8,6 +8,8 @@ import { authClient } from "@/lib/auth-client";
 import { AdminSidebar } from "./AdminSidebar";
 import { AdminHeader } from "./AdminHeader";
 
+let cachedPlansData: any = null;
+
 type PlanItem = { name: string; price: string };
 type PlanGroup = { title: string; subtitle: string; badge: string; isPremium: boolean; items: PlanItem[] };
 
@@ -15,14 +17,14 @@ export default function AdminPlansPage() {
   const router = useRouter();
   const { data: session, isPending } = authClient.useSession();
 
-  const [schedule, setSchedule] = useState({
+  const [schedule, setSchedule] = useState(cachedPlansData?.schedule || {
     dia1: "Lun - Vie", hora1: "8am - 12pm / 2pm - 5pm",
     dia2: "Sábados", hora2: "8am - 1pm",
     dia3: "Domingos", hora3: "Cerrado"
   });
 
-  const [groups, setGroups] = useState<PlanGroup[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [groups, setGroups] = useState<PlanGroup[]>(cachedPlansData?.groups || []);
+  const [loading, setLoading] = useState(!cachedPlansData);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -32,20 +34,37 @@ export default function AdminPlansPage() {
   }, [session, isPending, router]);
 
   const fetchData = async () => {
+    if (cachedPlansData) {
+      setSchedule(cachedPlansData.schedule);
+      setGroups(cachedPlansData.groups);
+      setLoading(false);
+      return;
+    }
     setLoading(true);
     try {
       const res = await fetch("/api/plans");
       const data = await res.json();
-      if (data.schedule) setSchedule(data.schedule);
+      
+      const newSchedule = data.schedule || {
+        dia1: "Lun - Vie", hora1: "8am - 12pm / 2pm - 5pm",
+        dia2: "Sábados", hora2: "8am - 1pm",
+        dia3: "Domingos", hora3: "Cerrado"
+      };
+
+      let newGroups = [];
       if (data.groups && data.groups.length > 0) {
-        setGroups(data.groups);
+        newGroups = data.groups;
       } else {
-        setGroups([
+        newGroups = [
           { title: "La Nohora y San Luis", subtitle: "Susc.: $89.000", badge: "", isPremium: false, items: [{ name: "50MB +1TV", price: "$68K" }, { name: "100MB +2TV", price: "$95K" }, { name: "200MB +2TV", price: "$105K" }] },
           { title: "La Zuria", subtitle: "Susc.: $89.000", badge: "", isPremium: false, items: [{ name: "50MB +1TV", price: "$105K" }, { name: "25MB +1TV", price: "$85K" }, { name: "25MB Solo", price: "$75K" }] },
           { title: "Mesetas, El Triángulo, La Sultana...", subtitle: "", badge: "$99.000 Susc.", isPremium: true, items: [{ name: "50 MB - $68K", price: "+1 TV" }, { name: "100 MB - $95K", price: "+2 TV" }, { name: "200 MB - $105K", price: "+2 TV" }] }
-        ]);
+        ];
       }
+      
+      setSchedule(newSchedule);
+      setGroups(newGroups);
+      cachedPlansData = { schedule: newSchedule, groups: newGroups };
     } catch (err) {
       console.error(err);
     }
@@ -62,7 +81,10 @@ export default function AdminPlansPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ schedule, groups })
       });
-      if (res.ok) setSuccess("Los planes y horarios se actualizaron correctamente.");
+      if (res.ok) {
+        setSuccess("Los planes y horarios se actualizaron correctamente.");
+        cachedPlansData = { schedule, groups };
+      }
       else setError("Hubo un error al guardar los cambios.");
     } catch (err) {
       setError("Fallo de conexión.");
