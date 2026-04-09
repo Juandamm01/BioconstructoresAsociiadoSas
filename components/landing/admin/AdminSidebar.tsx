@@ -2,15 +2,14 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { LayoutDashboard, Map, CreditCard, Video, Settings, ExternalLink, LogOut, Menu, X, PanelLeft } from "lucide-react";
+import { LayoutDashboard, Map, CreditCard, Video, Settings, ExternalLink, LogOut, Menu, X, PanelLeft, Scale } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import { usePathname } from "next/navigation";
-import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 export function AdminSidebar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
-  const [showHamburger, setShowHamburger] = useState(true);
   const [isCollapsed, setIsCollapsed] = useState(() => {
     if (typeof window !== "undefined") {
       return localStorage.getItem("bcas_sidebar_collapsed") === "true";
@@ -18,15 +17,6 @@ export function AdminSidebar() {
     return false;
   });
   const [mounted, setMounted] = useState(false);
-  const { scrollY } = useScroll();
-
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    if (latest > 50) {
-      setShowHamburger(false);
-    } else {
-      setShowHamburger(true);
-    }
-  });
 
   useEffect(() => {
     setIsOpen(false);
@@ -73,7 +63,7 @@ export function AdminSidebar() {
         <NavItem collapsed={collapsed} active={pathname === '/admin/admin-sectores'} icon={<Map size={20} />} label="Sectores" href="/admin/admin-sectores" />
         <NavItem collapsed={collapsed} active={pathname === '/admin/admin-plans'} icon={<CreditCard size={20} />} label="Planes" href="/admin/admin-plans" />
         <NavItem collapsed={collapsed} active={pathname === '/admin/admin-hero'} icon={<Video size={20} />} label="Hero Principal" href="/admin/admin-hero" />
-        <NavItem collapsed={collapsed} active={pathname === '/admin/admin-policy'} icon={<Settings size={20} />} label="Políticas" href="/admin/admin-policy" />
+        <NavItem collapsed={collapsed} active={pathname === '/admin/admin-policy'} icon={<Scale size={20} />} label="Políticas" href="/admin/admin-policy" />
         <NavItem collapsed={collapsed} icon={<ExternalLink size={20} />} label="Portal Clientes" href="https://avisos.wisphub.net/saldo/bcas-sas/" target="_blank" />
       </nav>
 
@@ -92,19 +82,14 @@ export function AdminSidebar() {
 
   return (
     <>
-      <AnimatePresence>
-        {!isOpen && showHamburger && (
-          <motion.button 
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            onClick={() => setIsOpen(true)} 
-            className="md:hidden fixed top-[24px] left-4 z-[60] p-1 bg-blue-950 rounded-lg shadow-sm border border-blue-900 text-white flex items-center justify-center hover:bg-blue-900 transition-all active:scale-95"
-          >
-            <Menu size={18} />
-          </motion.button>
-        )}
-      </AnimatePresence>
+      {!isOpen && (
+        <button 
+          onClick={() => setIsOpen(true)} 
+          className="md:hidden absolute top-[24px] left-4 z-[60] p-1 bg-blue-950 rounded-lg shadow-sm border border-blue-900 text-white flex items-center justify-center hover:bg-blue-900 transition-all active:scale-95"
+        >
+          <Menu size={18} />
+        </button>
+      )}
 
       <aside className={`sidebar-anim hidden md:flex flex-col bg-white border-r border-slate-200 h-screen sticky top-0 z-20 shadow-[4px_0_24px_rgba(0,0,0,0.02)] shrink-0 transition-all duration-300 relative ${isCollapsed ? 'w-[80px] p-4 px-3' : 'w-64 p-5'}`}>
         <button 

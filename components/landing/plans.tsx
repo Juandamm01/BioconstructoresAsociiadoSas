@@ -46,66 +46,45 @@ export function Plans() {
     const items = gsap.utils.toArray<HTMLElement>(".bento-item");
     const isMobile = window.innerWidth < 768;
 
-    if (isMobile) {
-      items.forEach((item) => {
-        gsap.fromTo(
-          item,
-          { opacity: 0, y: 50, scale: 0.95 },
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.6,
-            ease: "back.out(1.2)",
-            scrollTrigger: {
-              trigger: item,
-              start: "top 90%",
-              toggleActions: "play none none none",
-            },
-          }
-        );
+    // Animación 3D para PC y Mobile con freno de pantalla
+    items.forEach((item) => {
+      gsap.set(item, {
+        opacity: 0,
+        z: gsap.utils.random(isMobile ? -400 : -800, isMobile ? 400 : 800),
+        rotationX: gsap.utils.random(-30, 30),
+        rotationY: gsap.utils.random(-30, 30),
+        x: gsap.utils.random(isMobile ? -200 : -600, isMobile ? 200 : 600),
+        y: gsap.utils.random(isMobile ? -300 : -400, isMobile ? 300 : 400),
+        scale: gsap.utils.random(0.5, 0.8),
       });
-    } else {
-      // Animación 3D original para PC restaurada con su "Freno de pantalla" original.
-      items.forEach((item) => {
-        gsap.set(item, {
-          opacity: 0,
-          z: gsap.utils.random(-800, 800),
-          rotationX: gsap.utils.random(-40, 40),
-          rotationY: gsap.utils.random(-40, 40),
-          x: gsap.utils.random(-600, 600),
-          y: gsap.utils.random(-400, 400),
-          scale: gsap.utils.random(0.5, 0.8),
-        });
-      });
+    });
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "center center",
-          end: "+=1000",
-          scrub: 1.2,
-          pin: true,
-          anticipatePin: 1,
-        },
-      });
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "center center",
+        end: isMobile ? "+=700" : "+=1000", // Frena más suave en móvil
+        scrub: 1.2,
+        pin: true,
+        anticipatePin: 1,
+      },
+    });
 
-      tl.to(items, {
-        opacity: 1,
-        z: 0,
-        rotationX: 0,
-        rotationY: 0,
-        x: 0,
-        y: 0,
-        scale: 1,
-        duration: 1.5,
-        ease: "power3.out",
-        stagger: {
-          amount: 0.8,
-          from: "center",
-        },
-      });
-    }
+    tl.to(items, {
+      opacity: 1,
+      z: 0,
+      rotationX: 0,
+      rotationY: 0,
+      x: 0,
+      y: 0,
+      scale: 1,
+      duration: 1.5,
+      ease: "power3.out",
+      stagger: {
+        amount: 0.8,
+        from: "center",
+      },
+    });
 
     gsap.to(".bcas-logo-main", {
       y: -10,
