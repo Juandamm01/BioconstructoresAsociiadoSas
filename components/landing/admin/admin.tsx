@@ -47,26 +47,26 @@ export default function AdminPage() {
       { opacity: 0, x: -100, filter: "blur(10px)" },
       { opacity: 1, x: 0, filter: "blur(0px)", duration: 1, ease: "power4.out" }
     )
-    .fromTo(".panel-der",
-      { opacity: 0, x: 100 },
-      { opacity: 1, x: 0, duration: 1, ease: "power4.out" },
-      "-=0.8"
-    )
-    .fromTo(".anim-text",
-      { y: 50, opacity: 0, scale: 0.9 },
-      { y: 0, opacity: 1, scale: 1, duration: 0.8, stagger: 0.15, ease: "back.out(1.5)" },
-      "-=0.6"
-    )
-    .fromTo(".logo-anim",
-      { scale: 0, rotation: -360, opacity: 0 },
-      { scale: 1, rotation: 0, opacity: 1, duration: 1, ease: "elastic.out(1, 0.5)" },
-      "-=0.6"
-    )
-    .fromTo(".form-elem",
-      { x: 30, opacity: 0 },
-      { x: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: "power3.out" },
-      "-=0.4"
-    );
+      .fromTo(".panel-der",
+        { opacity: 0, x: 100 },
+        { opacity: 1, x: 0, duration: 1, ease: "power4.out" },
+        "-=0.8"
+      )
+      .fromTo(".anim-text",
+        { y: 50, opacity: 0, scale: 0.9 },
+        { y: 0, opacity: 1, scale: 1, duration: 0.8, stagger: 0.15, ease: "back.out(1.5)" },
+        "-=0.6"
+      )
+      .fromTo(".logo-anim",
+        { scale: 0, rotation: -360, opacity: 0 },
+        { scale: 1, rotation: 0, opacity: 1, duration: 1, ease: "elastic.out(1, 0.5)" },
+        "-=0.6"
+      )
+      .fromTo(".form-elem",
+        { x: 30, opacity: 0 },
+        { x: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: "power3.out" },
+        "-=0.4"
+      );
 
     // Animación continua y sutil de respiración para el contenedor del GIF
     gsap.to(".gif-container", {
@@ -107,7 +107,7 @@ export default function AdminPage() {
   return (
     <div className="relative font-poppins w-full h-[100dvh] overflow-hidden bg-white" ref={pageRef}>
       {/* Botón flotante */}
-      <motion.div 
+      <motion.div
         className="absolute top-4 left-4 lg:top-6 lg:left-6 z-[9999]"
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -123,20 +123,20 @@ export default function AdminPage() {
       </motion.div>
 
       <div className="flex flex-col lg:flex-row w-full h-full">
-        
+
         {/* Panel Izquierdo Animado */}
         <div className="panel-izq w-full lg:w-1/2 h-[40%] lg:h-full relative flex flex-col justify-center items-center px-4 py-2 lg:p-8 overflow-hidden bg-[#0a1024]">
           {/* Fondo dinámico y esferas de luz */}
           <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-[#0a1024] to-black opacity-80" />
-          <motion.div 
-            animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }} 
+          <motion.div
+            animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
             transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute top-1/4 left-1/4 w-40 h-40 md:w-96 md:h-96 bg-blue-600 rounded-full mix-blend-screen filter blur-[80px] md:blur-[100px] opacity-30" 
+            className="absolute top-1/4 left-1/4 w-40 h-40 md:w-96 md:h-96 bg-blue-600 rounded-full mix-blend-screen filter blur-[80px] md:blur-[100px] opacity-30"
           />
-          <motion.div 
-            animate={{ scale: [1, 1.5, 1], opacity: [0.2, 0.5, 0.2] }} 
+          <motion.div
+            animate={{ scale: [1, 1.5, 1], opacity: [0.2, 0.5, 0.2] }}
             transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-            className="absolute bottom-1/4 right-1/4 w-40 h-40 md:w-80 md:h-80 bg-cyan-500 rounded-full mix-blend-screen filter blur-[80px] md:blur-[120px] opacity-20" 
+            className="absolute bottom-1/4 right-1/4 w-40 h-40 md:w-80 md:h-80 bg-cyan-500 rounded-full mix-blend-screen filter blur-[80px] md:blur-[120px] opacity-20"
           />
 
           <div className="z-10 flex flex-col items-center justify-center gap-2 md:gap-6 w-full h-full justify-evenly lg:justify-center">
@@ -154,12 +154,12 @@ export default function AdminPage() {
                 />
               </AnimatePresence>
             </div>
-            
+
             <div className="text-center space-y-1 md:space-y-3">
               <h2 className="anim-text text-xl md:text-4xl lg:text-5xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-100 to-white drop-shadow-lg leading-none">
-                Bioconstructores <br className="hidden md:block"/> Asociados
+                Bioconstructores <br className="hidden md:block" /> Asociados
               </h2>
-              <motion.p 
+              <motion.p
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5, duration: 1 }}
                 className="anim-text text-[9px] md:text-sm text-cyan-200 uppercase tracking-[0.2em] md:tracking-[0.3em] font-medium"
               >
@@ -167,16 +167,16 @@ export default function AdminPage() {
               </motion.p>
             </div>
           </div>
-          
+
           <div className="absolute inset-0 bg-white-950/20 mix-blend-overlay pointer-events-none border-r border-white/5 shadow-[inset_-20px_0_50px_rgba(0,0,0,0.5)]"></div>
         </div>
 
         {/* Panel Derecho */}
         <div className="panel-der w-full lg:w-1/2 h-[60%] lg:h-full flex flex-col justify-center items-center p-4 lg:p-12 bg-white overflow-hidden shadow-2xl relative">
-          
+
           {/* Adorno sutil fondo derecho */}
           <div className="absolute top-0 right-0 w-40 h-40 md:w-64 md:h-64 bg-blue-50 rounded-full blur-[60px] md:blur-[80px] -z-10 opacity-70"></div>
-          
+
           <div className="w-full max-w-[280px] md:max-w-[340px] flex flex-col justify-evenly h-full md:justify-center md:space-y-6 relative z-10 py-2">
             <div className="text-center">
               <motion.img
@@ -195,7 +195,7 @@ export default function AdminPage() {
             <form className="space-y-3 md:space-y-4" onSubmit={handleLogin}>
               <AnimatePresence>
                 {errorMsg && (
-                  <motion.div 
+                  <motion.div
                     initial={{ opacity: 0, y: -5, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.95 }}
@@ -206,7 +206,7 @@ export default function AdminPage() {
                   </motion.div>
                 )}
               </AnimatePresence>
-              
+
               <div className="form-elem relative group">
                 <input
                   type="email"
@@ -217,7 +217,7 @@ export default function AdminPage() {
                   className="w-full px-3 py-2.5 md:px-4 md:py-3 text-xs md:text-sm text-blue-950 border-2 border-slate-100 rounded-[0.8rem] md:rounded-xl focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-slate-50/50 hover:bg-slate-50 transition-all font-medium placeholder-slate-400"
                 />
               </div>
-              
+
               <div className="form-elem relative group">
                 <input
                   type={showPassword ? "text" : "password"}
@@ -233,7 +233,7 @@ export default function AdminPage() {
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-blue-600 transition-colors p-1"
                   tabIndex={-1}
                 >
-                  {showPassword ? <EyeOff size={16} className="md:w-[18px] md:h-[18px]"/> : <Eye size={16} className="md:w-[18px] md:h-[18px]"/>}
+                  {showPassword ? <EyeOff size={16} className="md:w-[18px] md:h-[18px]" /> : <Eye size={16} className="md:w-[18px] md:h-[18px]" />}
                 </button>
               </div>
 

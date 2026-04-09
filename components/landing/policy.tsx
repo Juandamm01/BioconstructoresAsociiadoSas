@@ -152,14 +152,26 @@ export function Policy({ config }: { config?: any }) {
             ref={videoWrapperRef}
             className="absolute w-[75%] md:w-[50%] h-48 md:h-80 rounded-[2.5rem] overflow-hidden border-2 border-white/20 shadow-2xl bg-blue-950 opacity-0 pointer-events-none mx-auto"
           >
-            <video
-              src={config?.videoUrl || "/videos/conectividad.mp4"}
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="absolute inset-0 w-full h-full object-cover"
-            />
+            {(() => {
+              const url = config?.videoUrl || "/videos/conectividad.mp4";
+              const isVideo = url.toLowerCase().match(/\.(mp4|webm|ogg)$/i);
+              return isVideo ? (
+                <video
+                  src={url}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              ) : (
+                <img
+                  src={url}
+                  alt="Fondo de políticas"
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              );
+            })()}
             <div className="absolute inset-0 bg-linear-to-t from-blue-950/70 to-transparent"></div>
           </div>
 

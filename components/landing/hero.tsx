@@ -18,15 +18,26 @@ export async function Hero() {
     <section id="home" className="relative min-h-screen pt-40 pb-20 overflow-hidden flex items-center justify-center text-center">
 
 
-      {/* Fondo fijo con video */}
-      <video
-        src={videoUrl}
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="fixed inset-0 w-full h-full object-cover"
-      />
+      {/* Fondo fijo con video o imagen */}
+      {(() => {
+        const isVideo = videoUrl.toLowerCase().match(/\.(mp4|webm|ogg)$/i);
+        return isVideo ? (
+          <video
+            src={videoUrl}
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="fixed inset-0 w-full h-full object-cover -z-10"
+          />
+        ) : (
+          <img
+            src={videoUrl}
+            alt={empresa}
+            className="fixed inset-0 w-full h-full object-cover -z-10"
+          />
+        );
+      })()}
 
       {/* Contenido */}
       <div className="relative z-10 text-white max-w-3xl px-4">
