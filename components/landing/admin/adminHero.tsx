@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { AlertCircle, Save, ArrowLeft, Video, Type } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
+import { AdminSidebar } from "./AdminSidebar";
 
 export default function AdminHeroPage() {
   const router = useRouter();
@@ -121,41 +122,22 @@ export default function AdminHeroPage() {
     router.push("/admin/dashboard");
   };
 
-  if (isPending || fetching) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-blue-950">
-        <div className="text-white text-center">
-          <div className="w-10 h-10 border-4 border-white/30 border-t-white rounded-full animate-spin mx-auto mb-3" />
-          <p className="text-sm text-white/70">Cargando configuración...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!session) return null;
+  // Allow it to render so the sidebar feels instantaneous
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-slate-50 to-blue-50 font-[family-name:var(--font-poppins)]">
-      {/* Header */}
-      <header className="bg-blue-950 text-white px-6 py-4 flex items-center justify-between shadow-lg">
-        <div className="flex items-center gap-3">
-          <img src="/images/bcas-logo.png" alt="BCAS" className="h-8 w-auto" />
-          <div>
-            <h1 className="font-bold text-lg leading-none text-white">Administrador de la Página</h1>
-            <p className="text-blue-200 text-xs mt-0.5">Editor del Hero Section</p>
+    <div className="flex min-h-screen bg-slate-50 font-poppins text-blue-950">
+      <AdminSidebar />
+      <main className="flex-1 flex flex-col min-h-screen w-full overflow-x-hidden pb-12">
+        {/* Header */}
+        <header className="bg-white text-blue-950 px-6 py-4 flex items-center justify-between shadow-xs sticky top-0 z-10 border-b border-slate-200">
+          <div className="flex items-center gap-3">
+            <div>
+              <h1 className="font-bold text-lg leading-none">Editor del Hero Section</h1>
+            </div>
           </div>
-        </div>
-        <div className="flex items-center gap-3">
-          <button
-            onClick={goToDashboard}
-            className="flex items-center gap-1.5 text-xs px-3 py-1.5 bg-blue-800 hover:bg-blue-700 rounded-md transition-colors text-white"
-          >
-            <ArrowLeft size={12} /> Volver al Dashboard
-          </button>
-        </div>
-      </header>
+        </header>
 
-      <div className="max-w-4xl mx-auto px-4 py-8">
+        <div className="max-w-4xl mx-auto w-full px-4 py-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -286,7 +268,8 @@ export default function AdminHeroPage() {
             </div>
           </form>
         </motion.div>
-      </div>
+        </div>
+      </main>
     </div>
   );
 }

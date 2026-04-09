@@ -9,6 +9,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import Link from "next/link";
 import Image from "next/image";
+import { AdminSidebar } from "./AdminSidebar";
 
 export default function AdminPolicyDashboard({ initialConfig }: { initialConfig: any }) {
   const router = useRouter();
@@ -58,27 +59,6 @@ export default function AdminPolicyDashboard({ initialConfig }: { initialConfig:
 
     let finalVideoUrl = config.videoUrl;
 
-    if (selectedFile) {
-      const formData = new FormData();
-      formData.append("file", selectedFile);
-      try {
-        const res = await fetch("/api/upload", { method: "POST", body: formData });
-        const data = await res.json();
-        if (res.ok) {
-          finalVideoUrl = data.url;
-          setConfig(prev => ({ ...prev, videoUrl: finalVideoUrl }));
-        } else {
-          setErrorMsg("Error al subir video");
-          setLoading(false);
-          return;
-        }
-      } catch (err) {
-        setErrorMsg("Error de red al subir video");
-        setLoading(false);
-        return;
-      }
-    }
-
     try {
       const resp = await fetch("/api/policy", {
         method: "POST",
@@ -98,27 +78,18 @@ export default function AdminPolicyDashboard({ initialConfig }: { initialConfig:
   };
 
   return (
-    <div ref={pageRef} className="min-h-screen bg-linear-to-br from-slate-50 to-blue-50 font-[family-name:var(--font-poppins)] pb-12">
-      
-      <header className="bg-blue-950 text-white px-6 py-4 flex items-center justify-between shadow-lg sticky top-0 z-50">
-        <div className="flex items-center gap-3">
-          <img src="/images/bcas-logo.png" alt="BCAS" className="h-8 w-auto" />
-          <div>
-            <h1 className="font-bold text-lg leading-none text-white">Administrador de la Página</h1>
-            <p className="text-blue-200 text-xs mt-0.5">Editor de Políticas ISP</p>
+    <div ref={pageRef} className="flex min-h-screen bg-slate-50 font-poppins text-blue-950">
+      <AdminSidebar />
+      <main className="flex-1 flex flex-col min-h-screen w-full overflow-x-hidden pb-12">
+        <header className="bg-white text-blue-950 px-6 py-4 flex items-center justify-between shadow-xs sticky top-0 z-10 border-b border-slate-200">
+          <div className="flex items-center gap-3">
+            <div>
+              <h1 className="font-bold text-lg leading-none">Editor de Políticas ISP</h1>
+            </div>
           </div>
-        </div>
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => router.push("/admin/dashboard")}
-            className="flex items-center gap-1.5 text-xs px-3 py-1.5 bg-blue-800 hover:bg-blue-700 rounded-md transition-colors text-white"
-          >
-            <ArrowLeft size={12} /> Volver al Dashboard
-          </button>
-        </div>
-      </header>
+        </header>
 
-      <div className="max-w-4xl mx-auto px-4 md:px-8 py-6 md:py-10 space-y-6 md:space-y-8">
+        <div className="max-w-4xl mx-auto w-full px-4 md:px-8 py-6 md:py-10 space-y-6 md:space-y-8">
           <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm anim-card">
             <h2 className="text-xl font-bold text-blue-950 mb-4">Textos Principales</h2>
             
@@ -144,7 +115,7 @@ export default function AdminPolicyDashboard({ initialConfig }: { initialConfig:
               </div>
 
               <div>
-                <label className="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Palabra Resaltada (Color Azul)</label>
+                <label className="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Palabra Resaltada</label>
                 <input 
                   type="text" 
                   value={config.resaltado} 
@@ -189,29 +160,28 @@ export default function AdminPolicyDashboard({ initialConfig }: { initialConfig:
             <h2 className="text-xl font-bold text-blue-950 mb-4">Fondo / Video de Conectividad</h2>
             
             <div className="flex flex-col gap-4">
-              <label 
-                htmlFor="video-upload"
-                className="flex items-center gap-3 w-full border-2 border-dashed border-blue-200 hover:border-blue-500 rounded-xl px-4 py-4 cursor-pointer bg-blue-50/50 transition-colors"
-              >
-                <div className="bg-blue-100 p-2.5 rounded-xl text-blue-600">
-                  <Upload size={20} />
-                </div>
-                <div>
-                  <span className="text-sm font-bold text-blue-900 block">Subir nuevo video de Políticas</span>
-                  <span className="text-[10px] text-slate-500">Formatos recomendados: MP4, WebM (Máx 20MB)</span>
-                </div>
+              <div className="flex flex-col gap-2">
+                <label className="text-xs font-bold text-blue-900 block">URL del fondo (Video o Imagen)</label>
                 <input 
-                  type="file" 
-                  id="video-upload" 
-                  className="hidden" 
-                  accept="video/*" 
-                  onChange={handleVideoChange} 
+                  type="url" 
+                  value={config.videoUrl || ""}
+                  onChange={(e) => {
+                    setConfig({...config, videoUrl: e.target.value});
+                    setPreviewVideo(e.target.value);
+                  }}
+                  placeholder="https://ejemplo.com/video.mp4 o imagen.jpg"
+                  className="w-full border-2 border-blue-100 rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none text-sm text-slate-900 bg-white transition-colors" 
                 />
-              </label>
+                <span className="text-[10px] text-slate-500">Puedes poner una URL de un video (.mp4) o una imagen (.jpg, .png).</span>
+              </div>
 
               {previewVideo && (
                 <div className="relative w-full h-40 bg-slate-900 rounded-xl overflow-hidden mt-2">
-                  <video src={previewVideo} autoPlay loop muted playsInline className="w-full h-full object-cover opacity-80" />
+                  {previewVideo?.endsWith(".mp4") || previewVideo?.endsWith(".webm") ? (
+                    <video src={previewVideo} autoPlay loop muted playsInline className="w-full h-full object-cover opacity-80" />
+                  ) : (
+                    <img src={previewVideo} className="w-full h-full object-cover opacity-80" alt="Preview"/>
+                  )}
                   <div className="absolute inset-0 flex items-center justify-center">
                     <span className="px-3 py-1 bg-black/60 rounded-lg text-white text-xs font-bold backdrop-blur-sm">Vista previa de Video</span>
                   </div>
@@ -242,7 +212,11 @@ export default function AdminPolicyDashboard({ initialConfig }: { initialConfig:
           </div>
 
           <div className="w-[90%] md:w-[85%] mt-10 rounded-[2rem] overflow-hidden border border-white/20 shadow-2xl relative">
-            <video src={previewVideo} autoPlay loop muted playsInline className="w-full aspect-video object-cover" />
+            {previewVideo?.endsWith(".mp4") || previewVideo?.endsWith(".webm") ? (
+              <video src={previewVideo} autoPlay loop muted playsInline className="w-full aspect-video object-cover" />
+            ) : (
+              <img src={previewVideo} className="w-full aspect-video object-cover" alt="Preview Background" />
+            )}
           </div>
 
           {/* Mini preview de las tarjetas */}
@@ -282,7 +256,9 @@ export default function AdminPolicyDashboard({ initialConfig }: { initialConfig:
           </motion.button>
         </div>
 
-      </div>
+        </div>
+
+      </main>
     </div>
   );
 }

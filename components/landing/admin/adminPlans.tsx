@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { AlertCircle, Plus, Trash2, ArrowLeft, Save, GripVertical } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
+import { AdminSidebar } from "./AdminSidebar";
 
 type PlanItem = { name: string; price: string };
 type PlanGroup = { title: string; subtitle: string; badge: string; isPremium: boolean; items: PlanItem[] };
@@ -98,30 +99,19 @@ export default function AdminPlansPage() {
     router.push("/admin/dashboard");
   };
 
-  if (isPending || loading) return <div className="min-h-screen bg-blue-950 flex items-center justify-center text-white font-[family-name:var(--font-poppins)]">Cargando...</div>;
-  if (!session) return null;
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 font-[family-name:var(--font-poppins)] pb-12">
-      <header className="bg-blue-950 text-white px-6 py-4 flex items-center justify-between shadow-lg sticky top-0 z-50">
-        <div className="flex items-center gap-3">
-          <img src="/images/bcas-logo.png" alt="BCAS" className="h-8 w-auto" />
-          <div>
-            <h1 className="font-bold text-lg leading-none text-white">Administrador de la Página</h1>
-            <p className="text-blue-200 text-xs mt-0.5">Editor de Planes y Horarios</p>
+    <div className="flex min-h-screen bg-slate-50 font-poppins text-blue-950">
+      <AdminSidebar />
+      <main className="flex-1 flex flex-col min-h-screen w-full overflow-x-hidden pb-12">
+        <header className="bg-white text-blue-950 px-6 py-4 flex items-center justify-between shadow-xs sticky top-0 z-10 border-b border-slate-200">
+          <div className="flex items-center gap-3">
+            <div>
+              <h1 className="font-bold text-lg leading-none">Editor de Planes y Horarios</h1>
+            </div>
           </div>
-        </div>
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => router.push("/admin/dashboard")}
-            className="flex items-center gap-1.5 text-xs px-3 py-1.5 bg-blue-800 hover:bg-blue-700 rounded-md transition-colors text-white"
-          >
-            <ArrowLeft size={12} /> Volver al Dashboard
-          </button>
-        </div>
-      </header>
+        </header>
 
-      <div className="max-w-4xl mx-auto px-4 md:px-8 py-6 md:py-10 space-y-6 md:space-y-8">
+        <div className="max-w-[95%] 2xl:max-w-7xl mx-auto w-full px-2 md:px-6 py-6 md:py-8 space-y-6 md:space-y-8">
         {(error || success) && (
           <div className={`p-3 rounded-xl flex items-center gap-2 text-xs ${error ? 'bg-red-50 text-red-700 border border-red-200' : 'bg-green-50 text-green-700 border border-green-200'}`}>
             <AlertCircle size={18} /> <span className="text-sm font-semibold">{error || success}</span>
@@ -148,7 +138,7 @@ export default function AdminPlansPage() {
         </section>
 
         {/* ── SECCIÓN CARDS (Grupos de Planes) ── */}
-        <section className="max-w-3xl mx-auto">
+        <section className="w-full">
           <div className="flex items-center justify-between mb-5">
             <h2 className="text-sm md:text-base font-bold text-blue-950">Secciones de Precios</h2>
             <button onClick={addGroup} className="text-xs bg-blue-100 text-blue-900 hover:bg-blue-200 px-3 py-2 rounded-lg flex items-center justify-center gap-1 font-semibold transition-colors">
@@ -156,51 +146,57 @@ export default function AdminPlansPage() {
             </button>
           </div>
 
-          <div className="flex flex-col items-center gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-5 items-start">
             <AnimatePresence>
               {groups.map((group, gi) => (
-                <motion.div layout initial={{ opacity: 0, scale: 0.98, y: 10 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: -10 }} transition={{ type: "spring", bounce: 0.15, duration: 0.4 }} key={gi} className={`w-full max-w-lg bg-white hover:shadow-md transition-shadow duration-300 rounded-xl shadow-sm border p-4 md:p-5 ${group.isPremium ? 'border-amber-400/50 bg-amber-50/30' : 'border-blue-100'}`}>
-                  <div className="flex justify-between items-start gap-4 mb-4">
-                    <div className="flex-1 grid grid-cols-1 gap-3">
+                <motion.div layout initial={{ opacity: 0, scale: 0.98, y: 10 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: -10 }} transition={{ type: "spring", bounce: 0.15, duration: 0.4 }} key={gi} className={`w-full bg-white hover:shadow-md transition-shadow duration-300 rounded-xl shadow-sm border p-3 md:p-4 ${group.isPremium ? 'border-amber-400/50 bg-amber-50/30' : 'border-blue-100'}`}>
+                  <div className="flex justify-between items-start gap-3 mb-5">
+                    <div className="flex-1 space-y-3 pr-2">
                       <div>
-                        <label className="text-[10px] uppercase font-bold text-blue-950 ml-1">Zona / Barrio(s)</label>
-                        <input value={group.title} onChange={e => updateGroup(gi, 'title', e.target.value)} className="w-full font-bold text-sm text-blue-950 p-2 border border-blue-100 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 transition-shadow" />
+                        <label className="text-[10px] uppercase font-bold text-slate-500 mb-1 block">Zona / Barrio(s)</label>
+                        <input value={group.title} onChange={e => updateGroup(gi, 'title', e.target.value)} className="w-full font-bold text-sm text-blue-950 p-2 bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all" />
                       </div>
-                      <div>
-                        <label className="text-[10px] uppercase font-bold text-blue-950 ml-1">Subtítulo (Opcional)</label>
-                        <input value={group.subtitle || ""} onChange={e => updateGroup(gi, 'subtitle', e.target.value)} className="w-full text-xs text-blue-900 p-2 border border-blue-100 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" />
+                      <div className="grid grid-cols-2 gap-2">
+                        <div>
+                          <label className="text-[10px] uppercase font-bold text-slate-500 mb-1 block">Subtítulo</label>
+                          <input value={group.subtitle || ""} onChange={e => updateGroup(gi, 'subtitle', e.target.value)} className="w-full text-xs text-blue-900 p-2 bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all" />
+                        </div>
+                        <div>
+                          <label className="text-[10px] uppercase font-bold text-slate-500 mb-1 block">Badge</label>
+                          <input value={group.badge || ""} onChange={e => updateGroup(gi, 'badge', e.target.value)} className="w-full text-xs text-amber-900 p-2 bg-amber-50 border border-amber-200/50 rounded-lg focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all" />
+                        </div>
                       </div>
-                      <div>
-                        <label className="text-[10px] uppercase font-bold text-blue-950 ml-1">Badge Resaltado (Opcional)</label>
-                        <input value={group.badge || ""} onChange={e => updateGroup(gi, 'badge', e.target.value)} className="w-full text-xs text-amber-900 p-2 border border-amber-200/50 bg-amber-50/50 rounded-md focus:outline-none focus:ring-1 focus:ring-amber-500" />
-                      </div>
-                      <div className="flex items-center gap-2 bg-slate-50 p-1.5 rounded-lg border border-slate-100">
+                      <div className="flex items-center gap-2 pt-1">
                         <input type="checkbox" id={`premium-${gi}`} checked={group.isPremium} onChange={e => updateGroup(gi, 'isPremium', e.target.checked)} className="rounded text-blue-600 w-4 h-4 cursor-pointer" />
-                        <label htmlFor={`premium-${gi}`} className="text-xs cursor-pointer text-blue-950 font-medium select-none">Sección ancha (Premium)</label>
+                        <label htmlFor={`premium-${gi}`} className="text-xs cursor-pointer text-slate-600 font-medium select-none">Mostrar como sección Premium</label>
                       </div>
                     </div>
-                    <button onClick={() => removeGroup(gi)} className="text-red-400 hover:text-red-600 hover:bg-red-50 p-2 rounded-lg transition-colors" title="Eliminar Sección">
+                    <button onClick={() => removeGroup(gi)} className="text-slate-300 hover:text-red-500 hover:bg-red-50 p-2 rounded-lg transition-colors" title="Eliminar Sección">
                       <Trash2 size={16} />
                     </button>
                   </div>
 
-                  <div className="bg-slate-50 border border-slate-100 p-4 rounded-lg mt-3">
-                    <h4 className="text-[11px] font-bold text-blue-950 mb-2 flex items-center justify-between">
-                      Planes en esta Zona
-                      <button onClick={() => addItemToGroup(gi)} className="text-blue-600 hover:text-blue-800 flex items-center gap-1 font-semibold text-[10px] uppercase bg-blue-100 hover:bg-blue-200 transition-colors px-2 py-1 rounded-md">
-                        <Plus size={12} /> Añadir Plan
+                  <div className="bg-slate-50/80 border border-slate-200 p-3 rounded-xl mt-4">
+                    <div className="flex items-center justify-between mb-3">
+                      <h4 className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+                        Planes de esta Zona
+                      </h4>
+                      <button onClick={() => addItemToGroup(gi)} className="text-blue-600 hover:text-white flex items-center gap-1 font-bold text-[10px] uppercase bg-blue-100 hover:bg-blue-600 transition-colors px-2 py-1 rounded-md border border-blue-200 hover:border-blue-600">
+                        <Plus size={12} /> Plan
                       </button>
-                    </h4>
+                    </div>
 
-                    {group.items.length === 0 && <p className="text-xs text-slate-400 italic">No hay planes. Añade uno.</p>}
+                    {group.items.length === 0 && <p className="text-xs text-slate-400 italic text-center py-2">No hay planes. Añade uno.</p>}
 
                     <div className="space-y-2">
                       {group.items.map((item, ii) => (
-                        <div key={ii} className="flex items-center gap-2 bg-white border border-slate-200 p-2 rounded-lg group hover:border-blue-200 transition-colors">
+                        <div key={ii} className="flex items-center gap-1.5 bg-white border border-slate-200 p-1.5 rounded-lg group hover:border-blue-300 transition-colors shadow-xs">
                           <GripVertical size={14} className="text-slate-300" />
-                          <input value={item.name} onChange={e => updateItem(gi, ii, 'name', e.target.value)} placeholder="Ej: 50MB +1TV" className="flex-1 text-xs text-blue-950 px-2 py-1 border border-transparent hover:border-slate-100 focus:border-blue-300 focus:bg-white bg-slate-50 rounded focus:outline-none transition-all" />
-                          <input value={item.price} onChange={e => updateItem(gi, ii, 'price', e.target.value)} placeholder="Ej: $68K" className="w-[100px] text-xs font-bold text-blue-950 px-2 py-1 border border-transparent hover:border-slate-100 focus:border-blue-300 focus:bg-white bg-slate-50 rounded focus:outline-none text-right transition-all" />
-                          <button onClick={() => removeItemFromGroup(gi, ii)} className="text-slate-400 hover:text-red-500 p-1 opacity-50 group-hover:opacity-100 transition-opacity"><Trash2 size={13} /></button>
+                          <div className="flex-1 grid grid-cols-[1.5fr_1fr] gap-1.5">
+                            <input value={item.name} onChange={e => updateItem(gi, ii, 'name', e.target.value)} placeholder="Ej: 50MB +1TV" className="w-full text-xs font-bold text-slate-700 px-2 py-1.5 bg-slate-50 border border-slate-100 rounded focus:outline-none focus:ring-1 focus:ring-blue-500/20 focus:border-blue-400 focus:bg-white transition-all placeholder-slate-400" />
+                            <input value={item.price} onChange={e => updateItem(gi, ii, 'price', e.target.value)} placeholder="Ej: $68K" className="w-full text-xs font-black text-blue-600 px-2 py-1.5 bg-blue-50/30 border border-blue-100/50 rounded focus:outline-none focus:ring-1 focus:ring-blue-500/20 focus:border-blue-400 focus:bg-white transition-all text-center placeholder-blue-300" />
+                          </div>
+                          <button onClick={() => removeItemFromGroup(gi, ii)} className="text-slate-300 hover:text-red-500 p-1.5 hover:bg-red-50 rounded transition-colors"><Trash2 size={14} /></button>
                         </div>
                       ))}
                     </div>
@@ -211,7 +207,7 @@ export default function AdminPlansPage() {
           </div>
         </section>
 
-        <div className="flex justify-end pt-4 max-w-3xl mx-auto">
+        <div className="flex justify-end pt-4 max-w-[95%] 2xl:max-w-7xl mx-auto">
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -224,7 +220,9 @@ export default function AdminPlansPage() {
           </motion.button>
         </div>
 
-      </div>
+        </div>
+
+      </main>
     </div>
   );
 }
