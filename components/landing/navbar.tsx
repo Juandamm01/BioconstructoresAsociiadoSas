@@ -76,7 +76,7 @@ export function Navbar({ forceSolid = false }: { forceSolid?: boolean }) {
 
           {/* Admin auth render condicional */}
           {session ? (
-            <button 
+            <button
               onClick={handleLogout}
               title="Cerrar sesión"
               className="transition-colors text-white hover:text-red-500 cursor-pointer"
@@ -84,7 +84,7 @@ export function Navbar({ forceSolid = false }: { forceSolid?: boolean }) {
               <FaSignOutAlt className="size-5.5" />
             </button>
           ) : (
-            <Link 
+            <Link
               href="/admin"
               title="Ingreso Administrador"
               className="transition-colors text-white hover:text-blue-950"
@@ -138,18 +138,18 @@ export function Navbar({ forceSolid = false }: { forceSolid?: boolean }) {
           {/* Botones móviles condicionales */}
           <div className="flex w-full flex-col gap-4 mt-4">
             {session ? (
-              <button 
+              <button
                 onClick={() => {
                   handleLogout();
                   setIsMobileMenuOpen(false);
-                }} 
+                }}
                 className="w-full text-center px-4 py-2 bg-red-600 text-white rounded font-bold"
               >
                 Cerrar sesión ({session.user.name})
               </button>
             ) : (
-              <Link 
-                href="/admin" 
+              <Link
+                href="/admin"
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="w-full text-center px-4 py-2 bg-blue-950 text-white rounded"
               >

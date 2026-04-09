@@ -25,6 +25,7 @@ import { useGSAP } from "@gsap/react";
 import Link from "next/link";
 import Image from "next/image";
 import { AdminSidebar } from "./AdminSidebar";
+import { AdminHeader } from "./AdminHeader";
 
 interface AdminData {
   id: string;
@@ -38,13 +39,6 @@ export default function AdminDashboard({ session, admins, stats }: { session: an
   const router = useRouter();
   const { data: activeSession } = authClient.useSession();
   const currentUser = activeSession?.user || session.user;
-
-  const [isEditingProfile, setIsEditingProfile] = useState(false);
-  const [profileName, setProfileName] = useState(currentUser.name || "");
-  const [profileImage, setProfileImage] = useState(currentUser.image || "");
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [savingProfile, setSavingProfile] = useState(false);
-  
   // Usar estado local para optimismo visual Inmediato
   const [displayImage, setDisplayImage] = useState(currentUser.image);
   const [displayName, setDisplayName] = useState(currentUser.name);
@@ -56,13 +50,6 @@ export default function AdminDashboard({ session, admins, stats }: { session: an
     setLocalAdmins(admins);
   }, [currentUser.image, currentUser.name, admins]);
 
-  useEffect(() => {
-    if (isEditingProfile) {
-      setProfileName(displayName || "");
-      setProfileImage(displayImage || "");
-      setSelectedFile(null);
-    }
-  }, [isEditingProfile, displayName, displayImage]);
   const dashboardRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
@@ -82,62 +69,16 @@ export default function AdminDashboard({ session, admins, stats }: { session: an
     });
   };
 
-  const saveProfile = async () => {
-    setSavingProfile(true);
-    let finalImageUrl = profileImage;
-
-    await authClient.updateUser({
-      name: profileName,
-      image: finalImageUrl,
-    });
-    
-    setDisplayImage(finalImageUrl);
-    setDisplayName(profileName);
-    
-    // Actualizar también en la lista de administradores localmente
-    setLocalAdmins(prev => prev.map(a => 
-      a.id === currentUser.id ? { ...a, name: profileName, image: finalImageUrl } : a
-    ));
-
-    setSavingProfile(false);
-    setIsEditingProfile(false);
-    
-    router.refresh(); 
-    // Forzamos un pequeño timeout para asegurar que el navegador cargue la nueva imagen de ser necesario
-    setTimeout(() => {
-      window.location.reload();
-    }, 400); 
-  };
-
   return (
     <div ref={dashboardRef} className="flex min-h-screen bg-slate-50 font-poppins text-blue-950">
       <AdminSidebar />
       {/* ── MAIN CONTENT ── */}
       <main className="flex-1 flex flex-col min-h-screen w-full overflow-x-hidden">
         {/* HEADER */}
-        <header className="header-anim sticky top-0 bg-slate-50/80 backdrop-blur-md z-10 px-6 py-4 flex items-center justify-end border-b border-slate-200/50 shadow-xs">
-
-          <div className="flex items-center gap-4 ml-auto">
-            <button 
-              onClick={() => setIsEditingProfile(true)}
-              className="flex items-center gap-3 hover:bg-white p-1 pr-3 rounded-full transition-colors border border-transparent hover:border-slate-200 cursor-pointer"
-            >
-              {displayImage ? (
-                <img src={displayImage} alt={displayName} className="w-9 h-9 rounded-full object-cover border border-slate-200" />
-              ) : (
-                <div className="w-9 h-9 rounded-full bg-linear-to-tr from-blue-950 to-blue-800 flex items-center justify-center text-white font-bold shadow-sm">
-                  {displayName.charAt(0).toUpperCase()}
-                </div>
-              )}
-              <div className="hidden md:block text-left">
-                <p className="text-sm font-bold text-blue-950 leading-none">{displayName}</p>
-              </div>
-            </button>
-          </div>
-        </header>
+        <AdminHeader />
 
         {/* CONTENIDO */}
-        <div className="p-6 md:p-8 pt-4 pb-20 max-w-7xl mx-auto w-full">
+        <div className="p-6 md:p-8 pt-4 pb-12 max-w-7xl mx-auto w-full">
           <div className="flex justify-between items-end mb-6 card-anim">
             <div>
               <h2 className="text-2xl md:text-3xl font-black text-blue-950">Panel de Control</h2>
@@ -255,86 +196,6 @@ export default function AdminDashboard({ session, admins, stats }: { session: an
           </div>
         </div>
       </main>
-
-      {/* ── MODAL DE EDICIÓN DE PERFIL ── */}
-      <AnimatePresence>
-        {isEditingProfile && (
-          <motion.div 
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-          >
-            <motion.div 
-              initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white rounded-3xl p-6 w-full max-w-sm shadow-2xl"
-            >
-              <h3 className="text-xl font-black mb-4 flex items-center gap-2"><Settings size={20}/> Editar Mi Perfil</h3>
-              
-              <div className="space-y-4">
-                <div>
-                  <label className="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Nombre Mostrado</label>
-                  <input 
-                    type="text" 
-                    value={profileName}
-                    disabled
-                    className="w-full border-2 border-slate-100 bg-slate-50 cursor-not-allowed text-slate-500 rounded-xl px-4 py-2 focus:outline-none" 
-                  />
-                  <p className="text-[10px] text-slate-400 mt-1">El nombre se modifica desde Configuración.</p>
-                </div>
-                <div className="space-y-2">
-                  <label className="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Foto de Perfil</label>
-                  
-                  <div className="flex items-center gap-4 mb-4 bg-slate-50 p-3 rounded-2xl border border-slate-100">
-                    <div className="w-16 h-16 shrink-0 rounded-full flex items-center justify-center overflow-hidden border-2 border-white shadow-md">
-                      {profileImage ? (
-                        <img src={profileImage} alt="Preview" className="w-full h-full object-cover" />
-                      ) : (
-                        <div className="w-full h-full bg-linear-to-tr from-blue-950 to-blue-800 flex items-center justify-center text-white font-black text-2xl">
-                          {(profileName || "H").charAt(0).toUpperCase()}
-                        </div>
-                      )}
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-sm font-bold text-blue-950">Vista Previa</p>
-                      <p className="text-[10px] text-slate-500 mb-2">Así te verás en el panel.</p>
-                      <button 
-                        type="button"
-                        onClick={() => {
-                          setProfileImage("");
-                          setSelectedFile(null);
-                        }}
-                        disabled={!profileImage}
-                        className="text-[10px] font-bold text-red-600 bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                      >
-                        Quitar Imagen
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col gap-3">
-                    <div className="relative group">
-                      <input 
-                        type="url" 
-                        value={profileImage || ""}
-                        onChange={(e) => setProfileImage(e.target.value)}
-                        placeholder="https://ejemplo.com/mifoto.jpg"
-                        className="w-full border-2 border-slate-100 bg-white text-slate-700 rounded-xl px-4 py-2 focus:border-blue-500 focus:outline-none" 
-                      />
-                      <p className="text-[10px] text-slate-500 mt-1">Pega una URL de imagen para actualizar tu foto de perfil.</p>
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="flex justify-end gap-2 mt-6 pt-4 border-t border-slate-100">
-                  <button onClick={() => setIsEditingProfile(false)} className="px-4 py-2 text-sm font-bold text-slate-500 hover:text-slate-700">Cancelar</button>
-                  <button onClick={saveProfile} disabled={savingProfile} className="px-4 py-2 text-sm font-bold bg-blue-600 text-white rounded-xl hover:bg-blue-700 disabled:opacity-50 flex items-center gap-2">
-                    {savingProfile ? "Guardando..." : "Guardar Perfil"}
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
     </div>
   );

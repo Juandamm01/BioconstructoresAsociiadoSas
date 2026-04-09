@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { AlertCircle, Save, ArrowLeft, Video, Type } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import { AdminSidebar } from "./AdminSidebar";
+import { AdminHeader } from "./AdminHeader";
 
 export default function AdminHeroPage() {
   const router = useRouter();
@@ -127,15 +128,9 @@ export default function AdminHeroPage() {
   return (
     <div className="flex min-h-screen bg-slate-50 font-poppins text-blue-950">
       <AdminSidebar />
-      <main className="flex-1 flex flex-col min-h-screen w-full overflow-x-hidden pb-12">
+      <main className="flex-1 flex flex-col min-h-screen w-full overflow-x-hidden pb-6">
         {/* Header */}
-        <header className="bg-white text-blue-950 px-6 py-4 flex items-center justify-between shadow-xs sticky top-0 z-10 border-b border-slate-200">
-          <div className="flex items-center gap-3">
-            <div>
-              <h1 className="font-bold text-lg leading-none">Editor del Hero Section</h1>
-            </div>
-          </div>
-        </header>
+        <AdminHeader title="Editor del Hero Section" />
 
         <div className="max-w-4xl mx-auto w-full px-4 py-8">
         <motion.div

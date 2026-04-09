@@ -10,6 +10,7 @@ import { useGSAP } from "@gsap/react";
 import Link from "next/link";
 import Image from "next/image";
 import { AdminSidebar } from "./AdminSidebar";
+import { AdminHeader } from "./AdminHeader";
 
 export default function AdminPolicyDashboard({ initialConfig }: { initialConfig: any }) {
   const router = useRouter();
@@ -80,14 +81,8 @@ export default function AdminPolicyDashboard({ initialConfig }: { initialConfig:
   return (
     <div ref={pageRef} className="flex min-h-screen bg-slate-50 font-poppins text-blue-950">
       <AdminSidebar />
-      <main className="flex-1 flex flex-col min-h-screen w-full overflow-x-hidden pb-12">
-        <header className="bg-white text-blue-950 px-6 py-4 flex items-center justify-between shadow-xs sticky top-0 z-10 border-b border-slate-200">
-          <div className="flex items-center gap-3">
-            <div>
-              <h1 className="font-bold text-lg leading-none">Editor de Políticas ISP</h1>
-            </div>
-          </div>
-        </header>
+      <main className="flex-1 flex flex-col min-h-screen w-full overflow-x-hidden pb-6">
+        <AdminHeader title="Editor de Políticas ISP" />
 
         <div className="max-w-4xl mx-auto w-full px-4 md:px-8 py-6 md:py-10 space-y-6 md:space-y-8">
           <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm anim-card">

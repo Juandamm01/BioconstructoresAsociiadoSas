@@ -7,7 +7,7 @@ import { AlertCircle, Plus, Trash2, MapPin, LogOut, ArrowLeft } from "lucide-rea
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 import { AdminSidebar } from "./AdminSidebar";
-
+import { AdminHeader } from "./AdminHeader";
 type Barrio = { id: number; nombre: string; lat: number; lng: number; color: string; radio: number };
 
 export default function AdminSectoresPage() {
@@ -99,15 +99,9 @@ export default function AdminSectoresPage() {
   return (
     <div className="flex min-h-screen bg-slate-50 font-poppins text-blue-950">
       <AdminSidebar />
-      <main className="flex-1 flex flex-col min-h-screen w-full overflow-x-hidden pb-12">
+      <main className="flex-1 flex flex-col min-h-screen w-full overflow-x-hidden pb-6">
         {/* Header */}
-        <header className="bg-white text-blue-950 px-6 py-4 flex items-center justify-between shadow-xs sticky top-0 z-10 border-b border-slate-200">
-          <div className="flex items-center gap-3">
-            <div>
-              <h1 className="font-bold text-lg leading-none">Gestión de Sectores</h1>
-            </div>
-          </div>
-        </header>
+        <AdminHeader title="Gestión de Sectores" />
 
         <div className="w-[95%] max-w-6xl mx-auto w-full px-2 md:px-3 py-3 md:py-6 grid grid-cols-1 md:grid-cols-[1fr_1.5fr] lg:grid-cols-[400px_1fr] gap-4 md:gap-6">
         {/* Formulario añadir */}
