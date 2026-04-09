@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Settings } from "lucide-react";
+import { Settings, Upload } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 
 export function AdminHeader({ title }: { title?: string }) {
@@ -15,6 +15,8 @@ export function AdminHeader({ title }: { title?: string }) {
   const [profileName, setProfileName] = useState(currentUser?.name || "");
   const [profileImage, setProfileImage] = useState(currentUser?.image || "");
   const [savingProfile, setSavingProfile] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [profileError, setProfileError] = useState("");
   
   const [displayImage, setDisplayImage] = useState(currentUser?.image);
   const [displayName, setDisplayName] = useState(currentUser?.name || "Admin");
@@ -36,7 +38,36 @@ export function AdminHeader({ title }: { title?: string }) {
   const saveProfile = async () => {
     if (!currentUser) return;
     setSavingProfile(true);
+    setProfileError("");
+    
     let finalImageUrl = profileImage;
+
+    if (selectedFile) {
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+      formData.append("folder", "profiles");
+      formData.append("oldUrl", profileImage || "");
+      
+      try {
+        const uploadRes = await fetch("/api/upload", {
+          method: "POST",
+          body: formData,
+        });
+        const uploadData = await uploadRes.json();
+        if (uploadRes.ok) {
+          finalImageUrl = uploadData.url;
+          setProfileImage(finalImageUrl);
+        } else {
+          setProfileError(uploadData.error || "Error al subir la imagen.");
+          setSavingProfile(false);
+          return;
+        }
+      } catch (err) {
+        setProfileError("Error de conexión al cargar la imagen.");
+        setSavingProfile(false);
+        return;
+      }
+    }
 
     await authClient.updateUser({
       name: profileName,
@@ -48,6 +79,7 @@ export function AdminHeader({ title }: { title?: string }) {
     
     setSavingProfile(false);
     setIsEditingProfile(false);
+    setSelectedFile(null);
     
     router.refresh(); 
     setTimeout(() => {
@@ -97,6 +129,12 @@ export function AdminHeader({ title }: { title?: string }) {
             >
               <h3 className="text-xl font-black mb-4 flex items-center gap-2"><Settings size={20}/> Editar Mi Perfil</h3>
               
+              {profileError && (
+                <div className="mb-4 p-2.5 bg-red-50 text-red-600 text-xs rounded-lg border border-red-200">
+                  {profileError}
+                </div>
+              )}
+
               <div className="space-y-4">
                 <div>
                   <label className="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Nombre Mostrado</label>
@@ -113,7 +151,9 @@ export function AdminHeader({ title }: { title?: string }) {
                   
                   <div className="flex items-center gap-4 mb-4 bg-slate-50 p-3 rounded-2xl border border-slate-100">
                     <div className="w-16 h-16 shrink-0 rounded-full flex items-center justify-center overflow-hidden border-2 border-white shadow-md">
-                      {profileImage ? (
+                      {selectedFile ? (
+                        <img src={URL.createObjectURL(selectedFile)} alt="Preview" className="w-full h-full object-cover" />
+                      ) : profileImage ? (
                         <img src={profileImage} alt="Preview" className="w-full h-full object-cover" />
                       ) : (
                         <div className="w-full h-full bg-slate-200 flex items-center justify-center text-blue-950 font-black text-2xl">
@@ -128,8 +168,9 @@ export function AdminHeader({ title }: { title?: string }) {
                         type="button"
                         onClick={() => {
                           setProfileImage("");
+                          setSelectedFile(null);
                         }}
-                        disabled={!profileImage}
+                        disabled={!profileImage && !selectedFile}
                         className="text-[10px] font-bold text-red-600 bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         Quitar Imagen
@@ -138,15 +179,23 @@ export function AdminHeader({ title }: { title?: string }) {
                   </div>
 
                   <div className="flex flex-col gap-3">
-                    <div className="relative group">
+                    <div className="relative">
                       <input 
-                        type="url" 
-                        value={profileImage || ""}
-                        onChange={(e) => setProfileImage(e.target.value)}
-                        placeholder="https://ejemplo.com/mifoto.jpg"
-                        className="w-full border-2 border-slate-100 bg-white text-slate-700 rounded-xl px-4 py-2 focus:border-blue-500 focus:outline-none" 
+                        type="file" 
+                        accept="image/*"
+                        onChange={(e) => {
+                          if (e.target.files && e.target.files.length > 0) {
+                            setSelectedFile(e.target.files[0]);
+                          }
+                        }}
+                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" 
                       />
-                      <p className="text-[10px] text-slate-500 mt-1">Pega una URL de imagen para actualizar tu foto de perfil.</p>
+                      <div className="w-full border-2 border-dashed border-slate-300 rounded-xl px-4 py-3 flex items-center justify-center gap-2 hover:bg-slate-50 transition-colors">
+                        <Upload size={18} className="text-blue-500" />
+                        <span className="text-sm font-semibold text-slate-600">
+                          {selectedFile ? selectedFile.name : profileImage ? "Cambiar mi foto actual..." : "Seleccionar Fotografía..."}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>

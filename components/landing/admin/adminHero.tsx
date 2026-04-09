@@ -98,6 +98,10 @@ export default function AdminHeroPage() {
 
     const formData = new FormData();
     formData.append("file", file);
+    formData.append("folder", "hero");
+    if (videoUrl) {
+      formData.append("oldUrl", videoUrl);
+    }
 
     try {
       const res = await fetch("/api/upload", {

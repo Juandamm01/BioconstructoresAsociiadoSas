@@ -59,6 +59,32 @@ export default function AdminPolicyDashboard({ initialConfig }: { initialConfig:
     setSuccessMsg("");
 
     let finalVideoUrl = config.videoUrl;
+    
+    if (selectedFile) {
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+      formData.append("folder", "policies");
+      formData.append("oldUrl", config.videoUrl || "");
+      try {
+        const uploadRes = await fetch("/api/upload", {
+          method: "POST",
+          body: formData,
+        });
+        const uploadData = await uploadRes.json();
+        if (uploadRes.ok) {
+          finalVideoUrl = uploadData.url;
+          setConfig((prev) => ({ ...prev, videoUrl: finalVideoUrl }));
+        } else {
+          setErrorMsg(uploadData.error || "Error al subir el video a S3");
+          setLoading(false);
+          return;
+        }
+      } catch (err) {
+        setErrorMsg("Error de conexión al intentar subir el video a S3");
+        setLoading(false);
+        return;
+      }
+    }
 
     try {
       const resp = await fetch("/api/policy", {
@@ -156,17 +182,23 @@ export default function AdminPolicyDashboard({ initialConfig }: { initialConfig:
             
             <div className="flex flex-col gap-4">
               <div className="flex flex-col gap-2">
-                <label className="text-xs font-bold text-blue-900 block">URL del fondo (Video o Imagen)</label>
-                <input 
-                  type="url" 
-                  value={config.videoUrl || ""}
-                  onChange={(e) => {
-                    setConfig({...config, videoUrl: e.target.value});
-                    setPreviewVideo(e.target.value);
-                  }}
-                  placeholder="https://ejemplo.com/video.mp4 o imagen.jpg"
-                  className="w-full border-2 border-blue-100 rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none text-sm text-slate-900 bg-white transition-colors" 
-                />
+                <label className="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Subir Archivo para el Fondo del Hero</label>
+                <div className="flex flex-col sm:flex-row items-center gap-4">
+                  <div className="flex-1 w-full relative">
+                    <input 
+                      type="file" 
+                      accept="video/*,image/*"
+                      onChange={handleVideoChange} 
+                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" 
+                    />
+                    <div className="w-full border-2 border-dashed border-slate-300 rounded-xl px-4 py-3 flex items-center justify-center gap-2 hover:bg-slate-50 transition-colors">
+                      <Upload size={18} className="text-blue-500" />
+                      <span className="text-sm font-semibold text-slate-600">
+                        {selectedFile ? selectedFile.name : config.videoUrl ? "Cambiar Archivo Actual..." : "Seleccionar Archivo..."}
+                      </span>
+                    </div>
+                  </div>
+                </div>
                 <span className="text-[10px] text-slate-500">Puedes poner una URL de un video (.mp4) o una imagen (.jpg, .png).</span>
               </div>
 
