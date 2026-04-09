@@ -12,13 +12,14 @@ import { Upload } from "lucide-react";
 export function AdminSidebar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("bcas_sidebar_collapsed") === "true";
-    }
-    return false;
-  });
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("bcas_sidebar_collapsed");
+    if (saved === "true") setIsCollapsed(true);
+    setMounted(true);
+  }, []);
 
   const router = useRouter();
   const { data: activeSession } = authClient.useSession();

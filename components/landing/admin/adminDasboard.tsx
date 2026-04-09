@@ -111,7 +111,6 @@ export default function AdminDashboard({ session, admins, stats }: { session: an
                   link="/admin/admin-hero"
                   icon={<Video size={24} className="text-blue-600" />}
                   color="bg-blue-50"
-                  delay="delay-100"
                 />
                 <ShortcutCard 
                   title="Quiénes Somos" 
@@ -119,7 +118,6 @@ export default function AdminDashboard({ session, admins, stats }: { session: an
                   link="/admin/admin-about"
                   icon={<FileText size={24} className="text-orange-600" />}
                   color="bg-orange-50"
-                  delay="delay-[150ms]"
                 />
                 <ShortcutCard 
                   title="Sectores / Barrios" 
@@ -127,7 +125,6 @@ export default function AdminDashboard({ session, admins, stats }: { session: an
                   link="/admin/admin-sectores"
                   icon={<Map size={24} className="text-cyan-600" />}
                   color="bg-cyan-50"
-                  delay="delay-200"
                 />
                 <ShortcutCard 
                   title="Planes y Horarios" 
@@ -135,7 +132,6 @@ export default function AdminDashboard({ session, admins, stats }: { session: an
                   link="/admin/admin-plans"
                   icon={<CreditCard size={24} className="text-indigo-600" />}
                   color="bg-indigo-50"
-                  delay="delay-300"
                 />
                 <ShortcutCard 
                   title="Políticas ISP" 
@@ -143,7 +139,6 @@ export default function AdminDashboard({ session, admins, stats }: { session: an
                   link="/admin/admin-policy"
                   icon={<CheckCircle size={24} className="text-purple-600" />}
                   color="bg-purple-50"
-                  delay="delay-400"
                 />
                 <ShortcutCard 
                   title="Portal Clientes" 
@@ -151,7 +146,6 @@ export default function AdminDashboard({ session, admins, stats }: { session: an
                   link="https://avisos.wisphub.net/saldo/bcas-sas/"
                   icon={<ExternalLink size={24} className="text-emerald-600" />}
                   color="bg-emerald-50"
-                  delay="delay-500"
                   target="_blank"
                 />
               </div>
@@ -230,30 +224,36 @@ function StatCard({ title, value, subtitle, trend, trendUp, cardClass }: any) {
 
 function ShortcutCard({ title, desc, link, icon, color, delay, target }: any) {
   const isExternal = link.startsWith('http');
-  
+
   const innerContent = (
     <>
-      <div className={`w-12 h-12 rounded-2xl ${color} flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-white/10 group-hover:shadow-[0_0_15px_rgba(255,255,255,0.2)] transition-all duration-300`}>
+      <div className={`w-12 h-12 rounded-2xl ${color} flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-white/10 transition-all duration-150`}>
         {icon}
       </div>
-      <h4 className="text-lg font-bold mb-1 text-blue-950 group-hover:text-white transition-colors duration-300">{title}</h4>
-      <p className="text-xs text-slate-500 leading-snug group-hover:text-blue-100 transition-colors duration-300">{desc}</p>
+      <h4 className="text-lg font-bold mb-1 text-blue-950 group-hover:text-white transition-colors duration-150">{title}</h4>
+      <p className="text-xs text-slate-500 leading-snug group-hover:text-blue-100 transition-colors duration-150">{desc}</p>
     </>
   );
 
-  const containerClass = `block bg-white border border-slate-200 rounded-3xl p-5 hover:bg-blue-950 hover:border-blue-950 hover:shadow-xl hover:shadow-blue-900/30 transition-all duration-300 group card-anim ${delay}`;
+  // El div exterior maneja la animación de entrada (delay escalonado)
+  // El Link/a interior no lleva delay para que el hover sea siempre instantáneo
+  const hoverClass = `block bg-white border border-slate-200 rounded-3xl p-5 hover:bg-blue-950 hover:border-blue-950 hover:shadow-xl hover:shadow-blue-900/30 transition-all duration-150 group`;
 
   if (isExternal) {
     return (
-      <a href={link} target={target || "_blank"} rel="noopener noreferrer" className={containerClass}>
-        {innerContent}
-      </a>
+      <div className={`card-anim ${delay}`}>
+        <a href={link} target={target || "_blank"} rel="noopener noreferrer" className={hoverClass}>
+          {innerContent}
+        </a>
+      </div>
     );
   }
 
   return (
-    <Link href={link} target={target} className={containerClass}>
-      {innerContent}
-    </Link>
+    <div className={`card-anim ${delay}`}>
+      <Link href={link} target={target} className={hoverClass}>
+        {innerContent}
+      </Link>
+    </div>
   );
 }
