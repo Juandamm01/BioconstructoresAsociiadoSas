@@ -75,14 +75,13 @@ export default function AdminDashboard({ session, admins, stats }: { session: an
       {/* ── MAIN CONTENT ── */}
       <main className="flex-1 flex flex-col min-h-screen w-full overflow-x-hidden">
         {/* HEADER */}
-        <AdminHeader />
+        <AdminHeader title="Panel de Control" />
 
         {/* CONTENIDO */}
         <div className="p-6 md:p-8 pt-4 pb-12 max-w-7xl mx-auto w-full">
           <div className="flex justify-between items-end mb-6 card-anim">
             <div>
-              <h2 className="text-2xl md:text-3xl font-black text-blue-950">Panel de Control</h2>
-              <p className="text-sm text-slate-500 mt-1">Soluciones Innovadoras Para Un Mundo Conectado.</p>
+              <p className="text-sm text-slate-500">Soluciones Innovadoras Para Un Mundo Conectado.</p>
             </div>
           </div>
 
