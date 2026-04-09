@@ -14,10 +14,11 @@ import {
   CheckCircle, 
   Video, 
   CreditCard,
-  Edit2,
   Camera,
   Activity,
-  ExternalLink
+  ExternalLink,
+  FileText,
+  Edit2
 } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import gsap from "gsap";
@@ -111,6 +112,14 @@ export default function AdminDashboard({ session, admins, stats }: { session: an
                   icon={<Video size={24} className="text-blue-600" />}
                   color="bg-blue-50"
                   delay="delay-100"
+                />
+                <ShortcutCard 
+                  title="Quiénes Somos" 
+                  desc="Edita los textos y fotos de la sección Nosotros."
+                  link="/admin/admin-about"
+                  icon={<FileText size={24} className="text-orange-600" />}
+                  color="bg-orange-50"
+                  delay="delay-[150ms]"
                 />
                 <ShortcutCard 
                   title="Sectores / Barrios" 
@@ -220,13 +229,31 @@ function StatCard({ title, value, subtitle, trend, trendUp, cardClass }: any) {
 }
 
 function ShortcutCard({ title, desc, link, icon, color, delay, target }: any) {
-  return (
-    <Link href={link} target={target} className={`block bg-white border border-slate-200 rounded-3xl p-5 hover:border-blue-300 hover:shadow-lg hover:shadow-blue-500/5 transition-all group card-anim ${delay}`}>
-      <div className={`w-12 h-12 rounded-2xl ${color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
+  const isExternal = link.startsWith('http');
+  
+  const innerContent = (
+    <>
+      <div className={`w-12 h-12 rounded-2xl ${color} flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-white/10 group-hover:shadow-[0_0_15px_rgba(255,255,255,0.2)] transition-all duration-300`}>
         {icon}
       </div>
-      <h4 className="text-lg font-bold mb-1 group-hover:text-blue-600 transition-colors">{title}</h4>
-      <p className="text-xs text-slate-500 leading-snug">{desc}</p>
+      <h4 className="text-lg font-bold mb-1 text-blue-950 group-hover:text-white transition-colors duration-300">{title}</h4>
+      <p className="text-xs text-slate-500 leading-snug group-hover:text-blue-100 transition-colors duration-300">{desc}</p>
+    </>
+  );
+
+  const containerClass = `block bg-white border border-slate-200 rounded-3xl p-5 hover:bg-blue-950 hover:border-blue-950 hover:shadow-xl hover:shadow-blue-900/30 transition-all duration-300 group card-anim ${delay}`;
+
+  if (isExternal) {
+    return (
+      <a href={link} target={target || "_blank"} rel="noopener noreferrer" className={containerClass}>
+        {innerContent}
+      </a>
+    );
+  }
+
+  return (
+    <Link href={link} target={target} className={containerClass}>
+      {innerContent}
     </Link>
-  )
+  );
 }

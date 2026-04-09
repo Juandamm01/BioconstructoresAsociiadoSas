@@ -9,7 +9,7 @@ import { EnvironmentCard } from "@/components/common";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export function AboutUs() {
+export function AboutUs({ config }: { config: any }) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const sliderRef = useRef<HTMLDivElement>(null);
 
@@ -40,10 +40,10 @@ export function AboutUs() {
   });
 
   const environments = [
-    { image: "/images/bcas1.jpg" },
-    { image: "/images/bcas2.jpg" },
-    { image: "/images/bcas3.jpg" },
-    { image: "/images/bcas4.jpg" },
+    { image: config?.imagen1 || "/images/bcas1.jpg" },
+    { image: config?.imagen2 || "/images/bcas2.jpg" },
+    { image: config?.imagen3 || "/images/bcas3.jpg" },
+    { image: config?.imagen4 || "/images/bcas4.jpg" },
   ];
 
   return (
@@ -58,7 +58,7 @@ export function AboutUs() {
       >
         {/* ── Columna del título ── */}
         <div className="w-[80vw] lg:w-[50%] flex-none h-full flex items-center justify-center px-6 lg:px-0">
-          <Title />
+          <Title config={config} />
         </div>
 
         {/* ── Tarjetas ── */}
@@ -82,25 +82,19 @@ export function AboutUs() {
   );
 }
 
-function Title() {
+function Title({ config }: { config: any }) {
   return (
     <div className="font-poppins flex flex-col justify-center items-center h-full px-6 lg:px-20 text-center">
       <h2 className="text-xl sm:text-2xl md:text-4xl lg:text-4xl xl:text-5xl font-semibold uppercase leading-tight tracking-tight text-white drop-shadow-lg">
-        Nosotros
+        {config?.titulo || "Nosotros"}
       </h2>
 
       <div className="mt-4 text-[11px] sm:text-sm md:text-sm lg:text-sm xl:text-base font-light text-white max-w-2xl leading-normal drop-shadow-md space-y-3">
         <p>
-          Somos un proveedor de servicios de Internet (ISP) comprometido con
-          ofrecer conectividad estable, segura y de alta calidad. Nuestra misión
-          es garantizar que hogares y empresas cuenten con un servicio confiable,
-          soporte técnico oportuno y soluciones adaptadas a sus necesidades.
+          {config?.parrafo1 || "Somos un proveedor de servicios de Internet (ISP) comprometido con ofrecer conectividad estable, segura y de alta calidad. Nuestra misión es garantizar que hogares y empresas cuenten con un servicio confiable, soporte técnico oportuno y soluciones adaptadas a sus necesidades."}
         </p>
         <p>
-          Nuestra infraestructura y enfoque tecnológico nos permiten brindar un
-          servicio eficiente, con cobertura estratégica y atención personalizada.
-          Conectamos personas, impulsamos negocios y acercamos oportunidades,
-          fortaleciendo la transformación digital en Villavicencio y la región.
+          {config?.parrafo2 || "Nuestra infraestructura y enfoque tecnológico nos permiten brindar un servicio eficiente, con cobertura estratégica y atención personalizada. Conectamos personas, impulsamos negocios y acercamos oportunidades, fortaleciendo la transformación digital en Villavicencio y la región."}
         </p>
         <p className="pt-2">
           <a

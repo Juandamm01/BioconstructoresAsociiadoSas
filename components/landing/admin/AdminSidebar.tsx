@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { LayoutDashboard, Map, CreditCard, Video, Settings, ExternalLink, LogOut, Menu, X, PanelLeft, Scale, CheckCircle } from "lucide-react";
+import { LayoutDashboard, Map, CreditCard, Video, Settings, ExternalLink, LogOut, Menu, X, PanelLeft, Scale, CheckCircle, FileText } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
@@ -142,9 +142,10 @@ export function AdminSidebar() {
 
       <nav className={`flex-1 space-y-1 overflow-y-auto custom-scrollbar ${collapsed ? 'pr-0' : 'pr-2'}`}>
         <NavItem collapsed={collapsed} active={pathname === '/admin/dashboard'} icon={<LayoutDashboard size={20} />} label="Dashboard" href="/admin/dashboard" />
-        <NavItem collapsed={collapsed} active={pathname === '/admin/admin-sectores'} icon={<Map size={20} />} label="Sectores" href="/admin/admin-sectores" />
-        <NavItem collapsed={collapsed} active={pathname === '/admin/admin-plans'} icon={<CreditCard size={20} />} label="Planes" href="/admin/admin-plans" />
         <NavItem collapsed={collapsed} active={pathname === '/admin/admin-hero'} icon={<Video size={20} />} label="Hero Principal" href="/admin/admin-hero" />
+        <NavItem collapsed={collapsed} active={pathname === '/admin/admin-plans'} icon={<CreditCard size={20} />} label="Planes" href="/admin/admin-plans" />
+        <NavItem collapsed={collapsed} active={pathname === '/admin/admin-sectores'} icon={<Map size={20} />} label="Sectores" href="/admin/admin-sectores" />
+        <NavItem collapsed={collapsed} active={pathname === '/admin/admin-about'} icon={<FileText size={20} />} label="Nosotros" href="/admin/admin-about" />
         <NavItem collapsed={collapsed} active={pathname === '/admin/admin-policy'} icon={<CheckCircle size={20} />} label="Políticas" href="/admin/admin-policy" />
         <NavItem collapsed={collapsed} icon={<ExternalLink size={20} />} label="Portal Clientes" href="https://avisos.wisphub.net/saldo/bcas-sas/" target="_blank" />
       </nav>

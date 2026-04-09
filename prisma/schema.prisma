@@ -121,3 +121,16 @@ model PolicyConfig {
   b4Texto   String   @default("Garantizamos la confidencialidad de la información personal, aplicamos medidas de protección para prevenir fraude y accesos no autorizados.")
   updatedAt DateTime @updatedAt
 }
+
+model AboutUsConfig {
+  id         Int      @id @default(1)
+  titulo     String   @default("Nosotros")
+  parrafo1   String   @default("Somos un proveedor de servicios de Internet (ISP) comprometido con ofrecer conectividad estable, segura y de alta calidad. Nuestra misión es garantizar que hogares y empresas cuenten con un servicio confiable, soporte técnico oportuno y soluciones adaptadas a sus necesidades.")
+  parrafo2   String   @default("Nuestra infraestructura y enfoque tecnológico nos permiten brindar un servicio eficiente, con cobertura estratégica y atención personalizada. Conectamos personas, impulsamos negocios y acercamos oportunidades, fortaleciendo la transformación digital en Villavicencio y la región.")
+  imagen1    String   @default("/images/bcas1.jpg")
+  imagen2    String   @default("/images/bcas2.jpg")
+  imagen3    String   @default("/images/bcas3.jpg")
+  imagen4    String   @default("/images/bcas4.jpg")
+  updatedAt  DateTime @updatedAt
+}
+

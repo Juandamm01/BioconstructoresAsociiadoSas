@@ -8,6 +8,7 @@ const s3Client = new S3Client({
   },
 });
 
+
 export async function uploadToS3(fileBuffer: Buffer, fileName: string, mimeType: string) {
   const command = new PutObjectCommand({
     Bucket: process.env.BUCKET_NAME || "bcasrepo",

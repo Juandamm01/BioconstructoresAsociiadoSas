@@ -92,7 +92,7 @@ export default function AdminPlansPage() {
     setSaving(false);
   };
 
-  const updateSchedule = (key: keyof typeof schedule, value: string) => setSchedule(prev => ({ ...prev, [key]: value }));
+  const updateSchedule = (key: keyof typeof schedule, value: string) => setSchedule((prev: any) => ({ ...prev, [key]: value }));
 
   const addGroup = () => setGroups([...groups, { title: "Nuevo Plan", subtitle: "", badge: "", isPremium: false, items: [{ name: "", price: "" }] }]);
   const removeGroup = (i: number) => setGroups(groups.filter((_, idx) => idx !== i));
