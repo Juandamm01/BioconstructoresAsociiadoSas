@@ -20,16 +20,14 @@ export function AboutUs() {
 
     const isMobile = window.innerWidth < 1024;
 
-    const scrollAmount = slider.scrollWidth - window.innerWidth;
-
     gsap.to(slider, {
-      x: () => `-${scrollAmount}px`,
-      ease: "power2.out",
+      x: () => `-${slider.scrollWidth - window.innerWidth}px`,
+      ease: "none",
       scrollTrigger: {
         trigger: section,
         start: "top top",
-        end: `+=${scrollAmount + (isMobile ? 400 : 800)}`,
-        scrub: 1,
+        end: () => `+=${slider.scrollWidth - window.innerWidth}`,
+        scrub: 0.5,
         pin: true,
         anticipatePin: 1,
         invalidateOnRefresh: true,
